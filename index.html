@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seja um Personal Banker — Franq</title>
+<meta name="description" content="Você já tem os clientes. Use sua experiência bancária para oferecer 150 produtos financeiros de mais de 50 instituições parceiras à sua própria carteira, com o suporte e a tecnologia da Franq.">
+<meta name="theme-color" content="#0C1120">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/PlayfairDisplay.var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/lp.css">
+</head>
+<body>
+
+<a class="fq-skip" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- progresso de leitura: a página é longa, e saber onde se está reduz o
+     abandono. Puramente decorativo para leitor de tela. -->
+<div class="fq-progresso" aria-hidden="true"><span class="fq-progresso__b" id="progresso"></span></div>
+
+<!-- ============================== 4.1 HEADER ============================== -->
+<header class="fq-header" id="cabecalho">
+  <div class="fq-wrap fq-header__in">
+    <a class="fq-logo" href="#hero" aria-label="Franq — início">
+      <img src="logos/franq-branco.svg" alt="Franq" width="112" height="27">
+    </a>
+
+    <nav class="fq-nav" id="menu" aria-label="Seções da página">
+      <a href="#como-comecar">Como começar</a>
+      <a href="#simulador">Simulador</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+
+    <a class="fq-btn fq-btn--sm fq-header__cta" href="#cadastro">Quero me tornar PB</a>
+
+    <button class="fq-burger" type="button" id="burger" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<!-- =============================== 4.2 HERO =============================== -->
+<section class="fq-hero" id="hero">
+  <div class="fq-hero__glow fq-hero__glow--a" aria-hidden="true"></div>
+  <div class="fq-hero__glow fq-hero__glow--b" aria-hidden="true"></div>
+
+  <!-- feixes de luz varrendo o hero. Decorativos: só transform e opacity,
+       compostos na GPU. No mobile fica um só, por bateria. -->
+  <div class="fq-hero__luz" aria-hidden="true">
+    <span class="fq-hero__feixe fq-hero__feixe--1"></span>
+    <span class="fq-hero__feixe fq-hero__feixe--2"></span>
+    <span class="fq-hero__feixe fq-hero__feixe--3"></span>
+  </div>
+
+  <div class="fq-wrap">
+    <div class="fq-hero__grid">
+      <div>
+        <p class="fq-eyebrow" data-entra>Seja um Personal Banker</p>
+        <h1 class="fq-h1" data-entra>Você já tem os clientes.<br>Faltava a <em class="fq-em">loja</em>.</h1>
+        <p class="fq-lead" data-entra>Sua experiência bancária, agora com 150 produtos financeiros de mais de 50 instituições parceiras, curadoria e mesas de especialistas da Franq — e remuneração por negócio fechado.</p>
+
+        <div class="fq-cta-par" data-entra>
+          <a class="fq-btn" href="#cadastro">
+            Quero me tornar PB
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+          </a>
+          <a class="fq-btn fq-btn--ghost" href="#simulador">Simular minha comissão</a>
+        </div>
+      </div>
+
+      <!-- MacBook em CSS 3D com o beFranq aberto. Substitui a foto de banco de
+           imagens: mostra a plataforma, que é o que diferencia. O palco tem a
+           perspectiva; o JS gira só a peça de dentro (.fq-mac), para não
+           disputar o transform da animação de entrada, que fica no palco.
+           A tela é ilustração de produto com dados de exemplo — para trocar por
+           captura real do beFranq, substituir o conteúdo de .fq-mac__ui por
+           <img class="fq-mac__shot" src="..." alt="">. -->
+      <div class="fq-mac-palco" id="mac-palco" data-entra>
+        <div class="fq-mac" id="mac" role="img" aria-label="Ilustração de um MacBook com a plataforma beFranq aberta, mostrando o painel de um Personal Banker com indicadores e propostas em andamento">
+
+          <div class="fq-mac__tampa" aria-hidden="true">
+            <div class="fq-mac__tela">
+              <span class="fq-mac__notch"></span>
+              <div class="fq-mac__ui">
+                <div class="fq-mock__bar">
+                  <span class="fq-mock__dot"></span><span class="fq-mock__dot"></span><span class="fq-mock__dot"></span>
+                  <span class="fq-mock__url">be.franq.com.br</span>
+                </div>
+                <div class="fq-mock__body">
+                  <div class="fq-mock__row">
+                    <div class="fq-mock__who">
+                      <span class="fq-mock__av"></span>
+                      <span class="fq-mock__nm">Sua loja<span>Personal Banker · Franq</span></span>
+                    </div>
+                    <span class="fq-mock__tag">Ativa</span>
+                  </div>
+
+                  <div class="fq-mock__kpis">
+                    <div class="fq-mock__kpi"><b data-contar="18">18</b><span>clientes ativos</span></div>
+                    <div class="fq-mock__kpi"><b data-contar="7">7</b><span>propostas abertas</span></div>
+                    <div class="fq-mock__kpi"><b>150</b><span>produtos na vitrine</span></div>
+                  </div>
+
+                  <div class="fq-mock__list">
+                    <div class="fq-mock__it"><span>Crédito PJ <em>capital de giro</em></span><span class="fq-mock__st fq-mock__st--ok">Aprovada</span></div>
+                    <div class="fq-mock__it"><span>Consórcio <em>imóvel</em></span><span class="fq-mock__st fq-mock__st--go">Em análise</span></div>
+                    <div class="fq-mock__it"><span>Seguros <em>vida</em></span><span class="fq-mock__st fq-mock__st--w">Proposta enviada</span></div>
+                  </div>
+                </div>
+              </div>
+              <span class="fq-mac__vidro"></span>
+            </div>
+          </div>
+
+          <span class="fq-mac__dobra" aria-hidden="true"></span>
+
+          <div class="fq-mac__base" aria-hidden="true">
+            <span class="fq-mac__teclado"></span>
+            <span class="fq-mac__trackpad"></span>
+          </div>
+
+          <span class="fq-mac__pe" aria-hidden="true"></span>
+        </div>
+
+        <span class="fq-mac__sombra" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- Barra de números. Contagem animada na entrada em viewport. -->
+    <div class="fq-nums">
+      <div class="fq-num" data-reveal>
+        <div class="fq-num__v" data-contar="150" data-prefixo="+">+150</div>
+        <div class="fq-num__l">produtos financeiros</div>
+      </div>
+      <div class="fq-num" data-reveal>
+        <div class="fq-num__v" data-contar="50" data-prefixo="+">+50</div>
+        <div class="fq-num__l">instituições parceiras</div>
+      </div>
+      <div class="fq-num" data-reveal>
+        <div class="fq-num__v" data-contar="10000">10.000</div>
+        <div class="fq-num__l">Personal Bankers na rede</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= 4.3 FAIXA DE PARCEIROS ========================= -->
+<!-- Marquee com pausa no hover. Altura óptica por logo (data-otica), não
+     altura de caixa: a tinta dentro dos tiles vai de 23% a 68% da altura. -->
+<div class="fq-logos" aria-label="Instituições parceiras">
+  <div class="fq-logos__track">
+    <div class="fq-logos__grp">
+      <img src="logos/abc-brasil.webp" alt="Banco ABC Brasil" data-otica="alta">
+      <img src="logos/bari.webp" alt="Banco Bari">
+      <img src="logos/bradesco.webp" alt="Bradesco" data-otica="baixa">
+      <img src="logos/c6.webp" alt="C6 Bank" data-otica="baixa">
+      <img src="logos/daycoval.webp" alt="Banco Daycoval" data-otica="baixa">
+      <img src="logos/icatu.webp" alt="Icatu" data-otica="baixa">
+      <img src="logos/inter.webp" alt="Inter" data-otica="baixa">
+      <img src="logos/itau.webp" alt="Itaú" data-otica="alta">
+      <img src="logos/porto.webp" alt="Porto" data-otica="baixa">
+      <img src="logos/rodobens.webp" alt="Rodobens" data-otica="baixa">
+      <img src="logos/santander.webp" alt="Santander" data-otica="baixa">
+      <img src="logos/sofisa.webp" alt="Banco Sofisa" data-otica="baixa">
+    </div>
+    <div class="fq-logos__grp" aria-hidden="true">
+      <img src="logos/abc-brasil.webp" alt="" data-otica="alta">
+      <img src="logos/bari.webp" alt="">
+      <img src="logos/bradesco.webp" alt="" data-otica="baixa">
+      <img src="logos/c6.webp" alt="" data-otica="baixa">
+      <img src="logos/daycoval.webp" alt="" data-otica="baixa">
+      <img src="logos/icatu.webp" alt="" data-otica="baixa">
+      <img src="logos/inter.webp" alt="" data-otica="baixa">
+      <img src="logos/itau.webp" alt="" data-otica="alta">
+      <img src="logos/porto.webp" alt="" data-otica="baixa">
+      <img src="logos/rodobens.webp" alt="" data-otica="baixa">
+      <img src="logos/santander.webp" alt="" data-otica="baixa">
+      <img src="logos/sofisa.webp" alt="" data-otica="baixa">
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 4.4 REQUISITOS PARA COMEÇAR ===================== -->
+<section class="fq-sec fq-sec--glow" id="como-comecar">
+  <div class="fq-wrap">
+    <div class="fq-sec__head" data-reveal>
+      <h2 class="fq-h2">O que preciso para começar a atuar?</h2>
+      <p class="fq-lead">Você só precisa de mais alguns passos para dar um salto na sua carreira.</p>
+    </div>
+
+    <ol class="fq-passos" style="list-style:none;margin:0;padding:0">
+      <li class="fq-passo" data-reveal>
+        <div class="fq-passo__n">01</div>
+        <h3 class="fq-passo__t">Experiência bancária comprovada</h3>
+        <p>A Franq destina-se a bancários com, no mínimo, 5 anos de experiência em bancos de varejo, cooperativa de crédito, ou assessores de investimento com certificação Ancord.</p>
+      </li>
+      <li class="fq-passo" data-reveal>
+        <div class="fq-passo__n">02</div>
+        <h3 class="fq-passo__t">Cadastro e conversa com um especialista</h3>
+        <p>Após o preenchimento do formulário, um especialista da Franq avalia o seu cadastro e marca uma conversa com você.</p>
+      </li>
+      <li class="fq-passo" data-reveal>
+        <div class="fq-passo__n">03</div>
+        <h3 class="fq-passo__t">Aprovação e abertura da sua loja</h3>
+        <p>Caso seja aprovado, você recebe um e-mail com os detalhes dos próximos passos para se tornar um Personal Banker.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============== 4.5 AGÊNCIA TRADICIONAL × PERSONAL BANKER ============== -->
+<section class="fq-sec fq-sec--band" id="comparacao">
+  <div class="fq-wrap">
+    <div class="fq-sec__head" data-reveal>
+      <!-- espaço inquebrável antes do × : sem ele o operador cai órfão no começo da segunda linha no mobile -->
+      <h2 class="fq-h2">Agência tradicional&nbsp;× <em class="fq-em">Personal Banker</em></h2>
+      <p class="fq-lead">A agência te formou. O que muda não é a sua competência — é quem define a meta, o portfólio e o teto.</p>
+    </div>
+
+    <div class="fq-vs" role="table" aria-label="Comparação entre atuar na agência e atuar como Personal Banker">
+      <div class="fq-vs__h fq-vs__h--eixo" role="columnheader">O que muda</div>
+      <div class="fq-vs__h fq-vs__h--ag" role="columnheader">
+        <span class="fq-vs__hl">Na agência</span>
+        <span class="fq-vs__hs">hoje</span>
+      </div>
+      <div class="fq-vs__h fq-vs__h--pb" role="columnheader">
+        <span class="fq-vs__hl">Como Personal Banker</span>
+        <span class="fq-vs__badge">com a Franq</span>
+      </div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Meta</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Imposta, do banco</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Definida por você</div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Portfólio</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Só os produtos do seu banco</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>150 produtos, 50 instituições</div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Remuneração</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Salário + variável limitado</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Por negócio fechado</div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Carteira</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Do banco</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Sua</div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Horário e local</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Da agência</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Seus</div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Estrutura</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Do banco</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Curadoria, mesas de especialistas, plataforma e suporte da Franq</div>
+
+    </div>
+
+    <!-- só o botão: a banda de lima cheio ficou reservada para o simulador -->
+    <div class="fq-acao" data-reveal>
+      <a class="fq-btn" href="#cadastro">Quero me tornar PB
+        <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4.6 SIMULADOR DE COMISSÃO ===================== -->
+<section class="fq-sec fq-sec--sim" id="simulador">
+  <div class="fq-wrap">
+    <div class="fq-sec__head" data-reveal>
+      <h2 class="fq-h2">Quanto você ganharia com a <em class="fq-em">sua própria</em> carteira?</h2>
+      <p class="fq-lead">Duas escolhas e você tem o número. A conta é a mesma do simulador que os Personal Bankers usam no beFranq. Sem cadastro, sem e-mail, sem compromisso.</p>
+    </div>
+
+    <div class="fq-sim__grid">
+      <div class="fq-card" data-reveal>
+        <p class="fq-card__t">01 · O que você vende hoje</p>
+        <p class="fq-card__d">Escolha o que você vende e ajuste o volume. Os percentuais são os mínimos da tabela de comissões da Franq.</p>
+        <div id="sim-chips" role="group" aria-label="Produtos que você vende hoje"></div>
+
+        <div id="sim-vols" class="fq-vols" aria-live="polite"></div>
+      </div>
+
+      <div class="fq-res" data-reveal>
+        <p class="fq-res__lb">Comissão potencial estimada</p>
+
+        <div class="fq-res__saida" id="sim-saida" aria-live="polite">
+          <p class="fq-res__vazio" id="sim-vazio">Selecione ao menos um produto para ver a estimativa.</p>
+        </div>
+
+        <!-- o exemplo é dica, não leitura: fica fora do mostrador, senão o
+             estado vazio empilha três caixas com borda -->
+        <div class="fq-res__ex" id="sim-exemplo">
+          <b>Exemplo ilustrativo</b><br>
+          Quem vende <b>Consórcio</b> e <b>Seguros</b> junta duas das comissões mais altas: 3,00% do crédito contratado e 20,00% do prêmio mensal.
+        </div>
+
+        <!-- breakdown e condições atrás de um toggle: o painel fica só com o
+             número, e quem quiser conferir a conta abre -->
+        <details class="fq-toggle" id="sim-det">
+          <summary>
+            <span>Como chegamos nesse número</span>
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="fq-toggle__b">
+            <div class="fq-bk__l" id="sim-bk-lista"></div>
+
+            <!-- Disclaimers do próprio simulador oficial do beFranq. O item 3 foi
+                 adaptado: a versão interna manda usar a Tabela de Comissões como
+                 apoio, o que não faz sentido para quem ainda não é PB. -->
+            <ol class="fq-disc fq-disc--num">
+              <li>Valores estimados com base na expectativa de produção do Personal Banker e médias de comissionamento.</li>
+              <li>Exercício meramente demonstrativo, sem compromisso de metas de produtividade ou remuneração.</li>
+              <li>Os valores e percentuais utilizados são os <b>mínimos</b> — podem ser maiores, de acordo com a Tabela de Comissões de Parceiros vigente.</li>
+              <li>O pagamento das comissões segue as regras dos parceiros contidas na Tabela de Comissões, com apurações em sua maioria mensais, mas também casos de pagamentos trimestrais ou semestrais.</li>
+            </ol>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="fq-band" data-reveal>
+      <p class="fq-band__eb">Próximo passo</p>
+      <p class="fq-band__t">Você acabou de ver quanto a <em class="fq-em">sua</em> carteira vale.</p>
+      <a class="fq-btn fq-btn--lg" href="#cadastro">Quero me tornar PB
+        <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4.7 ESTRUTURA DE SUPORTE ===================== -->
+<section class="fq-sec fq-sec--band" id="suporte">
+  <div class="fq-wrap">
+    <div class="fq-sec__head" data-reveal>
+      <h2 class="fq-h2">Você não está sozinho.<br>Conte com a <em class="fq-em">gente</em>.</h2>
+      <p class="fq-lead">Você atua com mais flexibilidade, autonomia e independência — com uma estrutura inteira por trás de cada negócio.</p>
+    </div>
+
+    <div class="fq-pilares">
+      <div class="fq-pilar" data-reveal>
+        <div class="fq-pilar__ic">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h6l2 2h10v10a1 1 0 01-1 1H4a1 1 0 01-1-1V6z"/><path d="M8 13h8M8 16h5"/></svg>
+        </div>
+        <h3 class="fq-pilar__t">Curadoria de produtos</h3>
+        <p>Os melhores produtos financeiros do mercado, reunidos em um só lugar para você oferecer ao seu cliente.</p>
+      </div>
+      <div class="fq-pilar" data-reveal>
+        <div class="fq-pilar__ic">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 14a2 2 0 01-2 2H8l-5 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 8h8M8 11.5h5"/></svg>
+        </div>
+        <h3 class="fq-pilar__t">Suporte individualizado</h3>
+        <p>Acompanhamento próximo para tirar dúvidas, estruturar propostas e destravar cada operação.</p>
+      </div>
+      <div class="fq-pilar" data-reveal>
+        <div class="fq-pilar__ic">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20v-2a4 4 0 014-4h3a4 4 0 014 4v2"/><circle cx="8.5" cy="7" r="3"/><path d="M16 14h1a4 4 0 014 4v2M17 4.5a3 3 0 010 5.6"/></svg>
+        </div>
+        <h3 class="fq-pilar__t">Mesas de especialistas</h3>
+        <p>Times dedicados por linha de produto, prontos para apoiar você em negociações mais complexas.</p>
+      </div>
+      <div class="fq-pilar" data-reveal>
+        <div class="fq-pilar__ic">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4M6.5 12l2.5-2.5 2.5 2.5 4-4.5"/></svg>
+        </div>
+        <h3 class="fq-pilar__t">Tecnologia de ponta</h3>
+        <p>Plataforma própria para gerir clientes, simular produtos e acompanhar cada negócio do começo ao fim.</p>
+      </div>
+    </div>
+
+    <div class="fq-acao" data-reveal>
+      <a class="fq-btn" href="#cadastro">Quero me tornar PB
+        <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4.9 DEPOIMENTOS ===================== -->
+<section class="fq-sec fq-sec--glow" id="depoimentos">
+  <div class="fq-wrap">
+    <div class="fq-sec__head" data-reveal>
+      <h2 class="fq-h2">Quem já é Personal Banker</h2>
+      <p class="fq-lead">Bancários que trocaram a agência pela própria loja de serviços financeiros.</p>
+    </div>
+
+    <div class="fq-deps" id="deps"></div>
+
+  </div>
+</section>
+
+<!-- ===================== 4.10 FORMULÁRIO ===================== -->
+<section class="fq-sec fq-sec--meta" id="cadastro">
+  <div class="fq-wrap">
+    <div class="fq-sec__head" data-reveal>
+      <h2 class="fq-h2">Comece agora o <em class="fq-em">seu cadastro</em></h2>
+      <p class="fq-lead">Preencha seus dados e um especialista da Franq entra em contato para conversar sobre o seu perfil.</p>
+    </div>
+
+    <div class="fq-form__grid">
+      <div class="fq-form__box" data-reveal>
+        <div class="fq-steps" id="steps">
+          <div class="fq-step" data-on><span class="fq-step__bar"></span><span class="fq-step__lb">01 · Dados</span></div>
+          <div class="fq-step"><span class="fq-step__bar"></span><span class="fq-step__lb">02 · Perfil</span></div>
+          <div class="fq-step"><span class="fq-step__bar"></span><span class="fq-step__lb">03 · Endereço</span></div>
+        </div>
+
+        <form class="fq-form" id="form" novalidate>
+          <p class="fq-alert" id="form-alert" role="alert"></p>
+
+          <!-- etapa 1 — sem CPF: era o campo de maior fricção e estava na
+               primeira tela, ao lado de nome e e-mail, sem explicação -->
+          <div class="fq-pane" data-pane="0">
+            <div class="fq-f">
+              <label for="f-nome">Nome completo</label>
+              <input class="fq-inp" id="f-nome" name="nome" type="text" autocomplete="name" required placeholder="Como no seu documento">
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+            <div class="fq-f">
+              <label for="f-email">E-mail</label>
+              <input class="fq-inp" id="f-email" name="email" type="email" autocomplete="email" required placeholder="seunome@email.com">
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+            <div class="fq-f">
+              <label for="f-tel">Celular</label>
+              <input class="fq-inp" id="f-tel" name="celular" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000" maxlength="15">
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+          </div>
+
+          <!-- etapa 2 — perfil -->
+          <div class="fq-pane" data-pane="1" hidden>
+            <div class="fq-f">
+              <span class="fq-f__lb" id="lb-exp">Você possui 5 ou mais anos de experiência no mercado financeiro em instituições como bancos de varejo ou cooperativas de crédito?</span>
+              <div class="fq-radios" role="radiogroup" aria-labelledby="lb-exp">
+                <label class="fq-radio"><input type="radio" name="experiencia5" value="sim" required> Sim</label>
+                <label class="fq-radio"><input type="radio" name="experiencia5" value="nao"> Não</label>
+              </div>
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+
+            <div class="fq-f">
+              <span class="fq-f__lb">Quais produtos você mais vende hoje? <span>· vem do simulador, dá para ajustar</span></span>
+              <div class="fq-chips" id="form-chips" role="group" aria-label="Produtos que você mais vende"></div>
+            </div>
+
+            <div class="fq-f">
+              <label for="f-inst">Em quais instituições você já trabalhou? <span>· opcional</span></label>
+              <input class="fq-inp" id="f-inst" name="instituicoes" type="text" placeholder="Ex.: Itaú Unibanco, Sicredi">
+            </div>
+
+            <div class="fq-f">
+              <label for="f-linkedin">Qual seu LinkedIn? <span>· opcional</span></label>
+              <input class="fq-inp" id="f-linkedin" name="linkedin" type="url" placeholder="linkedin.com/in/seu-perfil">
+            </div>
+          </div>
+
+          <!-- etapa 3 — CPF e endereço, depois do compromisso assumido -->
+          <div class="fq-pane" data-pane="2" hidden>
+            <div class="fq-f">
+              <label for="f-cpf">CPF</label>
+              <input class="fq-inp" id="f-cpf" name="cpf" type="text" inputmode="numeric" required placeholder="000.000.000-00" maxlength="14" aria-describedby="cpf-hint">
+              <!-- a microcópia fica ao lado do campo, no momento do medo.
+                   Antes existia só na FAQ, seis seções abaixo. -->
+              <p class="fq-f__hint" id="cpf-hint"><b>Por que pedimos:</b> o CPF é para termos certeza de que você é uma pessoa real, e não um robô. Ele não é consultado em bureau de crédito e não é compartilhado com as instituições parceiras.</p>
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+
+            <div class="fq-f">
+              <label for="f-cep">CEP</label>
+              <input class="fq-inp" id="f-cep" name="cep" type="text" inputmode="numeric" required placeholder="00000-000" maxlength="9" aria-describedby="cep-msg">
+              <p class="fq-f__hint" id="cep-msg">Preencha o CEP para carregar o endereço.</p>
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+
+            <div id="endereco" hidden>
+              <div class="fq-f" style="margin-bottom:16px">
+                <label for="f-rua">Endereço</label>
+                <input class="fq-inp" id="f-rua" name="logradouro" type="text" readonly>
+              </div>
+              <div class="fq-row" style="margin-bottom:16px">
+                <div class="fq-f"><label for="f-bairro">Bairro</label><input class="fq-inp" id="f-bairro" name="bairro" type="text" readonly></div>
+                <div class="fq-f"><label for="f-cidade">Cidade</label><input class="fq-inp" id="f-cidade" name="cidade" type="text" readonly></div>
+                <div class="fq-f"><label for="f-uf">UF</label><input class="fq-inp" id="f-uf" name="uf" type="text" readonly></div>
+              </div>
+              <div class="fq-row">
+                <div class="fq-f">
+                  <label for="f-num">Número</label>
+                  <input class="fq-inp" id="f-num" name="numero" type="text" inputmode="numeric" required placeholder="Ex.: 1200">
+                  <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+                </div>
+                <div class="fq-f"><label for="f-comp">Complemento <span>· opcional</span></label><input class="fq-inp" id="f-comp" name="complemento" type="text" placeholder="Apto, bloco, sala"></div>
+              </div>
+            </div>
+
+            <div class="fq-f">
+              <label class="fq-check">
+                <input type="checkbox" name="consentimento" required>
+                <span>Autorizo a Franq a entrar em contato comigo e a tratar os meus dados para avaliação do cadastro, conforme a Política de Privacidade.</span>
+              </label>
+              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+            </div>
+          </div>
+
+          <div class="fq-form__nav">
+            <button class="fq-btn fq-btn--ghost" type="button" id="btn-voltar" hidden>Voltar</button>
+            <button class="fq-btn" type="button" id="btn-avancar">Continuar</button>
+            <button class="fq-btn" type="submit" id="btn-enviar" hidden>Enviar cadastro</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- coluna de reasseguramento + prova social. O formulário estava sozinho
+           num card escuro; sozinho ele é frio. -->
+      <aside data-reveal>
+        <div class="fq-garantias">
+          <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Leva 2 minutos</p>
+          <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Sem custo e sem mensalidade para se cadastrar</p>
+          <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Não afeta seu vínculo atual</p>
+          <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Seus dados não são compartilhados com as instituições</p>
+        </div>
+
+        <div class="fq-card fq-prova">
+          <div class="fq-prova__n" data-contar="10000">10.000<span>Personal Bankers já operam pela Franq</span></div>
+          <p class="fq-prova__q">“A Franq é totalmente diferente de um banco. Empreender com ela é ter liberdade nas suas escolhas e buscar a melhor opção para atender os seus clientes.”</p>
+          <p class="fq-dep__mt" style="margin:0">Douglas Biscaia · Curitiba/PR · Personal Banker há 2 anos</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4.12 FAQ ===================== -->
+<section class="fq-sec fq-sec--band" id="duvidas">
+  <div class="fq-wrap fq-wrap--tight">
+    <div class="fq-sec__head" data-reveal>
+      <h2 class="fq-h2">Dúvidas frequentes</h2>
+      <p class="fq-lead">O que mais perguntam antes de começar. As financeiras primeiro — são as que travam a decisão.</p>
+    </div>
+
+    <div class="fq-faq">
+      <details data-reveal open>
+        <summary>Existe uma mensalidade para operar pela Franq?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Sim. A mensalidade é de R$ 200 por loja. No entanto, oferecemos descontos de até 75% no plano anual.</p></div>
+      </details>
+      <details data-reveal>
+        <summary>Como funciona a comissão do Personal Banker?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a">
+          <p>O Personal Banker é pago a cada venda efetiva, mediante apresentação de nota fiscal, seguindo a regra de cada parceiro e produto. A Franq oferece as melhores taxas de comissionamento do mercado, devido ao volume mensal que gera de oportunidades para os parceiros. Se comparar quando o profissional opta por realizar a parceria diretamente com a instituição financeira, as comissões da Franq ainda são mais atrativas.</p>
+          <p>Como Personal Banker você tem acesso à tabela completa de comissões com todas as regras e detalhes e poderá acompanhar a evolução do seu comissionamento em tempo real através do aplicativo BeFranq. Para uma estimativa rápida, use o <a class="fq-link" href="#simulador">simulador de comissão</a>.</p>
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>Por que tenho que colocar meu CPF no cadastro?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>O uso do CPF é importante para termos certeza de que você é uma pessoa real – e não um robô. <a class="fq-link" href="#cpf-hint">Saiba mais</a></p></div>
+      </details>
+      <details data-reveal>
+        <summary>Como funciona o processo de aprovação do Personal Banker?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a">
+          <p>Atualmente, a Franq destina-se aos bancários, com no mínimo, 5 anos de experiência em bancos de varejo, cooperativa de crédito ou assessores de investimento com certificação Ancord.</p>
+          <p>Caso seja o seu perfil, após o preenchimento do formulário, um especialista da Franq irá avaliar o seu cadastro e marcar uma conversa. Avaliamos todos os profissionais que se cadastram em nossa plataforma e observamos critérios, como o histórico profissional e o momento atual de carreira.</p>
+          <p>Caso seja aprovado, você receberá um e-mail com detalhes sobre os próximos passos para se tornar um Personal Banker.</p>
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>Somente pode entrar na Franq quem tem experiência bancária?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Como os Personal Bankers realizam um trabalho de curadoria financeira aos seus clientes, é importante que este profissional tenha experiência como bancário e uma certa expertise no mercado, para sugerir os melhores produtos e serviços. A Franq também oferece soluções para escritórios de investimentos.</p></div>
+      </details>
+      <details data-reveal>
+        <summary>A Franq oferece uma carteira de clientes?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Não. Cada Personal Banker tem a sua própria rede de contatos ou clientes. Oferecemos a tecnologia plataforma/tecnologia/marketplace para os Personal Bankers se desenvolverem com autonomia, apoiando em todas as etapas do negócio e orientando sobre a prospecção de novos clientes.</p></div>
+      </details>
+      <details data-reveal>
+        <summary>Qual o vínculo do Personal Banker com a Franq?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>O Personal Banker é um cliente da Franq e contrata a nossa tecnologia (plataforma e aplicativo) por meio de uma licença de uso. Ou seja, fornecemos aos nossos assinantes, as ferramentas e o suporte operacional para indicar produtos e serviços financeiros para a sua rede de contatos, com autonomia e tranquilidade.</p></div>
+      </details>
+      <details data-reveal>
+        <summary>Qual a diferença entre um Personal Banker e correspondente bancário?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a">
+          <p>O Personal Banker é o profissional capacitado para encontrar a melhor oferta em seguros, financiamentos, consórcios, investimentos, ofertas de crédito e demais serviços bancários, e indicar aos seus clientes.</p>
+          <p>Ou seja, ele faz um trabalho de curadoria e indicação de produtos e serviços financeiros. Nesse caso, o trabalho operacional fica a cargo do parceiro representado e em alguns casos da Franq, por meio das mesas de operação. O Personal Banker apenas direciona seus esforços em capturar, gerenciar e se relacionar com a sua carteira de clientes.</p>
+          <p>Já o correspondente bancário representa um serviço financeiro de um banco/instituição e usa os recursos da instituição para conceder crédito. Ele é responsável, ainda, por toda a operação. Ou seja, precisa colocar energia e tempo em todas as etapas de uma negociação.</p>
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>Como os consumidores usam a plataforma da Franq?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Empresas e Pessoas Físicas podem acessar a plataforma da Franq totalmente grátis. Ele escolhe o Personal Banker e com este profissional, seleciona na loja digital as soluções mais atrativas para as necessidades do cliente, sem compromisso com uma ou outra instituição.</p></div>
+      </details>
+      <details data-reveal>
+        <summary>A Franq é uma franquia?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Não. Franq vem da palavra Franqueza – e não de franquia. Somos uma plataforma financeira para bancários independentes, os Personal Bankers. Eles são os nossos clientes e não franqueados.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== 4.13 RODAPÉ ===================== -->
+<footer class="fq-foot">
+  <div class="fq-wrap">
+    <div class="fq-foot__top">
+      <img src="logos/franq-branco.svg" alt="Franq" width="92" height="22">
+      <span class="fq-foot__tag">Franq · Personal Banker — Atuação como profissional autônomo, remunerado por negócio fechado.</span>
+    </div>
+    <p class="fq-foot__legal">A Franq Tecnologia S.A. (CNPJ 32.709.829/0001-54) é uma plataforma de tecnologia que integra instituições financeira a bancários autônomos, e realiza a divulgação de produtos por meio de seus correspondentes bancários WIN CORRESPONDENTE BANCÁRIO LTDA, CNPJ 40.673.528/0001-46 e K.ZA CORRESPONDENTE BANCÁRIO LTDA, CNPJ 42.637.945/0001-69, nos termos da Resolução CMN nº 4.935/21, operando com indicação de clientes e apoio administrativo para instituições financeiras “PARCEIRAS”. As informações contidas nesta página foram redigidas pelo nosso time de curadoria e representam uma descrição da Franq sobre o produto e seu parceiro, construída a partir de dados públicos do parceiro (websites, redes sociais, materiais de vendas, etc.). A Franq não se responsabiliza por eventuais alterações nas características ou features dos produtos, assim como taxas, critérios de renda ou processos de contratação. É fundamental que você verifique todos estes pontos quando direcionado ao site do parceiro antes de efetuar sua compra. Em caso de dúvidas sempre consulte o seu Personal Banker.</p>
+  </div>
+</footer>
+
+<!-- ===================== 4.11 CTA PERSISTENTE (mobile) ===================== -->
+<div class="fq-barra" id="barra">
+  <div class="fq-barra__in">
+    <a class="fq-btn" href="#cadastro">Quero me tornar PB</a>
+  </div>
+</div>
+
+<!-- ===================== 5. WIDGET DA FRAN ===================== -->
+<a class="fq-fran" href="#cadastro" aria-label="Fale com a Fran, a agente da Franq">
+  <img src="logos/fran-avatar.png" alt="" width="40" height="40">
+  <span>Fale com a Fran, a agente da Franq</span>
+</a>
+
+<script src="assets/js/lp.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=[];var B=false;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html { scroll-behavior: smooth; }
+body { margin:0; background:#0A0C14; color:#495057; font-family:"DM Sans",-apple-system,"Segoe UI",sans-serif; font-size:16px; line-height:1.62; -webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums lining-nums; overflow-x:hidden; }
+a { color:#4A5BD0; }
+a:hover { color:#687BEA; }
+:focus-visible { outline:3px solid rgba(104,123,234,.30); outline-offset:2px; border-radius:6px; }
+summary::-webkit-details-marker { display:none; }
+@keyframes fq-sway { from { transform:rotate(1.6deg) } to { transform:rotate(-1.6deg) } }
+@keyframes fq-sheen { 0%,62% { transform:translateX(-120%) } 78%,100% { transform:translateX(120%) } }
+@keyframes fq-tick { to { transform:translateX(-50%) } }
+@keyframes fq-float { from { transform:translateY(-8px) } to { transform:translateY(14px) } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after { animation:none !important; transition:none !important; }
+}
+</style>
+</helmet>
+
+<div style="position:relative">
+
+<header style="position:relative;background:radial-gradient(110% 90% at 78% -10%, #161D36 0%, transparent 55%), radial-gradient(90% 80% at 8% 108%, #131A33 0%, transparent 52%), linear-gradient(180deg,#10152A 0%,#0A0C14 78%);overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
+    <div style="position:absolute;right:-140px;top:-180px;width:520px;height:520px;border-radius:50%;filter:blur(70px);opacity:.5;background:radial-gradient(circle,#4A5BD0 0%,transparent 66%)"></div>
+    <div style="position:absolute;left:-160px;bottom:-120px;width:420px;height:420px;border-radius:50%;filter:blur(70px);opacity:.5;background:radial-gradient(circle,#2E3B9E 0%,transparent 66%)"></div>
+    <div style="position:absolute;left:18%;top:22%;width:34px;height:34px;border-radius:50%;filter:blur(2px);opacity:.35;background:radial-gradient(circle,rgba(139,155,255,.75) 0%,rgba(139,155,255,0) 70%);animation:fq-float 9s ease-in-out infinite alternate"></div>
+    <div style="position:absolute;left:52%;top:64%;width:70px;height:70px;border-radius:50%;filter:blur(2px);opacity:.22;background:radial-gradient(circle,rgba(139,155,255,.75) 0%,rgba(139,155,255,0) 70%);animation:fq-float 9s ease-in-out infinite alternate;animation-delay:1.2s"></div>
+  </div>
+
+  <div style="max-width:1060px;margin:0 auto;padding:26px 24px 0;position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#hero" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff">
+      <span aria-hidden="true" style="display:block;width:26px;height:26px;border-radius:50%;border:3px solid #8B9BFF;border-right-color:transparent;box-sizing:border-box"></span>
+      <span style="font-size:18px;font-weight:700;letter-spacing:-.02em">franq</span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+      <a href="#como-comecar" style="font-size:13.5px;font-weight:500;color:#C9D0E8;text-decoration:none;padding:8px 12px;border-radius:999px" style-hover="background:rgba(255,255,255,.06);color:#fff">Como começar</a>
+      <a href="#solucoes" style="font-size:13.5px;font-weight:500;color:#C9D0E8;text-decoration:none;padding:8px 12px;border-radius:999px" style-hover="background:rgba(255,255,255,.06);color:#fff">Soluções</a>
+      <a href="#depoimentos" style="font-size:13.5px;font-weight:500;color:#C9D0E8;text-decoration:none;padding:8px 12px;border-radius:999px" style-hover="background:rgba(255,255,255,.06);color:#fff">Depoimentos</a>
+      <a href="#duvidas" style="font-size:13.5px;font-weight:500;color:#C9D0E8;text-decoration:none;padding:8px 12px;border-radius:999px" style-hover="background:rgba(255,255,255,.06);color:#fff">Dúvidas</a>
+      <a href="#cadastro" style="margin-left:6px;display:inline-flex;align-items:center;gap:10px;background:#687BEA;color:#fff;text-decoration:none;font-size:14px;font-weight:700;border-radius:999px;padding:11px 20px;transition:background .15s,box-shadow .2s" style-hover="background:#4A5BD0;box-shadow:0 12px 26px -10px rgba(104,123,234,.55)">Quero me cadastrar</a>
+    </nav>
+  </div>
+
+  <div id="hero" style="max-width:1060px;margin:0 auto;padding:30px 24px 84px;position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px;align-items:center">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span aria-hidden="true" style="display:block;width:26px;height:1px;background:#8B9BFF"></span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#8B9BFF">Personal Banker</span>
+      </div>
+      <h1 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(38px,6vw,66px);line-height:1.05;letter-spacing:-.015em;color:#fff;margin:18px 0 0;max-width:17ch;text-wrap:balance">Ganhe por negócio fechado, agora como <em style="font-style:italic;color:#DCFF79">bancário autônomo</em>.</h1>
+      <p style="font-size:17.5px;line-height:1.62;color:#C9D0E8;max-width:52ch;margin:24px 0 0">Descubra como usar sua experiência bancária para atender seus clientes com autonomia, contando com o suporte e a tecnologia da Franq.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px">
+        <span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 16px;font-size:13px;color:#EAEDF6;backdrop-filter:blur(4px)"><b style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#fff">+150</b> produtos financeiros</span>
+        <span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 16px;font-size:13px;color:#EAEDF6;backdrop-filter:blur(4px)"><b style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#fff">+50</b> instituições parceiras</span>
+        <span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 16px;font-size:13px;color:#EAEDF6;backdrop-filter:blur(4px)"><b style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#fff">10.000</b> Personal Bankers</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:34px">
+        <a href="#cadastro" style="display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:#0A0C14;background:#fff;border-radius:999px;padding:15px 26px;text-decoration:none;transition:transform .15s,box-shadow .15s" style-hover="transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(139,155,255,.45)">
+          Quero saber mais
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"></path></svg>
+        </a>
+        <a href="#como-comecar" style="font-size:14.5px;font-weight:700;color:#C9D0E8;text-decoration:none;border-bottom:1px solid rgba(139,155,255,.4);padding-bottom:2px" style-hover="color:#fff">Ver requisitos</a>
+      </div>
+    </div>
+
+    <div aria-hidden="true" style="position:relative;display:flex;justify-content:center;align-items:flex-start;perspective:1100px;min-height:460px;padding-top:20px">
+      <div style="transform-origin:50% 0;animation:fq-sway 4.6s ease-in-out infinite alternate;animation-delay:1.6s;position:relative;width:302px;max-width:100%">
+        <div style="position:relative;height:150px;width:240px;margin:0 auto">
+          <div style="position:absolute;left:34px;top:-6px;width:30px;height:190px;transform:rotate(22deg);transform-origin:top center;background:linear-gradient(90deg,#4A45C8,#5D55E0 45%,#4A45C8);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);display:flex;justify-content:center;padding-top:14px">
+            <i style="writing-mode:vertical-rl;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.42em;color:rgba(255,255,255,.75);text-transform:uppercase;font-style:normal">Franq</i>
+          </div>
+          <div style="position:absolute;right:34px;top:-6px;width:30px;height:190px;transform:rotate(-22deg);transform-origin:top center;background:linear-gradient(90deg,#4A45C8,#5D55E0 45%,#4A45C8);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)"></div>
+          <div style="position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);width:22px;height:40px;z-index:2;display:flex;flex-direction:column;align-items:center">
+            <div style="width:22px;height:22px;border-radius:50%;border:4px solid #C6CBDA;box-sizing:border-box"></div>
+            <div style="width:10px;height:18px;border-radius:5px;background:linear-gradient(180deg,#E4E8F2,#AEB5C8)"></div>
+          </div>
+        </div>
+        <div style="position:relative;border-radius:20px;padding:26px 24px 18px;color:#fff;overflow:hidden;background:linear-gradient(168deg,#8B9BFF 0%,#687BEA 34%,#5D55E0 72%,#4A5BD0 100%);box-shadow:0 30px 60px -18px rgba(4,6,18,.75), 0 8px 22px -8px rgba(4,6,18,.6), inset 0 1px 0 rgba(255,255,255,.35)">
+          <span style="display:block;width:56px;height:9px;border-radius:999px;background:rgba(10,12,20,.45);box-shadow:inset 0 1px 3px rgba(0,0,0,.5);margin:0 auto 18px"></span>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px">
+            <span style="display:block;width:17px;height:17px;border-radius:50%;border:2px solid #fff;border-right-color:transparent;box-sizing:border-box"></span>
+            <span style="font-size:15px;font-weight:700;letter-spacing:.14em">FRANQ</span>
+          </div>
+          <div style="font-weight:800;font-size:clamp(28px,3vw,34px);line-height:1.04;text-align:center;letter-spacing:.01em;margin-top:18px">PERSONAL<br>BANKER</div>
+          <span style="display:block;width:max-content;max-width:100%;margin:16px auto 0;background:#fff;color:#4A5BD0;font-weight:800;font-size:15px;letter-spacing:.22em;border-radius:999px;padding:8px 30px">AUTÔNOMO</span>
+          <div style="background:#fff;border-radius:14px;margin-top:16px;padding:14px 16px 12px;text-align:center;color:#131C25">
+            <b style="font-size:14.5px;font-weight:700">Loja própria de serviços financeiros</b>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#687078;margin-top:8px">Rede · 10.000 PB</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:16px">
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7)"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7)"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7)"></span>
+            <span style="width:26px;height:26px;border-radius:7px;background:#fff;color:#4A5BD0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700">F</span>
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7)"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7)"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7)"></span>
+          </div>
+          <div style="position:absolute;inset:0;pointer-events:none;border-radius:20px;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.22) 46%,rgba(255,255,255,.05) 54%,transparent 66%);transform:translateX(-120%);animation:fq-sheen 5.5s ease-in-out infinite;animation-delay:2.2s"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div aria-hidden="true" style="position:relative;z-index:2;border-top:1px solid rgba(139,155,255,.16);border-bottom:1px solid rgba(139,155,255,.16);background:rgba(255,255,255,.03);overflow:hidden;padding:13px 0">
+    <div style="display:flex;width:max-content;animation:fq-tick 30s linear infinite">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#98A1C2;white-space:nowrap;padding-right:18px">Consórcio <i style="font-style:normal;color:#8B9BFF">✦</i> Seguros <i style="font-style:normal;color:#8B9BFF">✦</i> Crédito PF <i style="font-style:normal;color:#8B9BFF">✦</i> Crédito PJ <i style="font-style:normal;color:#8B9BFF">✦</i> Investimentos <i style="font-style:normal;color:#8B9BFF">✦</i> Câmbio <i style="font-style:normal;color:#8B9BFF">✦</i> Previdência <i style="font-style:normal;color:#8B9BFF">✦</i> Financiamentos <i style="font-style:normal;color:#8B9BFF">✦</i>&nbsp;</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#98A1C2;white-space:nowrap;padding-right:18px">Consórcio <i style="font-style:normal;color:#8B9BFF">✦</i> Seguros <i style="font-style:normal;color:#8B9BFF">✦</i> Crédito PF <i style="font-style:normal;color:#8B9BFF">✦</i> Crédito PJ <i style="font-style:normal;color:#8B9BFF">✦</i> Investimentos <i style="font-style:normal;color:#8B9BFF">✦</i> Câmbio <i style="font-style:normal;color:#8B9BFF">✦</i> Previdência <i style="font-style:normal;color:#8B9BFF">✦</i> Financiamentos <i style="font-style:normal;color:#8B9BFF">✦</i>&nbsp;</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="como-comecar" data-screen-label="01 Como começar" style="background:#F6F7FB;padding:88px 0;border-radius:36px 36px 0 0;margin-top:-1px;position:relative;z-index:1">
+    <div style="max-width:840px;margin:0 auto;padding:0 24px">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border-radius:8px;padding:5px 9px">01</span>
+        <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;letter-spacing:-.01em;color:#131C25;margin:0;text-wrap:balance">O que preciso para começar a atuar?</h2>
+      </div>
+      <p style="margin-top:16px;max-width:62ch;color:#495057">Você só precisa de mais alguns passos para dar um salto na sua carreira.</p>
+
+      <div style="margin-top:34px;display:grid;gap:12px">
+        <div style="display:grid;grid-template-columns:46px 1fr;gap:18px;align-items:start;background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:22px 26px 22px 20px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border:1px solid #E4E6F2;border-radius:10px;padding:8px 0;text-align:center;width:46px;margin-top:2px">01</span>
+          <div>
+            <h3 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25;margin:0 0 7px">Experiência bancária comprovada</h3>
+            <p style="font-size:15px;line-height:1.58;color:#495057;margin:0">A Franq destina-se a bancários com, no mínimo, 5 anos de experiência em bancos de varejo, cooperativa de crédito, ou assessores de investimento com certificação Ancord.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:46px 1fr;gap:18px;align-items:start;background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:22px 26px 22px 20px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border:1px solid #E4E6F2;border-radius:10px;padding:8px 0;text-align:center;width:46px;margin-top:2px">02</span>
+          <div>
+            <h3 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25;margin:0 0 7px">Cadastro e conversa com um especialista</h3>
+            <p style="font-size:15px;line-height:1.58;color:#495057;margin:0">Após o preenchimento do formulário, um especialista da Franq avalia o seu cadastro e marca uma conversa com você.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:46px 1fr;gap:18px;align-items:start;background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:22px 26px 22px 20px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border:1px solid #E4E6F2;border-radius:10px;padding:8px 0;text-align:center;width:46px;margin-top:2px">03</span>
+          <div>
+            <h3 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25;margin:0 0 7px">Aprovação e abertura da sua loja</h3>
+            <p style="font-size:15px;line-height:1.58;color:#495057;margin:0">Caso seja aprovado, você recebe um e-mail com os detalhes dos próximos passos para se tornar um Personal Banker.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E4E6F2;border-left:3px solid #687BEA;border-radius:16px;padding:24px 26px;margin-top:28px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+        <p style="font-size:15px;line-height:1.6;color:#495057;margin:0"><strong style="color:#131C25;font-weight:700">Mensalidade</strong> de R$ 200 por loja, com descontos de até 75% no plano anual. O Personal Banker atua como profissional autônomo e é remunerado por negócio fechado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="02 Você não está sozinho" style="background:#F6F7FB;padding:0">
+    <div style="background:radial-gradient(120% 100% at 90% 0%, #161D36 0%, transparent 55%), linear-gradient(180deg,#10152A,#0A0C14);border-radius:36px;margin:0 14px;padding:clamp(48px,6vw,84px) 0;position:relative;overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;filter:blur(60px);background:radial-gradient(circle,rgba(74,91,208,.5) 0%,transparent 66%);pointer-events:none"></div>
+      <div style="max-width:840px;margin:0 auto;padding:0 24px;position:relative">
+        <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#8B9BFF;background:rgba(255,255,255,.07);border-radius:8px;padding:5px 9px">02</span>
+          <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;letter-spacing:-.01em;color:#fff;margin:0;text-wrap:balance">Você não está sozinho. Conte com a gente.</h2>
+        </div>
+        <p style="margin-top:16px;max-width:62ch;color:#C9D0E8">Você atua com mais flexibilidade, autonomia e independência — e com uma estrutura inteira por trás de cada negócio.</p>
+
+        <div style="margin-top:34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(139,155,255,.16);border-radius:18px;padding:24px 26px">
+            <div aria-hidden="true" style="width:38px;height:38px;border-radius:11px;background:rgba(139,155,255,.14);color:#8B9BFF;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.5 7 .9-5 4.8 1.2 7-6.2-3.4L5.8 21.2 7 14.2 2 9.4l7-.9z"></path></svg>
+            </div>
+            <h3 style="font-size:16.5px;font-weight:700;letter-spacing:-.01em;color:#fff;margin:0 0 7px">Curadoria de produtos</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:#C9D0E8;margin:0">Os melhores produtos financeiros do mercado, reunidos em um só lugar para você oferecer ao seu cliente.</p>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(139,155,255,.16);border-radius:18px;padding:24px 26px">
+            <div aria-hidden="true" style="width:38px;height:38px;border-radius:11px;background:rgba(139,155,255,.14);color:#8B9BFF;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3 style="font-size:16.5px;font-weight:700;letter-spacing:-.01em;color:#fff;margin:0 0 7px">Suporte individualizado</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:#C9D0E8;margin:0">Acompanhamento próximo para tirar dúvidas, estruturar propostas e destravar cada operação.</p>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(139,155,255,.16);border-radius:18px;padding:24px 26px">
+            <div aria-hidden="true" style="width:38px;height:38px;border-radius:11px;background:rgba(139,155,255,.14);color:#8B9BFF;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0 .01M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 style="font-size:16.5px;font-weight:700;letter-spacing:-.01em;color:#fff;margin:0 0 7px">Mesas de especialistas</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:#C9D0E8;margin:0">Times dedicados por linha de produto, prontos para apoiar você em negociações mais complexas.</p>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(139,155,255,.16);border-radius:18px;padding:24px 26px">
+            <div aria-hidden="true" style="width:38px;height:38px;border-radius:11px;background:rgba(139,155,255,.14);color:#8B9BFF;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h8l-1 8 10-12h-8z"></path></svg>
+            </div>
+            <h3 style="font-size:16.5px;font-weight:700;letter-spacing:-.01em;color:#fff;margin:0 0 7px">Tecnologia de ponta</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:#C9D0E8;margin:0">Plataforma própria para gerir clientes, simular produtos e acompanhar cada negócio do começo ao fim.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solucoes" data-screen-label="03 Soluções" style="background:#F6F7FB;padding:88px 0">
+    <div style="max-width:840px;margin:0 auto;padding:0 24px">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border-radius:8px;padding:5px 9px">03</span>
+        <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;letter-spacing:-.01em;color:#131C25;margin:0;text-wrap:balance">Acesse as melhores soluções do ecossistema financeiro</h2>
+      </div>
+      <p style="margin-top:16px;max-width:62ch;color:#495057">Mais de 150 produtos financeiros de mais de 50 instituições parceiras, disponíveis na sua loja.</p>
+
+      <div style="margin-top:30px;display:flex;flex-wrap:wrap;gap:10px">
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Consórcio</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Seguros</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Crédito PF</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Crédito PJ</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Investimentos</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Câmbio</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Previdência</span>
+        <span style="background:#fff;border:1px solid #E4E6F2;border-radius:999px;padding:9px 18px;font-size:14px;color:#131C25">Financiamentos</span>
+      </div>
+
+      <div style="margin-top:30px;background:#fff;border:1px solid #E4E6F2;border-radius:24px;overflow:hidden;box-shadow:0 18px 48px -18px rgba(19,28,37,.22);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+        <div style="padding:clamp(26px,3.6vw,40px)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#4A5BD0">beFranq</div>
+          <h3 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25;margin:12px 0 7px">Sua loja de serviços financeiros, no bolso do cliente</h3>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:0">Cada Personal Banker tem sua própria loja no aplicativo beFranq, onde o cliente encontra os produtos, simula e contrata com você como referência.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#687078;background:#F1F2F8;border-radius:999px;padding:7px 14px">iOS</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#687078;background:#F1F2F8;border-radius:999px;padding:7px 14px">Android</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#687078;background:#F1F2F8;border-radius:999px;padding:7px 14px">Web</span>
+          </div>
+        </div>
+        <div style="background:#ECEEFB;padding:26px;display:flex;align-items:center;justify-content:center;gap:14px;min-height:280px">
+          <image-slot id="befranq-app" style="width:150px;height:230px" shape="rounded" radius="18" placeholder="Print do app beFranq"></image-slot>
+          <image-slot id="befranq-loja" style="width:120px;height:180px" shape="rounded" radius="14" placeholder="Print da loja do PB"></image-slot>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="depoimentos" data-screen-label="04 Depoimentos" style="background:#F6F7FB;padding:0 0 88px">
+    <div style="max-width:840px;margin:0 auto;padding:0 24px">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border-radius:8px;padding:5px 9px">04</span>
+        <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;letter-spacing:-.01em;color:#131C25;margin:0;text-wrap:balance">Quem já é Personal Banker</h2>
+      </div>
+      <p style="margin-top:16px;max-width:62ch;color:#495057">Bancários que trocaram a agência pela própria loja de serviços financeiros.</p>
+
+      <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+        <figure style="margin:0;background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:24px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05);transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 18px 48px -18px rgba(19,28,37,.22)">
+          <blockquote style="margin:0;font-size:15px;line-height:1.58;color:#495057">“A Franq me deu a oportunidade de ter meu próprio negócio, com a segurança de estar amparado por uma estrutura sólida.”</blockquote>
+          <figcaption style="display:flex;align-items:center;gap:12px;margin-top:18px">
+            <span aria-hidden="true" style="width:38px;height:38px;border-radius:50%;background:#687BEA;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">PB</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#687078">Personal Banker</span>
+          </figcaption>
+        </figure>
+        <figure style="margin:0;background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:24px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05);transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 18px 48px -18px rgba(19,28,37,.22)">
+          <blockquote style="margin:0;font-size:15px;line-height:1.58;color:#495057">“Hoje eu atendo meus clientes com uma prateleira muito maior de produtos do que eu tinha no banco.”</blockquote>
+          <figcaption style="display:flex;align-items:center;gap:12px;margin-top:18px">
+            <span aria-hidden="true" style="width:38px;height:38px;border-radius:50%;background:#687BEA;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">PB</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#687078">Personal Banker</span>
+          </figcaption>
+        </figure>
+        <figure style="margin:0;background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:24px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05);transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 18px 48px -18px rgba(19,28,37,.22)">
+          <blockquote style="margin:0;font-size:15px;line-height:1.58;color:#495057">“Tenho autonomia para organizar minha agenda e continuo com o suporte de especialistas quando preciso.”</blockquote>
+          <figcaption style="display:flex;align-items:center;gap:12px;margin-top:18px">
+            <span aria-hidden="true" style="width:38px;height:38px;border-radius:50%;background:#687BEA;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">PB</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#687078">Personal Banker</span>
+          </figcaption>
+        </figure>
+      </div>
+      <p style="margin-top:16px;font-size:12.5px;color:#687078">Depoimentos ilustrativos — substituir pelos textos e fotos reais da página atual.</p>
+    </div>
+  </section>
+
+  <section id="cadastro" data-screen-label="05 Cadastro" style="background:#F6F7FB;padding:0 0 88px">
+    <div style="max-width:840px;margin:0 auto;padding:0 24px">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border-radius:8px;padding:5px 9px">05</span>
+        <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;letter-spacing:-.01em;color:#131C25;margin:0;text-wrap:balance">Comece agora o seu cadastro</h2>
+      </div>
+      <p style="margin-top:16px;max-width:62ch;color:#495057">Preencha seus dados e um especialista da Franq entra em contato para conversar sobre o seu perfil.</p>
+
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:30px;border-radius:24px;overflow:hidden;border:1px solid #E4E6F2;background:#fff;box-shadow:0 18px 48px -18px rgba(19,28,37,.22)">
+          <div aria-hidden="true" style="background:linear-gradient(160deg,#8B9BFF 0%,#687BEA 40%,#4A5BD0 100%);color:#fff;padding:24px 28px 22px;text-align:center">
+            <span style="display:block;width:52px;height:8px;border-radius:999px;background:rgba(10,12,20,.4);box-shadow:inset 0 1px 3px rgba(0,0,0,.45);margin:0 auto 16px"></span>
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px">
+              <span style="display:block;width:17px;height:17px;border-radius:50%;border:2px solid #fff;border-right-color:transparent;box-sizing:border-box"></span>
+              <span style="font-size:13.5px;font-weight:700;letter-spacing:.14em">FRANQ</span>
+            </div>
+            <div style="font-weight:800;font-size:21px;letter-spacing:.02em;margin-top:8px">PERSONAL BANKER</div>
+            <span style="display:inline-block;margin-top:12px;background:#fff;color:#4A5BD0;font-weight:800;font-size:12px;letter-spacing:.2em;border-radius:999px;padding:5px 22px">CADASTRO</span>
+          </div>
+          <form ref="{{ formRef }}" onSubmit="{{ onSubmit }}" style="padding:clamp(26px,3.6vw,40px);display:grid;gap:20px">
+            <div>
+              <label for="fq-nome" style="display:block;font-size:13.5px;font-weight:700;color:#131C25;margin-bottom:7px">Nome completo</label>
+              <input id="fq-nome" name="nome" type="text" autocomplete="name" required placeholder="Como no seu documento" style="width:100%;font-family:inherit;font-size:16px;color:#131C25;background:#F1F2F8;border:1px solid #E4E6F2;border-radius:12px;padding:14px 16px;transition:border-color .15s,box-shadow .15s,background .15s" style-focus="outline:none;background:#fff;border-color:rgba(104,123,234,.30);box-shadow:0 0 0 4px rgba(104,123,234,.08)">
+            </div>
+            <div>
+              <label for="fq-email" style="display:block;font-size:13.5px;font-weight:700;color:#131C25;margin-bottom:7px">E-mail</label>
+              <input id="fq-email" name="email" type="email" autocomplete="email" required placeholder="seunome@email.com" style="width:100%;font-family:inherit;font-size:16px;color:#131C25;background:#F1F2F8;border:1px solid #E4E6F2;border-radius:12px;padding:14px 16px;transition:border-color .15s,box-shadow .15s,background .15s" style-focus="outline:none;background:#fff;border-color:rgba(104,123,234,.30);box-shadow:0 0 0 4px rgba(104,123,234,.08)">
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+              <div>
+                <label for="fq-tel" style="display:block;font-size:13.5px;font-weight:700;color:#131C25;margin-bottom:7px">WhatsApp</label>
+                <input id="fq-tel" name="telefone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000" style="width:100%;font-family:inherit;font-size:16px;color:#131C25;background:#F1F2F8;border:1px solid #E4E6F2;border-radius:12px;padding:14px 16px;transition:border-color .15s,box-shadow .15s,background .15s" style-focus="outline:none;background:#fff;border-color:rgba(104,123,234,.30);box-shadow:0 0 0 4px rgba(104,123,234,.08)">
+              </div>
+              <div>
+                <label for="fq-exp" style="display:block;font-size:13.5px;font-weight:700;color:#131C25;margin-bottom:7px">Anos de experiência bancária</label>
+                <input id="fq-exp" name="experiencia" type="text" required placeholder="Ex.: 8 anos" style="width:100%;font-family:inherit;font-size:16px;color:#131C25;background:#F1F2F8;border:1px solid #E4E6F2;border-radius:12px;padding:14px 16px;transition:border-color .15s,box-shadow .15s,background .15s" style-focus="outline:none;background:#fff;border-color:rgba(104,123,234,.30);box-shadow:0 0 0 4px rgba(104,123,234,.08)">
+              </div>
+            </div>
+            <div>
+              <label for="fq-inst" style="display:block;font-size:13.5px;font-weight:700;color:#131C25;margin-bottom:7px">Instituição atual <span style="font-weight:500;color:#687078">· opcional</span></label>
+              <input id="fq-inst" name="instituicao" type="text" placeholder="Banco, cooperativa ou corretora" style="width:100%;font-family:inherit;font-size:16px;color:#131C25;background:#F1F2F8;border:1px solid #E4E6F2;border-radius:12px;padding:14px 16px;transition:border-color .15s,box-shadow .15s,background .15s" style-focus="outline:none;background:#fff;border-color:rgba(104,123,234,.30);box-shadow:0 0 0 4px rgba(104,123,234,.08)">
+              <p style="font-size:12.5px;color:#687078;margin:6px 0 0">Usamos essa informação apenas para entender o seu perfil de atuação.</p>
+            </div>
+            <label style="display:flex;gap:12px;align-items:flex-start;background:#F6F7FB;border:1px solid #EEF0F8;border-radius:12px;padding:14px 16px">
+              <input type="checkbox" name="consentimento" required style="margin-top:3px;width:18px;height:18px;accent-color:#687BEA;flex:none">
+              <span style="font-size:14px;line-height:1.55;color:#495057">Autorizo a Franq a entrar em contato comigo e a tratar os meus dados para avaliação do cadastro, conforme a Política de Privacidade.</span>
+            </label>
+            <button type="submit" style="width:100%;font-family:inherit;font-size:16.5px;font-weight:700;color:#fff;background:#687BEA;border:none;border-radius:999px;padding:17px 24px;cursor:pointer;transition:background .15s,transform .06s,box-shadow .2s" style-hover="background:#4A5BD0;box-shadow:0 12px 26px -10px rgba(104,123,234,.55)" style-active="transform:translateY(1px)">Enviar cadastro</button>
+          </form>
+          <div aria-hidden="true" style="display:flex;align-items:center;justify-content:center;gap:7px;background:#ECEEFB;padding:12px">
+            <span style="width:4px;height:4px;border-radius:50%;background:#8B9BFF"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:#8B9BFF"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:#8B9BFF"></span>
+            <span style="width:24px;height:24px;border-radius:7px;background:#687BEA;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700">F</span>
+            <span style="width:4px;height:4px;border-radius:50%;background:#8B9BFF"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:#8B9BFF"></span>
+            <span style="width:4px;height:4px;border-radius:50%;background:#8B9BFF"></span>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ sent }}">
+        <div role="status" style="margin-top:30px;background:#fff;border:1px solid #E4E6F2;border-radius:24px;padding:clamp(30px,4vw,46px);box-shadow:0 18px 48px -18px rgba(19,28,37,.22);text-align:center">
+          <span aria-hidden="true" style="width:52px;height:52px;border-radius:50%;background:rgba(6,163,122,.12);color:#06A37A;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+          </span>
+          <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;color:#131C25;margin:0 0 12px">Cadastro enviado.</h2>
+          <p style="max-width:44ch;margin:0 auto;color:#495057">Um especialista da Franq vai avaliar o seu perfil e entrar em contato para marcar uma conversa.</p>
+          <div aria-hidden="true" style="display:inline-flex;align-items:center;gap:14px;margin-top:24px;border-radius:14px;padding:14px 20px;background:linear-gradient(160deg,#8B9BFF,#4A5BD0);box-shadow:0 14px 30px -14px rgba(74,91,208,.6);color:#fff;text-align:left">
+            <span style="width:34px;height:34px;border-radius:9px;background:#fff;color:#4A5BD0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700">F</span>
+            <span>
+              <b style="display:block;font-size:14.5px;font-weight:700;line-height:1.3">Personal Banker</b>
+              <small style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.8)">Em análise</small>
+            </span>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section id="duvidas" data-screen-label="06 Dúvidas" style="background:#F6F7FB;padding:0 0 96px;border-radius:0 0 36px 36px;margin-bottom:-1px;position:relative;z-index:1">
+    <div style="max-width:840px;margin:0 auto;padding:0 24px">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0;background:#ECEEFB;border-radius:8px;padding:5px 9px">06</span>
+        <h2 style="font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,3.6vw,38px);line-height:1.12;letter-spacing:-.01em;color:#131C25;margin:0;text-wrap:balance">Dúvidas frequentes</h2>
+      </div>
+      <p style="margin-top:16px;max-width:62ch;color:#495057">O que mais perguntam antes de começar.</p>
+
+      <div style="margin-top:30px;display:grid;gap:12px">
+        <details open="{{ faqOpenFirst }}" style="background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:20px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <summary style="cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:14px;font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25">
+            <span aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0">01</span>
+            O que é um Personal Banker?
+          </summary>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:14px 0 0;padding-left:34px">É o bancário que passa a atuar de forma autônoma, com sua própria loja de serviços financeiros, oferecendo aos clientes produtos de diversas instituições e sendo remunerado por negócio fechado.</p>
+        </details>
+        <details style="background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:20px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <summary style="cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:14px;font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25">
+            <span aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0">02</span>
+            Quem pode se tornar um Personal Banker?
+          </summary>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:14px 0 0;padding-left:34px">Atualmente, a Franq destina-se aos bancários com, no mínimo, 5 anos de experiência em bancos de varejo, cooperativa de crédito, ou assessores de investimento com certificação Ancord.</p>
+        </details>
+        <details style="background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:20px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <summary style="cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:14px;font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25">
+            <span aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0">03</span>
+            Como funciona o processo de aprovação?
+          </summary>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:14px 0 0;padding-left:34px">Após o preenchimento do formulário, um especialista da Franq irá avaliar o seu cadastro e marcar uma conversa. Caso seja aprovado, você receberá um e-mail com detalhes sobre os próximos passos.</p>
+        </details>
+        <details style="background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:20px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <summary style="cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:14px;font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25">
+            <span aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0">04</span>
+            Qual é o valor da mensalidade?
+          </summary>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:14px 0 0;padding-left:34px">A mensalidade é de R$ 200 por loja. No entanto, oferecemos descontos de até 75% no plano anual.</p>
+        </details>
+        <details style="background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:20px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <summary style="cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:14px;font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25">
+            <span aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0">05</span>
+            Quais produtos eu posso oferecer?
+          </summary>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:14px 0 0;padding-left:34px">Mais de 150 produtos financeiros de mais de 50 instituições parceiras: consórcio, seguros, crédito PF e PJ, investimentos, câmbio, previdência e financiamentos.</p>
+        </details>
+        <details style="background:#fff;border:1px solid #E4E6F2;border-radius:18px;padding:20px 26px;box-shadow:0 1px 2px rgba(19,28,37,.05)">
+          <summary style="cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:14px;font-size:17px;font-weight:700;letter-spacing:-.01em;color:#131C25">
+            <span aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#4A5BD0">06</span>
+            Preciso deixar o meu emprego atual?
+          </summary>
+          <p style="font-size:15px;line-height:1.58;color:#495057;margin:14px 0 0;padding-left:34px">Conteúdo a confirmar com a Franq — este item existe na página atual e deve ser preenchido com a resposta oficial.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer style="background:#0A0C14;color:#6E7796;padding:34px 0 44px">
+  <div style="max-width:840px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;font-size:13px">
+    <span style="display:flex;align-items:center;gap:8px;color:#98A1C2;font-weight:700">
+      <span aria-hidden="true" style="display:block;width:18px;height:18px;border-radius:50%;border:2px solid #8B9BFF;border-right-color:transparent;box-sizing:border-box"></span>
+      franq
+    </span>
+    <span>Franq · Personal Banker</span>
+    <span>Atuação como profissional autônomo, remunerado por negócio fechado.</span>
+  </div>
+</footer>
+
+<sc-if value="{{ showSticky }}">
+  <a ref="{{ ctaRef }}" href="#cadastro" style="position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:20;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#687BEA;color:#fff;text-decoration:none;font-weight:700;font-size:15px;border-radius:999px;padding:14px 24px;box-shadow:0 18px 40px -12px rgba(74,91,208,.65);transition:transform .35s cubic-bezier(.2,.7,.2,1),background .15s;max-width:calc(100% - 32px)" style-hover="background:#4A5BD0">
+    Começar meu cadastro
+    <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"></path></svg>
+  </a>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showSticky&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;},&quot;faqOpenFirst&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;}}">
+class Component extends DCLogic {
+  state = { sent: false };
+
+  constructor(props) {
+    super(props);
+    this.ctaRef = React.createRef();
+    this.formRef = React.createRef();
+    this.onScroll = this.onScroll.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  onScroll() {
+    const el = this.ctaRef.current;
+    if (!el) return;
+    const form = document.getElementById('cadastro');
+    let formVisible = false;
+    if (form) {
+      const r = form.getBoundingClientRect();
+      formVisible = r.top < window.innerHeight * 0.92 && r.bottom > 0;
+    }
+    const show = window.scrollY > window.innerHeight * 0.75 && !formVisible && !this.state.sent;
+    el.style.transform = show ? 'translate(-50%,0)' : 'translate(-50%,140%)';
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.setState({ sent: true }, () => {
+      const el = document.getElementById('cadastro');
+      if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
+    });
+  }
+
+  renderVals() {
+    return {
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      onSubmit: this.onSubmit,
+      formRef: this.formRef,
+      ctaRef: this.ctaRef,
+      showSticky: this.props.showSticky ?? true,
+      faqOpenFirst: (this.props.faqOpenFirst ?? true) ? true : undefined
+    };
+  }
+}
+</script>
+</body>
+</html>

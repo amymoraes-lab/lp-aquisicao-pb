@@ -1,0 +1,1829 @@
+/* ============================================================================
+   Franq · Landing de captação de Personal Banker — PD-135 v2
+   Autoral (a v1 é gerada do .dc.html por tools/build.py).
+   Classes reais, sem style inline: é o que o time de WordPress/Elementor
+   consegue mapear para componentes.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../../fonts/PlayfairDisplay.var.woff2") format("woff2-variations");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------- tokens --- */
+:root {
+  /* superfícies */
+  --bg: #0C1120;
+  --bg-2: #10152A;
+  --bg-3: #131A33;
+  --surf-1: rgba(255,255,255,.035);
+  --surf-2: rgba(255,255,255,.055);
+  --surf-3: rgba(255,255,255,.08);
+
+  /* bordas */
+  --line: rgba(139,155,255,.16);
+  --line-2: rgba(139,155,255,.28);
+  --line-3: rgba(139,155,255,.44);
+
+  /* texto — valores medidos sobre --bg
+     #EAEDF6 14,6:1 · #C9D0E8 12,2:1 · #A8B2CE 8,6:1 · #8D97B8 6,2:1
+     Nenhum texto da página usa cinza abaixo de 4,5:1. */
+  --tx-1: #EAEDF6;
+  --tx-2: #C9D0E8;
+  --tx-3: #A8B2CE;
+  --tx-4: #8D97B8;
+
+  /* marca */
+  /* planos de fundo: a página precisa de degraus visíveis, não de tints de 4% */
+  --plano-1: #0C1120;
+  --plano-2: #131B33;
+
+  --lima: #DCFF79;
+  --lima-2: #E7FF9B;
+  --lima-3: #C9EE55;
+  --violeta: #8B9BFF;
+  --violeta-2: #687BEA;
+  --violeta-3: #4A5BD0;
+
+  /* semânticos */
+  --erro: #FF7A9C;
+  --ok: #4BE3B4;
+
+  /* tipografia */
+  --display: "Nib Pro", "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* forma */
+  --r-card: 18px;
+  --r-card-lg: 24px;
+  --r-pill: 999px;
+
+  /* movimento */
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --t-fast: .16s var(--ease);
+  --t-med: .28s var(--ease);
+
+  /* layout */
+  --wrap: 1200px;
+  --wrap-tight: 1000px;
+  --gut: clamp(20px, 5vw, 60px);
+  --header-h: 72px;
+  --barra-mobile-h: 0px; /* o JS sobe para a altura real quando a barra aparece */
+}
+
+/* ------------------------------------------------------------------ base --- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  /* âncoras não podem parar embaixo do header fixo */
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx-2);
+  font-family: var(--sans);
+  font-size: 16.5px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums lining-nums;
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+a { color: var(--violeta); }
+a:hover { color: var(--tx-1); }
+
+:focus-visible {
+  outline: 3px solid var(--lima);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* O [hidden] do user-agent perde para qualquer `display` de autor — e
+   .fq-btn é inline-flex. Sem isto, botão com [hidden] continua na tela
+   (era o caso do "Continuar" no último passo e do "Voltar" no primeiro). */
+[hidden] { display: none !important; }
+summary::-webkit-details-marker { display: none; }
+a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
+
+/* pular para o conteúdo — WCAG 2.4.1, exigido pela conformidade AA */
+.fq-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--lima);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 14px 20px;
+  border-radius: 0 0 12px 0;
+  text-decoration: none;
+}
+.fq-skip:focus { left: 0; color: var(--bg); }
+
+.fq-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- estrutura --- */
+.fq-wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut); }
+.fq-wrap--tight { max-width: var(--wrap-tight); }
+
+.fq-sec { position: relative; padding: clamp(64px, 8vw, 116px) 0; }
+/* O tint de 4,5% era invisível: em miniatura a página inteira virava uma cor
+   só. Aqui o degrau é medível — a placa elevada lê como outra superfície. */
+.fq-sec--band {
+  background: var(--plano-2);
+  border-top: 1px solid rgba(139,155,255,.14);
+  border-bottom: 1px solid rgba(139,155,255,.14);
+}
+/* O simulador é o argumento central da página: é onde o cético vira o número
+   dele. Entalado entre duas seções com tint e sem fundo próprio, lia como um
+   buraco. Aqui ele ganha ambiente e um fio lima no topo, que é o mesmo sinal
+   que as bandas de conversão usam para dizer "isto importa". */
+.fq-sec--sim {
+  /* As vizinhas são `--band` e já desenham fio nas emendas. O `-1px` faz o
+     fio lima cobrir o da seção de cima em vez de empilhar embaixo dele, e a
+     borda de baixo fica com a seção de suporte — senão são 2px de régua. */
+  margin-top: -1px;
+  border-top: 1px solid rgba(220,255,121,.26);
+  background:
+    radial-gradient(115% 85% at 76% 0%, rgba(139,155,255,.17) 0%, transparent 56%),
+    radial-gradient(75% 65% at 6% 100%, rgba(220,255,121,.06) 0%, transparent 58%),
+    linear-gradient(180deg, rgba(139,155,255,.06), rgba(139,155,255,.02));
+}
+
+/* O formulário é o destino da página, e no perfil de luminância ele era
+   indistinguível de tudo à volta. Ambiente próprio — violeta, para não
+   confundir com o simulador — e a caixa do formulário com fio lima no topo,
+   o mesmo sinal das bandas e do painel do resultado. */
+.fq-sec--meta {
+  border-top: 1px solid rgba(139,155,255,.16);
+  background:
+    radial-gradient(90% 70% at 88% 4%, rgba(104,123,234,.20) 0%, transparent 58%),
+    radial-gradient(70% 60% at 4% 96%, rgba(139,155,255,.10) 0%, transparent 60%),
+    var(--plano-2);
+}
+
+.fq-sec--glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(90% 120% at 12% 0%, rgba(104,123,234,.10) 0%, transparent 62%);
+}
+
+/* eyebrow monoespaçado — traço de label da marca */
+.fq-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--violeta);
+  margin: 0 0 18px;
+}
+.fq-eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  flex: none;
+}
+
+/* display serifado — peso 500 e tracking fechado: no peso 400 o navy come os
+   traços finos da Playfair em tamanho grande (item 2 do brief) */
+.fq-h1, .fq-h2, .fq-h3 {
+  font-family: var(--display);
+  font-weight: 500;
+  color: var(--tx-1);
+  margin: 0;
+  text-wrap: balance;
+}
+.fq-h1 {
+  font-size: clamp(40px, 6.2vw, 68px);
+  line-height: 1.03;
+  letter-spacing: -.026em;
+  max-width: 19ch;
+}
+/* Os 7 títulos da página eram todos 42px no mesmo lima. Acento que está em
+   todo título não acentua nada: era por isso que não se distinguia o que era
+   o quê. Agora o título nasce claro e o lima marca só o trecho que carrega o
+   argumento — quando há um. A diferenciação entre seções passa para o fundo. */
+.fq-h2 {
+  font-size: clamp(29px, 3.9vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -.018em;
+  color: var(--tx-1);
+}
+.fq-h3 {
+  font-size: clamp(21px, 2.2vw, 26px);
+  line-height: 1.2;
+  letter-spacing: -.012em;
+}
+/* itálico de destaque — o recurso mais distintivo da marca */
+.fq-em { font-style: italic; color: var(--lima); font-weight: 500; }
+.fq-h1 .fq-em { letter-spacing: -.018em; }
+
+.fq-lead {
+  font-size: clamp(17px, 1.5vw, 19.5px);
+  line-height: 1.58;
+  color: var(--tx-2);
+  max-width: 56ch;
+  margin: 22px 0 0;
+  text-wrap: pretty;
+}
+.fq-sec__head { max-width: 62ch; margin-bottom: clamp(36px, 4.5vw, 56px); }
+.fq-sec__head .fq-lead { margin-top: 16px; }
+
+/* =========================================================================
+   CTA CANÔNICO
+   Um único tratamento de ação primária em toda a página: pill lima com texto
+   navy. Substitui os três tratamentos que existiam (pill violeta no header,
+   pill branca no hero, botão retangular violeta no formulário).
+   Contraste medido: navy sobre lima = 16,68:1. O violeta com texto branco
+   dava 3,74:1 e reprovava AA — trocar resolveu o pior par da página e
+   colocou o lima em ação, onde ele nunca tinha aparecido.
+   ====================================================================== */
+.fq-btn {
+  --btn-bg: var(--lima);
+  --btn-tx: var(--bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 15px 28px;
+  border: 1.5px solid transparent;
+  border-radius: var(--r-pill);
+  background: var(--btn-bg);
+  color: var(--btn-tx);
+  font-size: 16.5px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast),
+              transform var(--t-fast), box-shadow var(--t-med), color var(--t-fast);
+}
+.fq-btn svg { flex: none; }
+
+/* hover: clareia (não escurece — sobre fundo escuro, clarear lê como avanço) */
+.fq-btn:hover {
+  background: var(--lima-2);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -12px rgba(220,255,121,.42);
+}
+.fq-btn:active { transform: translateY(1px); box-shadow: none; background: var(--lima-3); }
+.fq-btn:focus-visible { outline: 3px solid var(--violeta); outline-offset: 3px; }
+.fq-btn[disabled], .fq-btn[aria-disabled="true"] {
+  background: rgba(220,255,121,.22);
+  color: rgba(12,17,32,.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* secundário: ghost com borda. Nunca compete com o primário. */
+.fq-btn--ghost {
+  --btn-bg: transparent;
+  --btn-tx: var(--tx-1);
+  border-color: var(--line-2);
+}
+.fq-btn--ghost:hover {
+  background: var(--surf-2);
+  border-color: var(--line-3);
+  color: var(--tx-1);
+  box-shadow: none;
+}
+.fq-btn--ghost:active { background: var(--surf-3); }
+
+.fq-btn--sm { min-height: 46px; padding: 12px 20px; font-size: 15px; }
+.fq-btn--block { width: 100%; }
+
+.fq-cta-par {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 34px;
+}
+
+/* banda de conversão entre seções.
+   Peso visual alto — display serifado grande, lima, centralizado, CTA maior —
+   mas sem urgência: nada de contador, "vagas limitadas" ou promessa de
+   rendimento. O brief proíbe, e o público rejeita estética de infoproduto.
+   A energia vem de tamanho e contraste, não de pressão. */
+/* INVERSÃO — os dois momentos de conversão viram placa de lima cheio com
+   texto escuro. É o único lugar da página com o acento como FUNDO, e é o que
+   dá à página dois pontos de parada inconfundíveis. Sem hue nova: o mesmo
+   lima da marca, redistribuído. */
+.fq-band {
+  position: relative;
+  margin-top: clamp(40px, 5vw, 68px);
+  padding: clamp(38px, 5vw, 64px) clamp(22px, 4vw, 56px);
+  text-align: center;
+  border: 0;
+  border-radius: var(--r-card-lg);
+  background: linear-gradient(158deg, var(--lima-2) 0%, var(--lima) 46%, var(--lima-3) 100%);
+  box-shadow: 0 30px 70px -34px rgba(220,255,121,.3);
+  overflow: hidden;
+}
+/* textura discreta para o lima cheio não ficar chapado */
+.fq-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 130% at 50% -10%, rgba(255,255,255,.34) 0%, transparent 56%);
+}
+.fq-band > * { position: relative; }
+/* lima sobre lima é invisível: dentro da banda a ênfase deixa de ser cor e
+   passa a ser itálico + sublinhado, que funciona em qualquer fundo */
+.fq-band .fq-em {
+  color: var(--bg);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  text-decoration-color: rgba(12,17,32,.4);
+}
+
+/* o CTA inverte: escuro sobre lima. Botão lima dentro de banda lima
+   desapareceria. */
+.fq-band .fq-btn {
+  --btn-bg: var(--bg);
+  --btn-tx: var(--lima);
+  box-shadow: 0 14px 30px -14px rgba(4,6,18,.6);
+}
+/* o hover global escreve background/color direto, então aqui também tem de
+   ser direto — custom property sozinha perderia a especificidade */
+.fq-band .fq-btn:hover {
+  background: #171F38;
+  color: var(--lima-2);
+  box-shadow: 0 18px 36px -14px rgba(4,6,18,.72);
+}
+.fq-band .fq-btn:active { background: #0A0E1B; color: var(--lima); }
+.fq-band .fq-btn:focus-visible { outline-color: var(--bg); }
+
+.fq-band__eb {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  /* .66 dava 4,45:1 sobre a ponta mais escura do gradiente lima — reprovava
+     por pouco no mínimo de 4,5 para texto pequeno. Medido no pixel, não no token. */
+  color: rgba(12,17,32,.8);
+  margin: 0 0 16px;
+}
+.fq-band__t {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.8vw, 44px);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  color: var(--bg);
+  margin: 0 auto;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.fq-band .fq-btn { margin-top: clamp(24px, 3vw, 34px); }
+.fq-band__sub {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin: 18px 0 0;
+}
+.fq-btn--lg { min-height: 62px; padding: 18px 38px; font-size: 18px; }
+
+/* ---------------------------------------------------------------- header --- */
+.fq-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--t-med), border-color var(--t-med), backdrop-filter var(--t-med);
+}
+.fq-header[data-solido] {
+  background: rgba(12,17,32,.82);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom-color: var(--line);
+}
+.fq-header__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+}
+.fq-logo { display: flex; align-items: center; padding: 8px 0; }
+.fq-logo img { height: 27px; width: auto; }
+
+.fq-nav { display: flex; align-items: center; gap: 4px; }
+.fq-nav a {
+  padding: 10px 13px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tx-2);
+  text-decoration: none;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.fq-nav a:hover { background: var(--surf-2); color: var(--tx-1); }
+.fq-nav a[aria-current="true"] { color: var(--lima); }
+
+.fq-burger { display: none; }
+
+/* ------------------------------------------------------------------ hero --- */
+.fq-hero {
+  position: relative;
+  padding: calc(var(--header-h) + clamp(48px, 7vw, 92px)) 0 clamp(52px, 6vw, 80px);
+  background:
+    radial-gradient(110% 90% at 78% -10%, #161D36 0%, transparent 55%),
+    radial-gradient(90% 80% at 8% 108%, #131A33 0%, transparent 52%),
+    linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
+  overflow: hidden;
+}
+.fq-hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  opacity: .5;
+}
+.fq-hero__glow--a { right: -140px; top: -180px; width: 520px; height: 520px; background: radial-gradient(circle, var(--violeta-3) 0%, transparent 66%); }
+.fq-hero__glow--b { left: -160px; bottom: -120px; width: 420px; height: 420px; background: radial-gradient(circle, #2E3B9E 0%, transparent 66%); }
+
+.fq-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+}
+
+/* números do hero */
+.fq-nums {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px 28px;
+  margin-top: clamp(44px, 5vw, 68px);
+}
+.fq-num { border-top: 1px solid transparent; border-image: linear-gradient(90deg, rgba(139,155,255,.42), rgba(139,155,255,0)) 1; padding-top: 18px; }
+.fq-num__v {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(31px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--tx-1);
+}
+.fq-num__l { font-size: 14px; color: var(--tx-3); margin-top: 7px; }
+
+/* =========================================================================
+   MACBOOK DO HERO
+   Substitui a foto de banco de imagens: mostra a plataforma, que é o que
+   diferencia. Alumínio e tela desenhados em CSS, sem imagem — a tela é
+   ilustração de produto com dados de exemplo.
+
+   Divisão de trabalho, para nada disputar o mesmo transform:
+     .fq-mac-palco  perspectiva + animação de entrada (CSS)
+     .fq-mac        giro pelo mouse + parallax de scroll (JS, via --rx/--ry/--dy)
+     .fq-mac__vidro reflexo que corre no vidro (JS, via --gl)
+   ====================================================================== */
+.fq-mac-palco {
+  position: relative;
+  /* perspectiva longa de propósito: em 1500px o deck avança tanto para a
+     câmera que fica mais largo que a tampa e vira uma rampa. Em 2200px a
+     projeção é a de uma foto de produto. */
+  perspective: 2200px;
+  perspective-origin: 50% 44%;
+  padding-bottom: 30px;   /* espaço para a sombra no chão */
+}
+
+.fq-mac {
+  --rx: 0deg;
+  --ry: 0deg;
+  --dy: 0px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translate3d(0, var(--dy), 0) rotateX(calc(2.5deg + var(--rx))) rotateY(var(--ry));
+  will-change: transform;
+}
+
+/* AÇÃO ISOLADA — botão sozinho no fim de uma seção, sem a placa de lima
+   cheio. A banda invertida ficou reservada para o simulador; aqui a chamada
+   aparece sem competir com aquele pico. */
+.fq-acao {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* ---- tampa: moldura de alumínio ao redor do vidro ---- */
+.fq-mac__tampa {
+  position: relative;
+  padding: 6px 6px 8px;
+  border-radius: 13px 13px 6px 6px;
+  transform-style: preserve-3d;
+  /* prateado: claro na quina de cima, escurecendo para baixo, com uma
+     lambida de luz na diagonal para o alumínio não ficar chapado */
+  background:
+    linear-gradient(112deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 34%),
+    linear-gradient(178deg, #dfe3ea 0%, #c3c8d2 26%, #a7adba 74%, #8f95a3 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.75),
+    inset 0 -1px 0 rgba(0,0,0,.28),
+    inset 1px 0 0 rgba(255,255,255,.3),
+    inset -1px 0 0 rgba(255,255,255,.3),
+    0 26px 50px -26px rgba(4,6,18,.9);
+}
+
+/* ---- vidro ---- */
+.fq-mac__tela {
+  position: relative;
+  /* container de consulta: tudo dentro da tela se mede em cqw, então a
+     interface escala junto com o laptop em qualquer largura */
+  container-type: size;
+  aspect-ratio: 16 / 10.3;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #05070e;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.75), inset 0 2px 14px rgba(0,0,0,.6);
+}
+
+/* notch do MacBook Pro — é o detalhe que faz o objeto ser reconhecido */
+.fq-mac__notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15.5%;
+  height: 3.1%;
+  min-height: 7px;
+  border-radius: 0 0 5px 5px;
+  background: #05070e;
+  z-index: 3;
+}
+
+/* a interface dentro da tela: o card antigo, agora encostado nas bordas */
+/* o bezel preto é o vão entre esta caixa e a borda da tela */
+.fq-mac__ui {
+  position: absolute;
+  inset: 3.1% 1.7% 2.1%;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(160deg, rgba(139,155,255,.13), rgba(19,26,51,.94) 46%, rgba(12,17,32,.98));
+  overflow: hidden;
+}
+.fq-mac__ui .fq-mock__body { flex: 1; align-content: start; }
+
+/* A interface do beFranq é a mesma do card antigo, mas agora tem de caber
+   numa tela 16:10. Sem esta redução ela pedia 372px numa tela de 297 e a
+   terceira proposta ficava cortada. Só medidas menores — nada de scale(),
+   que borraria o texto. */
+.fq-mac__ui .fq-mock__bar { padding: 7px 10px; gap: 6px; }
+.fq-mac__ui .fq-mock__dot { width: 7px; height: 7px; }
+.fq-mac__ui .fq-mock__url { font-size: 9px; margin-left: 4px; }
+.fq-mac__ui .fq-mock__body { padding: 10px 11px; gap: 7px; }
+.fq-mac__ui .fq-mock__av { width: 28px; height: 28px; }
+.fq-mac__ui .fq-mock__who { gap: 9px; }
+.fq-mac__ui .fq-mock__nm { font-size: 12.5px; }
+.fq-mac__ui .fq-mock__nm span { font-size: 10.5px; }
+.fq-mac__ui .fq-mock__tag { font-size: 8.5px; padding: 4px 8px; letter-spacing: .13em; }
+.fq-mac__ui .fq-mock__kpis { gap: 7px; }
+.fq-mac__ui .fq-mock__kpi { padding: 7px 9px; border-radius: 10px; }
+.fq-mac__ui .fq-mock__kpi b { font-size: 16px; }
+.fq-mac__ui .fq-mock__kpi span { font-size: 9px; }
+.fq-mac__ui .fq-mock__list { gap: 5px; }
+.fq-mac__ui .fq-mock__it { padding: 6px 10px; border-radius: 9px; font-size: 11.5px; }
+.fq-mac__ui .fq-mock__it em { font-size: 9px; }
+.fq-mac__ui .fq-mock__st { font-size: 8.5px; }
+
+/* A régua acima é em px e vale para a tela de ~472px do desktop. Abaixo,
+   as mesmas medidas em cqw — proporção da largura da tela do laptop. É o que
+   faz a interface caber igual em 390px e em 1440px: um breakpoint não
+   resolveria, porque entre 1080 e 1440 a tela varia continuamente e o
+   conteúdo em px estourava. Referência: 100cqw = 472px. */
+@supports (container-type: size) {
+  .fq-mac__ui .fq-mock__bar { padding: 1.483cqw 2.119cqw; gap: 1.271cqw; }
+  .fq-mac__ui .fq-mock__dot { width: 1.483cqw; height: 1.483cqw; }
+  .fq-mac__ui .fq-mock__url { font-size: 1.907cqw; margin-left: 0.847cqw; }
+  .fq-mac__ui .fq-mock__body { padding: 2.119cqw 2.331cqw; gap: 1.483cqw; }
+  .fq-mac__ui .fq-mock__row { gap: 2.966cqw; }
+  .fq-mac__ui .fq-mock__who { gap: 1.907cqw; }
+  .fq-mac__ui .fq-mock__av { width: 5.932cqw; height: 5.932cqw; }
+  .fq-mac__ui .fq-mock__nm { font-size: 2.648cqw; }
+  .fq-mac__ui .fq-mock__nm span { font-size: 2.225cqw; }
+  .fq-mac__ui .fq-mock__tag { font-size: 1.801cqw; padding: 0.847cqw 1.695cqw; }
+  .fq-mac__ui .fq-mock__kpis { gap: 1.483cqw; }
+  .fq-mac__ui .fq-mock__kpi { padding: 1.483cqw 1.907cqw; border-radius: 2.119cqw; }
+  .fq-mac__ui .fq-mock__kpi b { font-size: 3.39cqw; }
+  .fq-mac__ui .fq-mock__kpi span { font-size: 1.907cqw; }
+  .fq-mac__ui .fq-mock__list { gap: 1.059cqw; }
+  .fq-mac__ui .fq-mock__it {
+    padding: 1.271cqw 2.119cqw;
+    border-radius: 1.907cqw;
+    font-size: 2.436cqw;
+    gap: 2.119cqw;
+  }
+  .fq-mac__ui .fq-mock__it em { font-size: 1.907cqw; }
+  .fq-mac__ui .fq-mock__st { font-size: 1.801cqw; }
+}
+
+/* captura real, quando existir, entra no lugar da ilustração */
+.fq-mac__shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* reflexo do vidro: uma faixa clara que corre conforme o objeto gira */
+.fq-mac__vidro {
+  position: absolute;
+  inset: -20% -40%;
+  z-index: 2;
+  pointer-events: none;
+  transform: translateX(calc(var(--gl, 0) * 1%));
+  background: linear-gradient(104deg,
+    rgba(255,255,255,0) 38%,
+    rgba(255,255,255,.055) 47%,
+    rgba(255,255,255,.10) 50%,
+    rgba(255,255,255,.055) 53%,
+    rgba(255,255,255,0) 62%);
+}
+
+/* ---- dobradiça ---- */
+.fq-mac__dobra {
+  display: block;
+  height: 4px;
+  margin: 0 14%;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(180deg, #5b6270, #3c414b);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+/* ---- base: o deck deitado, girado para trás em 3D ---- */
+.fq-mac__base {
+  position: relative;
+  /* profundidade curta + 80°: projeta ~28px de deck e só 7% de alargamento
+     por perspectiva — o suficiente para ler como laptop aberto */
+  aspect-ratio: 16 / 4.8;
+  /* recuado nas laterais: a tampa avança sobre o deck num MacBook fechado,
+     e sem esse recuo o deck sobra para fora e lê como prateleira */
+  margin-inline: 1.6%;
+  transform: rotateX(80deg);
+  /* transform não mexe em layout: a caixa continua com 30% da largura de
+     altura, mas projeta só ~5,4%. Sem esta margem negativa o pé e a nota
+     ficam 123px abaixo do laptop, num vão vazio. */
+  margin-bottom: -24.6%;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  border-radius: 2px 2px 13px 13px;
+  background:
+    linear-gradient(100deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 44%),
+    linear-gradient(180deg, #4e545f 0%, #6f7684 32%, #5f6672 74%, #454b55 100%);
+  box-shadow:
+    inset 0 2px 6px rgba(4,6,18,.55),   /* a tampa faz sombra no deck */
+    inset 0 -1px 0 rgba(255,255,255,.34),
+    inset 1px 0 0 rgba(255,255,255,.18),
+    inset -1px 0 0 rgba(255,255,255,.18);
+}
+/* área do teclado e trackpad: em perspectiva viram só duas manchas, e é
+   exatamente o que se vê num MacBook aberto visto de frente */
+.fq-mac__teclado {
+  position: absolute;
+  inset: 11% 7% 38%;
+  border-radius: 5px;
+  background: linear-gradient(180deg, rgba(30,33,41,.62), rgba(20,22,28,.8));
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.4);
+}
+.fq-mac__trackpad {
+  position: absolute;
+  left: 36%;
+  right: 36%;
+  bottom: 11%;
+  height: 26%;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(118,124,136,.75), rgba(136,143,155,.6));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 2px rgba(0,0,0,.18);
+}
+
+/* lábio frontal: dá espessura ao deck, senão o alumínio parece papel */
+.fq-mac__pe {
+  display: block;
+  height: 4px;
+  margin: -1px 4% 0;
+  border-radius: 0 0 7px 7px;
+  background: linear-gradient(180deg, #8d94a1, #656b78 55%, #4b515c);
+  box-shadow: 0 3px 7px rgba(4,6,18,.75);
+}
+
+/* sombra no chão — fora do 3D, é só uma mancha desfocada */
+.fq-mac__sombra {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 4px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(4,6,18,.85), rgba(4,6,18,0) 72%);
+  filter: blur(9px);
+  z-index: -1;
+}
+
+/* A legenda "Ilustração da plataforma · dados de exemplo" saiu a pedido. A
+   ressalva continua no `aria-label` do MacBook, que abre com "Ilustração de
+   um MacBook…" — quem usa leitor de tela ainda é avisado. */
+.fq-mock__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(12,17,32,.55);
+}
+.fq-mock__dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(139,155,255,.3); }
+.fq-mock__url {
+  margin-left: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  color: var(--tx-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fq-mock__body { padding: clamp(12px, 1.5vw, 20px); display: grid; gap: clamp(9px, 1vw, 14px); }
+.fq-mock__row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.fq-mock__who { display: flex; align-items: center; gap: 11px; }
+.fq-mock__av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(140deg, var(--violeta), var(--violeta-3)); flex: none; }
+.fq-mock__nm { font-size: 14px; font-weight: 700; color: var(--tx-1); line-height: 1.2; }
+.fq-mock__nm span { display: block; font-weight: 400; font-size: 12px; color: var(--tx-4); }
+.fq-mock__tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--lima);
+  border: 1px solid rgba(220,255,121,.35);
+  border-radius: var(--r-pill);
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.fq-mock__kpis { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 9px; }
+.fq-mock__kpi { background: var(--surf-1); border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; }
+.fq-mock__kpi b { display: block; font-family: var(--display); font-weight: 700; font-size: 19px; color: var(--tx-1); letter-spacing: -.02em; }
+.fq-mock__kpi span { font-size: 10.5px; color: var(--tx-4); }
+.fq-mock__list { display: grid; gap: 7px; }
+.fq-mock__it {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: var(--tx-2);
+}
+.fq-mock__it em { font-style: normal; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--tx-4); }
+.fq-mock__st { font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; }
+.fq-mock__st--ok { color: var(--ok); }
+.fq-mock__st--go { color: var(--lima); }
+.fq-mock__st--w { color: var(--violeta); }
+/* ------------------------------------------------------- faixa de logos --- */
+.fq-logos {
+  position: relative;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--surf-1);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.fq-logos__track { display: flex; width: max-content; align-items: center; animation: fq-tick 42s linear infinite; }
+.fq-logos:hover .fq-logos__track,
+.fq-logos:focus-within .fq-logos__track { animation-play-state: paused; }
+.fq-logos__grp { display: flex; align-items: center; gap: clamp(28px, 4vw, 52px); padding-right: clamp(28px, 4vw, 52px); }
+/* altura óptica, não altura de caixa: os tiles têm respiro interno desigual
+   (a tinta vai de 23% a 68% da altura), então a altura é calibrada por logo
+   em vez de uniforme. Ver README. */
+.fq-logos img {
+  width: auto;
+  flex: none;
+  filter: grayscale(1) brightness(2.9) contrast(1.05);
+  opacity: .78;
+  transition: opacity var(--t-fast);
+  height: 64px;
+}
+.fq-logos img:hover { opacity: 1; }
+.fq-logos img[data-otica="alta"] { height: 52px; }
+.fq-logos img[data-otica="baixa"] { height: 76px; }
+
+@keyframes fq-tick { to { transform: translateX(-50%); } }
+
+/* ============================== SIMULADOR ============================== */
+.fq-sim__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr);
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+}
+.fq-card {
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card-lg);
+  padding: clamp(22px, 3vw, 32px);
+}
+
+/* Só dentro do simulador: sobre o fundo com tint da seção o card de entrada
+   tem de escurecer para continuar legível como superfície. Entrada afunda,
+   resultado sobe — é a hierarquia que estava invertida. Escopado porque
+   `.fq-card` também serve o card de prova social, que vive no fundo liso da
+   seção do formulário e ali desapareceria. */
+.fq-sec--sim .fq-card {
+  background: rgba(9,13,26,.55);
+  border-color: var(--line-2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+}
+.fq-card__t {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--violeta);
+  margin: 0 0 6px;
+}
+.fq-card__d { font-size: 14.5px; color: var(--tx-3); margin: 0 0 20px; }
+
+/* chips de produto */
+.fq-chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.fq-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 11px 17px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  background: var(--surf-2);
+  color: var(--tx-1);
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+}
+.fq-chip:hover { background: var(--surf-2); border-color: var(--line-3); color: var(--tx-1); }
+.fq-chip__mk {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--line-3);
+  border-radius: 5px;
+  flex: none;
+  position: relative;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.fq-chip[aria-pressed="true"] {
+  background: rgba(220,255,121,.13);
+  border-color: rgba(220,255,121,.55);
+  color: var(--tx-1);
+}
+.fq-chip[aria-pressed="true"] .fq-chip__mk { background: var(--lima); border-color: var(--lima); }
+.fq-chip[aria-pressed="true"] .fq-chip__mk::after {
+  content: "";
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 5px; height: 9px;
+  border: solid var(--bg);
+  border-width: 0 2px 2px 0;
+  transform: rotate(42deg);
+}
+
+/* sliders de volume */
+.fq-vols { display: grid; gap: 4px; margin-top: 22px; }
+.fq-vol { padding: 15px 0; border-top: 1px solid var(--line); }
+.fq-vol:first-child { border-top: 0; }
+.fq-vol__top { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 11px; }
+.fq-vol__nm { font-size: 15px; font-weight: 700; color: var(--tx-1); }
+.fq-vol__un { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--tx-4); display: block; font-weight: 400; margin-top: 3px; }
+.fq-vol__v { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--lima); white-space: nowrap; }
+
+.fq-range { -webkit-appearance: none; appearance: none; width: 100%; height: 30px; background: transparent; cursor: grab; margin: 0; }
+.fq-range:active { cursor: grabbing; }
+/* a parte percorrida da trilha em lima. O `--p` vem do JS, que já sincroniza
+   o valor: sem isso a trilha é uma linha cinza que não diz onde se está */
+.fq-range::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg,
+    var(--lima) calc(var(--p, 0) * 1%),
+    rgba(139,155,255,.22) calc(var(--p, 0) * 1%));
+}
+.fq-range::-moz-range-track {
+  height: 5px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg,
+    var(--lima) calc(var(--p, 0) * 1%),
+    rgba(139,155,255,.22) calc(var(--p, 0) * 1%));
+}
+.fq-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px; height: 22px;
+  margin-top: -8.5px;
+  border-radius: 50%;
+  background: var(--lima);
+  border: 3px solid var(--bg);
+  box-shadow: 0 2px 10px rgba(4,6,18,.7);
+}
+.fq-range::-moz-range-thumb {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--lima);
+  border: 3px solid var(--bg);
+}
+.fq-range:focus-visible { outline: none; }
+.fq-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(220,255,121,.4); }
+.fq-vol__esc { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; color: var(--tx-4); margin-top: 2px; }
+
+/* painel de resultado */
+.fq-res {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+  /* borda e halo em lima: é o único elemento da página com esse tratamento,
+     e é o que o olho tem de encontrar primeiro dentro da seção */
+  border: 1px solid rgba(220,255,121,.34);
+  border-radius: var(--r-card-lg);
+  padding: clamp(26px, 3vw, 34px);
+  background:
+    radial-gradient(105% 80% at 50% 0%, rgba(220,255,121,.11) 0%, transparent 60%),
+    linear-gradient(165deg, rgba(139,155,255,.22), rgba(19,26,51,.86));
+  box-shadow:
+    0 30px 60px -30px rgba(4,6,18,.95),
+    0 0 80px -34px rgba(220,255,121,.32);
+}
+.fq-res__lb { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--lima); }
+/* mostrador: o número numa superfície afundada dentro do painel claro.
+   O olho encontra a leitura antes de ler qualquer rótulo. */
+.fq-res__saida {
+  margin-top: 14px;
+  padding: clamp(16px, 1.9vw, 22px);
+  border-radius: 16px;
+  background: rgba(6,9,20,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045), inset 0 0 0 1px rgba(220,255,121,.13);
+}
+
+.fq-res__val {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(38px, 4.4vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  color: var(--lima);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.fq-res__val small { display: block; font-family: var(--sans); font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--tx-3); margin-top: 8px; }
+.fq-res__val small .fq-ph { font-size: 10.5px; margin-right: 4px; }
+.fq-res__vazio { color: var(--tx-3); font-size: 14.5px; margin: 14px 0 0; }
+.fq-res__ex {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px dashed var(--line-2);
+  border-radius: 14px;
+  background: rgba(255,255,255,.02);
+  font-size: 13.5px;
+  color: var(--tx-3);
+}
+.fq-res__ex b { color: var(--tx-1); }
+
+.fq-bk__l { display: grid; gap: 2px; }
+.fq-bk__l:not(:empty) { margin: 4px 0 0; }
+.fq-bk__i { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid rgba(139,155,255,.10); font-size: 13.5px; }
+.fq-bk__i:first-child { border-top: 0; }
+.fq-bk__i span { color: var(--tx-3); }
+.fq-bk__i b { font-family: var(--mono); font-size: 12.5px; color: var(--tx-1); white-space: nowrap; }
+
+.fq-disc { font-size: 12.5px; line-height: 1.55; color: var(--tx-4); margin: 18px 0 0; }
+/* toggle do painel de resultado */
+.fq-toggle { margin-top: 18px; border-top: 1px solid var(--line); }
+.fq-toggle summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 14px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tx-2);
+  transition: color var(--t-fast);
+}
+.fq-toggle summary:hover { color: var(--lima); }
+.fq-toggle summary svg { margin-left: auto; color: var(--violeta); transition: transform var(--t-fast); }
+.fq-toggle[open] summary { color: var(--tx-1); }
+.fq-toggle[open] summary svg { transform: rotate(180deg); }
+.fq-toggle__b { padding-bottom: 4px; }
+
+.fq-ph {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: #FFD37A;
+  background: rgba(255,211,122,.12);
+  border: 1px dashed rgba(255,211,122,.45);
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+
+/* "a partir de" acima do valor — o número é piso, não faixa fechada */
+.fq-res__pre {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 6px;
+}
+
+.fq-bk__f {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--tx-4);
+  margin: 14px 0 4px;
+}
+.fq-bk__f:first-child { margin-top: 6px; }
+.fq-bk__i em {
+  display: block;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--tx-4);
+  margin-top: 2px;
+}
+
+/* lista numerada de disclaimers, como na ferramenta oficial */
+.fq-disc--num { margin: 18px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+.fq-disc--num li { font-size: 12px; line-height: 1.5; }
+.fq-disc--num b { color: var(--tx-3); }
+
+
+/* ====================== AGÊNCIA × SUA LOJA ======================
+   A coluna do PB é favorecida de propósito — fundo lima, borda lima, texto
+   mais claro, ✓ — mas a da agência não vira espantalho: fica neutra e legível,
+   com um traço em vez de um ✗. O leitor trabalha lá. */
+.fq-vs {
+  display: grid;
+  grid-template-columns: minmax(140px, .82fr) minmax(0, 1fr) minmax(0, 1.06fr);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card-lg);
+  overflow: hidden;
+}
+
+.fq-vs__h {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(18px, 2.2vw, 24px) clamp(14px, 1.8vw, 24px);
+  border-bottom: 1px solid var(--line);
+  background: var(--surf-2);
+}
+.fq-vs__h--eixo {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--tx-4);
+}
+.fq-vs__badge { align-self: flex-start; }
+.fq-vs__hl { display: block; font-size: clamp(15px, 1.5vw, 18px); font-weight: 700; color: var(--tx-2); letter-spacing: -.01em; }
+.fq-vs__hs {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--tx-4);
+  margin-top: 6px;
+}
+.fq-vs__h--pb {
+  background: linear-gradient(180deg, rgba(220,255,121,.16), rgba(220,255,121,.07));
+  border-bottom-color: rgba(220,255,121,.32);
+}
+.fq-vs__h--pb .fq-vs__hl { color: var(--lima); }
+.fq-vs__badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 11px;
+  border-radius: var(--r-pill);
+  background: var(--lima);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.fq-vs__c {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: clamp(15px, 1.8vw, 20px) clamp(14px, 1.8vw, 24px);
+  border-bottom: 1px solid rgba(139,155,255,.10);
+  font-size: clamp(14.5px, 1.4vw, 16px);
+  line-height: 1.45;
+}
+.fq-vs__ic { width: 17px; height: 17px; flex: none; margin-top: 2px; }
+
+.fq-vs__c--eixo {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--violeta);
+  align-items: center;
+}
+.fq-vs__c--ag { color: var(--tx-3); }
+.fq-vs__c--ag .fq-vs__ic { color: var(--tx-4); }
+
+/* a coluna do PB é uma faixa contínua, destacada e com elevação */
+.fq-vs__c--pb {
+  color: var(--tx-1);
+  font-weight: 500;
+  background: rgba(220,255,121,.075);
+  border-left: 2px solid var(--lima);
+}
+.fq-vs__c--pb .fq-vs__ic { color: var(--lima); }
+.fq-vs__h--pb { border-left: 2px solid var(--lima); }
+
+.fq-vs > *:nth-last-child(-n+3) { border-bottom: 0; }
+
+/* linha inteira acende no hover — ajuda a varrer a tabela */
+@media (hover: hover) {
+  .fq-vs__c--eixo:hover, .fq-vs__c--eixo:hover ~ .fq-vs__c--ag { background: var(--surf-1); }
+}
+
+/* ==================== REQUISITOS (timeline) ==================== */
+.fq-passos { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: clamp(16px, 2.4vw, 30px); position: relative; }
+.fq-passo { position: relative; padding-top: 34px; }
+.fq-passo::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 11px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-3), rgba(139,155,255,.10));
+}
+.fq-passo::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 6px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--lima);
+  box-shadow: 0 0 0 4px rgba(220,255,121,.16);
+}
+.fq-passo__n { font-family: var(--mono); font-size: 36px; font-weight: 700; line-height: 1; color: var(--violeta); letter-spacing: -.02em; }
+.fq-passo__t { font-size: 17px; font-weight: 700; color: var(--tx-1); margin: 14px 0 8px; letter-spacing: -.01em; }
+.fq-passo p { font-size: 14.5px; line-height: 1.6; color: var(--tx-2); margin: 0; }
+
+/* ==================== PILARES DE SUPORTE (4 col) ==================== */
+.fq-pilares { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: clamp(14px, 1.8vw, 22px); }
+.fq-pilar {
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  padding: clamp(20px, 2.2vw, 26px);
+  transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-med);
+}
+/* ícone com presença: numeral monoespaçado grande + glifo, em vez do ícone
+   genérico de 19px que não sustentava o peso da seção */
+.fq-pilar__ic {
+  width: 58px; height: 58px;
+  border-radius: 16px;
+  background: linear-gradient(150deg, rgba(139,155,255,.24), rgba(139,155,255,.07));
+  border: 1px solid var(--line-2);
+  color: var(--violeta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transition: background var(--t-med), color var(--t-med), transform var(--t-med), border-color var(--t-med);
+}
+.fq-pilar__ic svg { width: 27px; height: 27px; }
+.fq-pilar__t { font-size: 17px; font-weight: 700; color: var(--tx-1); margin: 0 0 8px; letter-spacing: -.01em; }
+.fq-pilar p { font-size: 14.5px; line-height: 1.6; color: var(--tx-2); margin: 0; }
+
+/* ==================== DEPOIMENTOS ==================== */
+.fq-deps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: clamp(14px, 1.8vw, 22px); }
+.fq-dep {
+  display: flex;
+  flex-direction: column;
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  transition: border-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-med);
+}
+.fq-dep__v {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  /* 340px dava um slot quase quadrado, e a arte é 9:16 com o texto na metade
+     de baixo: qualquer corte decepava as frases no meio. Em 464px a janela
+     cobre ~77% da arte — entra rosto, nome e a frase inteira nas três, e o
+     logo do pé fica inteiro de fora (em 480px sobrava uma fatia dele). */
+  max-height: 464px;
+  /* sem isto a capa transborda: `height: 100%` num pai de altura limitada por
+     `max-height` não resolve, a imagem cai no aspecto intrínseco (~600px) e
+     pinta por cima do texto do cartão */
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(139,155,255,.16), rgba(12,17,32,.9));
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid var(--line);
+}
+/* a arte vem 9:16, o slot é 9:16 e limitado a 340px de altura: `cover`
+   preenche sem distorcer. `top` no object-position porque o rosto e o nome
+   ficam no terço superior das capas — recortar por baixo é o corte seguro. */
+/* posicionamento absoluto: a capa preenche a caixa e nunca influencia a
+   altura dela, em qualquer largura */
+.fq-dep__v video, .fq-dep__v img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;   /* ancorado no topo: o texto da arte fica embaixo */
+  display: block;
+}
+/* a capa esquenta de leve no hover do cartão, como o slot vazio já fazia */
+.fq-dep__v img { transition: transform var(--t-med), filter var(--t-med); }
+.fq-dep:hover .fq-dep__v img { transform: scale(1.03); filter: saturate(1.08); }
+.fq-dep__play {
+  position: absolute;
+  inset: auto auto 12px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 14px 9px 11px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: rgba(12,17,32,.78);
+  backdrop-filter: blur(6px);
+  color: var(--tx-1);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.fq-dep__play:hover { background: var(--lima); color: var(--bg); }
+.fq-dep__slot { text-align: center; padding: 22px; color: var(--tx-4); font-size: 12.5px; line-height: 1.5; }
+.fq-dep__slot svg { margin: 0 auto 12px; color: var(--line-3); }
+.fq-dep__b { padding: 18px 19px 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.fq-dep__q { font-family: var(--display); font-weight: 500; font-size: 17px; line-height: 1.42; color: var(--tx-1); margin: 0; text-wrap: pretty; }
+.fq-dep__id { display: flex; align-items: center; gap: 11px; margin-top: auto; }
+.fq-dep__foto { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: none; border: 1px solid var(--line-2); }
+.fq-dep__foto--vazia { display: grid; place-items: center; background: var(--surf-2); color: var(--tx-4); font-family: var(--mono); font-size: 9px; }
+.fq-dep__nm { display: block; font-size: 14px; font-weight: 700; color: var(--tx-1); line-height: 1.25; }
+.fq-dep__ln { display: block; }
+.fq-dep__mt { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--tx-4); margin-top: 5px; line-height: 1.75; }
+
+/* ==================== FORMULÁRIO ==================== */
+.fq-form__grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(280px, .88fr); gap: clamp(24px, 3vw, 40px); align-items: start; }
+.fq-form__box {
+  position: relative;
+  background: rgba(9,13,26,.62);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-card-lg);
+  overflow: hidden;
+  box-shadow: 0 30px 64px -32px rgba(4,6,18,.9);
+}
+/* fio lima no topo da caixa: é a terceira e última parada da página */
+.fq-form__box::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--lima), transparent);
+}
+
+.fq-garantias { display: grid; gap: 9px; margin-bottom: 22px; }
+.fq-garantia { display: flex; align-items: flex-start; gap: 11px; font-size: 14.5px; color: var(--tx-2); }
+.fq-garantia svg { flex: none; color: var(--lima); margin-top: 3px; }
+
+.fq-steps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; padding: clamp(20px, 2.6vw, 28px) clamp(20px, 3vw, 34px) 0; }
+.fq-step { display: grid; gap: 8px; }
+.fq-step__bar { height: 3px; border-radius: var(--r-pill); background: rgba(139,155,255,.22); transition: background var(--t-med); }
+.fq-step__lb { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--tx-4); transition: color var(--t-med); }
+.fq-step[data-on] .fq-step__bar { background: var(--lima); }
+.fq-step[data-on] .fq-step__lb { color: var(--lima); }
+
+.fq-form { padding: clamp(20px, 2.6vw, 28px) clamp(20px, 3vw, 34px) clamp(24px, 3vw, 34px); }
+.fq-pane { display: grid; gap: 19px; }
+.fq-pane[hidden] { display: none; }
+.fq-row { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+
+.fq-f label, .fq-f__lb { display: block; font-size: 13.5px; font-weight: 700; color: var(--tx-1); margin-bottom: 7px; }
+.fq-f label span, .fq-f__lb span { font-weight: 500; color: var(--tx-4); }
+.fq-inp {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255,255,255,.05);
+  color: var(--tx-1);
+  font-size: 16px; /* 16px evita o zoom automático do iOS */
+  transition: border-color var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+}
+/* #98A1C2 sobre o fundo do input = 6,6:1. O #6E7796 anterior dava 3,80:1. */
+.fq-inp::placeholder { color: #98A1C2; opacity: 1; }
+.fq-inp:hover { border-color: var(--line-2); }
+.fq-inp:focus {
+  outline: none;
+  background: rgba(255,255,255,.09);
+  border-color: rgba(220,255,121,.6);
+  box-shadow: 0 0 0 4px rgba(220,255,121,.16);
+}
+.fq-inp[readonly] { background: rgba(255,255,255,.03); color: var(--tx-2); }
+.fq-inp[aria-invalid="true"] { border-color: var(--erro); box-shadow: 0 0 0 4px rgba(255,122,156,.14); }
+
+/* estado de erro que informa, não pune: sem vermelho de alarme, sem ícone
+   de proibido, texto explicando o que fazer */
+.fq-f__err { display: none; align-items: center; gap: 7px; font-size: 13px; color: var(--erro); margin-top: 7px; }
+.fq-f__err svg { flex: none; }
+.fq-f[data-err] .fq-f__err { display: flex; }
+.fq-f__hint { font-size: 12.5px; line-height: 1.5; color: var(--tx-3); margin-top: 7px; }
+.fq-f__hint b { color: var(--tx-2); font-weight: 700; }
+
+.fq-radios { display: flex; gap: 10px; flex-wrap: wrap; }
+.fq-radio {
+  flex: 1 1 130px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255,255,255,.05);
+  font-size: 15px;
+  color: var(--tx-1);
+  cursor: pointer;
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.fq-radio:hover { border-color: var(--line-3); }
+.fq-radio input { width: 18px; height: 18px; accent-color: var(--lima); margin: 0; flex: none; }
+.fq-radio:has(input:checked) { border-color: rgba(220,255,121,.55); background: rgba(220,255,121,.10); }
+
+.fq-check { display: flex; gap: 12px; align-items: flex-start; padding: 15px 16px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.03); cursor: pointer; }
+.fq-check input { width: 19px; height: 19px; accent-color: var(--lima); margin-top: 2px; flex: none; }
+.fq-check span { font-size: 14px; line-height: 1.55; color: var(--tx-2); }
+
+/* ação principal no canto direito; "Voltar" empurrado para a esquerda.
+   O respiro maior separa a decisão do preenchimento. */
+.fq-form__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: clamp(18px, 2.6vw, 32px);
+  padding-top: clamp(16px, 2vw, 24px);
+  border-top: 1px solid var(--line);
+}
+.fq-form__nav .fq-btn--ghost { margin-right: auto; }
+.fq-alert { display: none; align-items: center; gap: 9px; font-size: 14px; color: var(--erro); background: rgba(255,122,156,.10); border: 1px solid rgba(255,122,156,.32); border-radius: 12px; padding: 12px 14px; }
+.fq-alert[data-on] { display: flex; }
+
+/* loading e sucesso */
+.fq-btn[data-load] { pointer-events: none; }
+.fq-spin { width: 17px; height: 17px; border: 2px solid rgba(12,17,32,.3); border-top-color: var(--bg); border-radius: 50%; animation: fq-spin .7s linear infinite; }
+@keyframes fq-spin { to { transform: rotate(360deg); } }
+
+.fq-ok { text-align: center; padding: clamp(30px, 4vw, 48px); }
+.fq-ok__ic { width: 62px; height: 62px; border-radius: 50%; background: rgba(75,227,180,.14); color: var(--ok); display: grid; place-items: center; margin: 0 auto 20px; }
+.fq-ok__t { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3.2vw, 34px); color: var(--lima); margin: 0 0 12px; letter-spacing: -.02em; }
+.fq-ok p { max-width: 46ch; margin: 0 auto; color: var(--tx-2); }
+.fq-ok__linha { display: grid; gap: 10px; max-width: 420px; margin: 24px auto 0; text-align: left; }
+.fq-ok__it { display: flex; gap: 12px; align-items: flex-start; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; background: var(--surf-1); font-size: 14px; }
+.fq-ok__it b { color: var(--tx-1); display: block; }
+.fq-ok__it span { color: var(--tx-3); font-size: 13px; }
+.fq-ok__it em { font-style: normal; font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--lima); flex: none; margin-top: 3px; }
+
+/* prova social ao lado do formulário */
+.fq-prova { display: grid; gap: 14px; }
+.fq-prova__n { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 4vw, 46px); line-height: 1; letter-spacing: -.03em; color: var(--tx-1); }
+.fq-prova__n span { display: block; font-family: var(--sans); font-size: 14px; font-weight: 400; letter-spacing: 0; color: var(--tx-3); margin-top: 8px; }
+.fq-prova__q { font-family: var(--display); font-weight: 500; font-size: 17px; line-height: 1.45; color: var(--tx-1); margin: 0; }
+
+/* ==================== FAQ ==================== */
+.fq-faq { display: grid; }
+.fq-faq details { border-bottom: 1px solid rgba(139,155,255,.14); }
+.fq-faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 21px 0;
+  font-size: 17px;
+  color: var(--tx-1);
+  letter-spacing: -.005em;
+}
+.fq-faq summary:hover { color: var(--lima); }
+.fq-faq summary svg { flex: none; margin-left: auto; color: var(--violeta); transition: transform var(--t-fast); }
+.fq-faq details[open] summary svg { transform: rotate(180deg); }
+.fq-faq details[open] summary { color: var(--lima); }
+.fq-faq__a { padding: 0 0 22px; max-width: 84ch; }
+.fq-faq__a p { font-size: 15px; line-height: 1.62; color: var(--tx-2); margin: 0 0 12px; }
+.fq-faq__a p:last-child { margin-bottom: 0; }
+/* "(Saiba mais)" era texto puro e não parecia link */
+.fq-link { color: var(--lima); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.fq-link:hover { color: var(--lima-2); }
+
+/* ==================== RODAPÉ ==================== */
+.fq-foot { padding: clamp(40px, 5vw, 60px) 0 calc(48px + var(--barra-mobile-h)); border-top: 1px solid var(--line); }
+.fq-foot__top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.fq-foot__top img { height: 22px; opacity: .85; }
+.fq-foot__tag { font-size: 14px; color: var(--tx-3); }
+/* era 11px em #7A83A0: passava em contraste (5,0:1) mas ilegível de tamanho.
+   Agora 13,5px em --tx-3 (8,6:1) — melhor de compliance e de confiança. */
+.fq-foot__legal { font-size: 13.5px; line-height: 1.65; color: var(--tx-3); margin: 26px 0 0; padding-top: 22px; border-top: 1px solid rgba(139,155,255,.12); text-wrap: pretty; }
+
+/* ============= FLUTUANTES: barra mobile + Fran =============
+   Hierarquia definida (item 5 do brief):
+   barra de CTA (z 40) < bolha da Fran (z 45) < menu mobile (z 60)
+   A Fran senta ACIMA da barra, nunca em cima dela. */
+.fq-barra {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 40;
+  display: none;
+  padding: 12px var(--gut) calc(12px + env(safe-area-inset-bottom, 0px));
+  background: rgba(12,17,32,.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  transform: translateY(120%);
+  transition: transform var(--t-med);
+}
+.fq-barra[data-on] { transform: none; }
+.fq-barra__in { display: flex; align-items: center; gap: 12px; }
+.fq-barra .fq-btn { flex: 1; }
+
+.fq-fran {
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + var(--barra-mobile-h));
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  max-width: min(272px, calc(100vw - 36px));
+  padding: 6px 20px 6px 6px;
+  border: 2.5px solid #131C25;
+  border-radius: var(--r-pill);
+  background: var(--lima);
+  color: #131C25;
+  text-decoration: none;
+  box-shadow: 0 14px 34px -12px rgba(4,6,18,.7);
+  transition: background var(--t-fast), bottom var(--t-med), box-shadow var(--t-med);
+}
+.fq-fran:hover { background: var(--lima-2); color: #131C25; box-shadow: 0 18px 40px -12px rgba(4,6,18,.8); }
+.fq-fran img { width: 40px; height: 40px; border-radius: 50%; flex: none; }
+.fq-fran span { font-size: 14px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
+
+/* =========================================================================
+   MOTION
+   Tudo aqui morre em `prefers-reduced-motion: reduce` pela regra global no
+   fim do arquivo. Animações infinitas são cinco (marquee, 2 orbes e os
+   feixes de luz do hero, spinner) — o resto é disparado por scroll, hover
+   ou interação, para não custar bateria no mobile. Os feixes animam só
+   transform/opacity, então compõem na GPU sem repintar layout.
+   ====================================================================== */
+
+/* progresso de leitura */
+.fq-progresso {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 2px;
+  z-index: 60;
+  pointer-events: none;
+}
+.fq-progresso__b {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--violeta-3), var(--violeta), var(--lima));
+}
+
+/* entrada do hero, em sequência */
+.js .fq-hero [data-entra] { opacity: 0; transform: translateY(20px); }
+.js .fq-hero.is-in [data-entra] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+}
+.js .fq-hero [data-entra].fq-mac-palco { transform: translateY(26px) scale(.985); }
+.js .fq-hero.is-in [data-entra].fq-mac-palco { transform: none; }
+
+/* --- luz ambiente do hero -------------------------------------------------
+   Orbes à deriva + feixes varrendo. A deriva anterior (36px num orbe de
+   520px desfocado a 70px) era imperceptível: agora o orbe também respira em
+   opacidade, e são os feixes que dão o movimento legível.
+   Tudo em transform/opacity — nada de layout, nada de paint caro. */
+@keyframes fq-drift {
+  from { transform: translate3d(-14px, -26px, 0) scale(1); }
+  to   { transform: translate3d(18px, 30px, 0) scale(1.07); }
+}
+@keyframes fq-respira {
+  0%, 100% { opacity: .34; }
+  50%      { opacity: .62; }
+}
+.fq-hero__glow--a {
+  animation: fq-drift 14s ease-in-out infinite alternate,
+             fq-respira 9s ease-in-out infinite;
+}
+.fq-hero__glow--b {
+  animation: fq-drift 18s ease-in-out infinite alternate-reverse,
+             fq-respira 11s ease-in-out infinite -3s;
+}
+
+/* feixes: faixas largas e desfocadas atravessando na diagonal */
+.fq-hero__luz {
+  position: absolute;
+  inset: -25% -15%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.fq-hero__feixe {
+  position: absolute;
+  top: -30%;
+  left: 0;
+  width: 26vw;
+  height: 160%;
+  border-radius: 50%;
+  filter: blur(46px);
+  will-change: transform, opacity;
+  animation: fq-feixe 24s linear infinite;
+}
+@keyframes fq-feixe {
+  0%   { transform: rotate(16deg) translate3d(-55vw, 0, 0); opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: rotate(16deg) translate3d(130vw, 0, 0); opacity: 0; }
+}
+.fq-hero__feixe--1 {
+  background: linear-gradient(90deg, transparent, rgba(139,155,255,.20), transparent);
+  animation-duration: 22s;
+}
+.fq-hero__feixe--2 {
+  background: linear-gradient(90deg, transparent, rgba(104,123,234,.16), transparent);
+  width: 16vw;
+  animation-duration: 31s;
+  animation-delay: -12s;
+}
+/* um feixe lima, bem discreto: amarra a luz à marca sem virar neon */
+.fq-hero__feixe--3 {
+  background: linear-gradient(90deg, transparent, rgba(220,255,121,.10), transparent);
+  width: 11vw;
+  animation-duration: 38s;
+  animation-delay: -26s;
+}
+
+/* a seta do botão anda no hover */
+.fq-btn svg { transition: transform var(--t-fast); }
+.fq-btn:hover svg { transform: translateX(4px); }
+.fq-cta-par .fq-btn:hover svg,
+.fq-acao .fq-btn:hover svg { transform: translateY(3px); }
+
+/* chip confirma o toque com um pulinho */
+@keyframes fq-tap {
+  0% { transform: scale(1); }
+  38% { transform: scale(.93); }
+  100% { transform: scale(1); }
+}
+.fq-chip.is-tap { animation: fq-tap .3s var(--ease); }
+
+/* slider: o polegar cresce e brilha enquanto arrasta */
+.fq-range::-webkit-slider-thumb { transition: box-shadow .18s var(--ease), transform .18s var(--ease); }
+.fq-range:hover::-webkit-slider-thumb { transform: scale(1.12); }
+.fq-range:active::-webkit-slider-thumb { transform: scale(1.2); box-shadow: 0 0 0 7px rgba(220,255,121,.22); }
+
+/* o valor do resultado troca sem pular (a contagem é no JS) */
+.fq-res__n { display: block; font-variant-numeric: tabular-nums; }
+
+/* linha da timeline se desenha ao entrar */
+.reveal .fq-passo[data-reveal]::before { transform: scaleX(0); transform-origin: left; }
+.reveal .fq-passo[data-reveal].is-in::before {
+  transform: scaleX(1);
+  transition: transform .7s var(--ease) .1s;
+}
+.reveal .fq-passo[data-reveal]::after { transform: scale(0); }
+.reveal .fq-passo[data-reveal].is-in::after {
+  transform: scale(1);
+  transition: transform .4s var(--ease) .28s;
+}
+
+/* passos do formulário deslizam na direção da navegação */
+@keyframes fq-pane-frente { from { opacity: 0; transform: translateX(18px); } }
+@keyframes fq-pane-tras   { from { opacity: 0; transform: translateX(-18px); } }
+.js [data-dir="frente"] .fq-pane { animation: fq-pane-frente .34s var(--ease) both; }
+.js [data-dir="tras"] .fq-pane { animation: fq-pane-tras .34s var(--ease) both; }
+
+/* resposta do FAQ entra suave */
+@keyframes fq-faq-in { from { opacity: 0; transform: translateY(-8px); } }
+.fq-faq details[open] .fq-faq__a { animation: fq-faq-in .3s var(--ease) both; }
+
+/* card de depoimento e pilar sobem no hover (ver bloco de hovers) */
+.fq-dep, .fq-pilar { will-change: transform; }
+
+/* a bolha da Fran respira uma vez ao entrar na tela */
+@keyframes fq-fran-in { from { opacity: 0; transform: translateY(14px) scale(.92); } }
+.js .fq-fran { animation: fq-fran-in .5s var(--ease) .9s both; }
+
+/* ==================== reveal no scroll ==================== */
+.reveal [data-reveal] { transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.reveal [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(16px); }
+
+/* ==================== hovers (só onde há ponteiro) ==================== */
+@media (hover: hover) {
+  .fq-pilar:hover { background: var(--surf-2); border-color: var(--line-3); transform: translateY(-2px); box-shadow: 0 18px 34px -18px rgba(4,6,18,.8); }
+  .fq-pilar:hover .fq-pilar__ic { background: linear-gradient(150deg, rgba(220,255,121,.26), rgba(220,255,121,.08)); border-color: rgba(220,255,121,.4); color: var(--lima); transform: translateY(-2px) scale(1.05); }
+  .fq-dep:hover { border-color: var(--line-3); transform: translateY(-3px); box-shadow: 0 22px 40px -20px rgba(4,6,18,.85); }
+  .fq-dep__v { transition: background .3s var(--ease); }
+  .fq-dep:hover .fq-dep__v { background: linear-gradient(160deg, rgba(220,255,121,.14), rgba(12,17,32,.9)); }
+  .fq-dep:hover .fq-dep__slot svg { color: var(--lima); transition: color .3s var(--ease); }
+  /* banda de conversão ganha profundidade no hover do CTA */
+  .fq-band:hover { border-color: rgba(220,255,121,.4); }
+  .fq-band { transition: border-color var(--t-med); }
+}
+
+/* ============================ MOBILE ============================ */
+@media (max-width: 1080px) {
+  .fq-sim__grid, .fq-form__grid { grid-template-columns: minmax(0, 1fr); }
+  .fq-res { position: static; }
+  .fq-pilares { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .fq-deps { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .fq-hero__grid { grid-template-columns: minmax(0, 1fr); }
+  .fq-mac-palco { max-width: 520px; }
+}
+
+@media (max-width: 760px) {
+  :root { --header-h: 64px; }
+
+  /* nav vira menu; o CTA do header sai (vai para a barra fixa do rodapé) */
+  .fq-nav {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: var(--gut);
+    right: var(--gut);
+    z-index: 60;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 8px;
+    background: var(--bg-3);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    box-shadow: 0 22px 48px -18px rgba(4,6,18,.9);
+  }
+  .fq-nav[data-open] { display: flex; }
+  .fq-nav a { min-height: 48px; display: flex; align-items: center; padding: 13px 16px; font-size: 15.5px; border-radius: 10px; }
+  .fq-header__cta { display: none; }
+  .fq-burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px; height: 46px;
+    flex: none;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-pill);
+    background: var(--surf-2);
+    color: var(--tx-1);
+    cursor: pointer;
+    transition: background var(--t-fast), border-color var(--t-fast);
+  }
+  .fq-burger[aria-expanded="true"] { background: rgba(139,155,255,.16); border-color: var(--line-3); }
+
+  .fq-barra { display: block; }
+
+  .fq-hero { padding-top: calc(var(--header-h) + 40px); }
+  .fq-h1 { max-width: none; }
+  .fq-lead { font-size: 16.5px; }
+  .fq-cta-par { display: grid; gap: 10px; }
+  .fq-cta-par .fq-btn { width: 100%; }
+
+  .fq-nums { grid-template-columns: minmax(0,1fr); gap: 0; margin-top: 40px; }
+  .fq-num { text-align: center; padding: 16px 0; border-image: linear-gradient(90deg, rgba(139,155,255,0), rgba(139,155,255,.42), rgba(139,155,255,0)) 1; }
+
+  /* um feixe só no mobile — os outros dois são custo de bateria sem ganho */
+  .fq-hero__feixe--2, .fq-hero__feixe--3 { display: none; }
+  .fq-hero__feixe--1 { width: 60vw; filter: blur(38px); }
+
+  .fq-logos img { height: 56px; }
+  .fq-logos img[data-otica="alta"] { height: 46px; }
+  .fq-logos img[data-otica="baixa"] { height: 66px; }
+
+  .fq-pilares, .fq-deps { grid-template-columns: minmax(0,1fr); }
+  .fq-passos { grid-template-columns: minmax(0,1fr); gap: 0; }
+  /* a timeline vira vertical no mobile */
+  .fq-passo { padding: 0 0 30px 30px; }
+  .fq-passo:last-child { padding-bottom: 0; }
+  .fq-passo::before { left: 5px; right: auto; top: 8px; bottom: 0; width: 1px; height: auto; background: linear-gradient(180deg, var(--line-3), rgba(139,155,255,.10)); }
+  .fq-passo:last-child::before { display: none; }
+  .fq-passo::after { left: 0; top: 6px; }
+
+  /* comparação vira lista de blocos: tabela de 3 colunas não cabe em 390px */
+  .fq-vs { display: grid; grid-template-columns: minmax(0,1fr); border: 0; border-radius: 0; }
+  .fq-vs__h { display: none; }
+  .fq-vs__c {
+    display: grid;
+    grid-template-columns: 17px 1fr;
+    gap: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 8px;
+    padding: 13px 15px;
+  }
+  .fq-vs__ic { grid-row: 2; }
+  .fq-vs__c--eixo { display: block; border: 0; margin: 20px 0 8px; padding: 0; }
+  .fq-vs__c--ag::before, .fq-vs__c--pb::before {
+    grid-column: 1 / -1;
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .fq-vs__c--ag::before { content: "Na agência"; color: var(--tx-4); }
+  .fq-vs__c--pb::before { content: "Como Personal Banker"; color: var(--lima); }
+  /* a borda esquerda segue lima cheia: é ela que marca o bloco do PB */
+  .fq-vs__c--pb { border-color: rgba(220,255,121,.3); border-left: 3px solid var(--lima); }
+  .fq-vs > *:nth-last-child(-n+3) { border-bottom: 1px solid var(--line); }
+  .fq-vs__c--eixo:nth-last-child(-n+3) { border: 0; }
+
+  .fq-band .fq-btn { width: 100%; }
+  .fq-btn--lg { min-height: 56px; font-size: 16.5px; padding: 16px 24px; }
+
+  /* a Fran vira bolha e sobe acima da barra fixa */
+  .fq-fran { right: 14px; padding: 5px; gap: 0; max-width: none; }
+  .fq-fran span { display: none; }
+
+  .fq-foot__legal { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

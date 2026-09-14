@@ -1,0 +1,391 @@
+/* ============================================================================
+   Personal Banker — Franq  (PD-135)
+   Gerado por tools/build.py a partir de "Personal Banker.dc.html".
+   Não edite à mão: altere o design no Claude Design e rode o build de novo.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../../fonts/PlayfairDisplay.var.woff2") format("woff2-variations");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html { scroll-behavior: smooth; background: #0C1120; }
+
+body {
+  margin: 0;
+  background: #0C1120;
+  color: #C9D0E8;
+  font-family: "DM Sans", -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums lining-nums;
+  overflow-x: hidden;
+}
+
+a { color: #8B9BFF; }
+a:hover { color: #fff; }
+:focus-visible { outline: 3px solid rgba(139,155,255,.55); outline-offset: 2px; border-radius: 6px; }
+input::placeholder { color: #6E7796; }
+summary::-webkit-details-marker { display: none; }
+
+details[open] .fq-chev { transform: rotate(180deg); }
+
+@keyframes fq-tick  { to { transform: translateX(-50%) } }
+@keyframes fq-float { from { transform: translateY(-8px) } to { transform: translateY(14px) } }
+
+/* --- blocos condicionais (eram <sc-if> no canvas) ------------------------ */
+.dc-if { display: contents; }
+.dc-if[hidden] { display: none !important; }
+
+/* --- slots de imagem (eram <image-slot> no canvas) ----------------------- */
+/* width/height/aspect-ratio vêm inline por slot (ver slot() no build) */
+.fq-slot img {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+  display: block;
+}
+.fq-slot--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  border: 1px dashed rgba(139,155,255,.28);
+  background: rgba(139,155,255,.05);
+  color: #6E7796;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* --- alvos de toque (todas as larguras) ---------------------------------
+   O <details> do FAQ carrega o padding no próprio elemento, então só os 28px
+   do texto do <summary> eram clicáveis. Passamos o padding de cima para o
+   summary: mesmo espaçamento visual, linha inteira tocável (48px). */
+details[style] { padding-top: 0 !important; }
+details[style] > summary { padding-top: 20px; }
+
+a, button, summary, label { -webkit-tap-highlight-color: rgba(139,155,255,.18); }
+
+/* --- reveal no scroll ---------------------------------------------------
+   O estado escondido mora em `:not(.is-in)` e só existe sob
+   <html class="reveal">, classe que o próprio app.js adiciona. Duas
+   consequências de propósito:
+
+   - Sem JS, com JS quebrado ou com prefers-reduced-motion, a classe nunca
+     entra e a página renderiza normal. Nada fica invisível por acidente.
+   - Quando o elemento é revelado, a regra para de casar e o `transform` do
+     reveal simplesmente deixa de existir — em vez de virar `transform:none`,
+     que brigaria com o `translateY(-2px)` do hover dos cards.
+
+   A transição fica na regra base para animar na entrada. */
+.reveal [data-reveal] {
+  transition: opacity .5s cubic-bezier(.2,.7,.2,1),
+              transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.reveal [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* --- cards de "O que preciso para começar a atuar?" ---------------------
+   Hover nos três cards numerados. Usa o vocabulário que o design já tem:
+   fundo .04 -> .07 e borda .16 -> .38 (o mesmo valor do hover dos radios do
+   formulário), mais uma elevação discreta de 2px.
+
+   @media (hover:hover): em touch, :hover "gruda" depois do toque e o card fica
+   destacado sem motivo. O !important é para vencer o style inline.
+   O grid dessa seção é o único do documento com esse minmax. */
+@media (hover: hover) {
+  [style*="minmax(min(100%,240px),1fr)"] > div[style] {
+    transition: background .18s cubic-bezier(.2,.7,.2,1),
+                border-color .18s cubic-bezier(.2,.7,.2,1),
+                transform .18s cubic-bezier(.2,.7,.2,1),
+                box-shadow .18s cubic-bezier(.2,.7,.2,1);
+  }
+  [style*="minmax(min(100%,240px),1fr)"] > div[style]:hover {
+    background: rgba(255,255,255,.07) !important;
+    border-color: rgba(139,155,255,.38) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 18px 34px -18px rgba(4,6,18,.8);
+  }
+}
+
+/* --- ícones de "Você não está sozinho. Conte com a gente." --------------
+   O gatilho é o item inteiro, não o chip de 38px: alvo maior e o texto ao lado
+   participa do mesmo hover. O SVG usa stroke="currentColor", então mexer na
+   `color` do chip anima o traço do ícone junto.
+   Mesmo @media (hover:hover) dos cards, pelo mesmo motivo (:hover grudado em
+   touch). O grid dessa seção é o único do documento com esse repeat(2,...). */
+@media (hover: hover) {
+  [style*="repeat(2,minmax(0,1fr))"] > div > div[aria-hidden="true"] {
+    transition: background .2s cubic-bezier(.2,.7,.2,1),
+                color .2s cubic-bezier(.2,.7,.2,1),
+                transform .2s cubic-bezier(.2,.7,.2,1);
+  }
+  [style*="repeat(2,minmax(0,1fr))"] > div:hover > div[aria-hidden="true"] {
+    background: rgba(139,155,255,.26) !important;
+    color: #B9C4FF !important;
+    transform: translateY(-2px) scale(1.08);
+  }
+}
+
+/* --- depoimentos (todas as larguras) -----------------------------------
+   Texto menor e sem itálico. Vale para desktop e mobile: é regra base, não
+   media query. Também uniformiza os três — no design o primeiro depoimento
+   traz um <i style="font-weight:300;font-size:22px"> embutido, então ele
+   saía 22px itálico enquanto os outros dois ficavam em
+   clamp(20px,2.4vw,27px) normais. O !important é para vencer o style inline
+   do blockquote e do <i>. */
+.fq-dep blockquote {
+  font-size: clamp(18px, 1.5vw, 21px) !important;
+  font-style: normal !important;
+  line-height: 1.42 !important;
+}
+/* Depoimento sem foto: a citação ocupa a largura toda, em vez de reservar uma
+   coluna com o placeholder tracejado do canvas ("Foto do Personal Banker") —
+   que é aviso para o designer preencher, não conteúdo de página. Se a foto for
+   adicionada (assets/img + tools/slots.json), o layout de duas colunas volta
+   sozinho. Sem suporte a :has() o comportamento antigo é o fallback. */
+.fq-dep:has(.fq-slot--empty) { grid-template-columns: minmax(0,1fr) !important; }
+.fq-dep .fq-slot--empty { display: none !important; }
+
+.fq-dep blockquote i,
+.fq-dep blockquote em {
+  font-style: normal !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* --- montados por app.js (sem JS, nada disso existe) -------------------- */
+.fq-sticky { display: none; }
+.fq-navtoggle { display: none; }
+.fq-navmenu { display: flex; align-items: center; gap: 8px; }
+
+/* ========================================================================
+   MOBILE
+   ===================================================================== */
+@media (max-width: 760px) {
+
+  /* nav ocupava 228px empilhando 5 links; vira menu + CTA em uma linha */
+  .js .fq-navtoggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(139,155,255,.28);
+    background: rgba(255,255,255,.05);
+    color: #EAEDF6;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .js .fq-navtoggle[aria-expanded="true"] {
+    background: rgba(139,155,255,.16);
+    border-color: rgba(139,155,255,.5);
+  }
+  .js .fq-navmenu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: clamp(28px,7vw,120px);
+    right: clamp(28px,7vw,120px);
+    z-index: 40;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 8px;
+    background: #131A33;
+    border: 1px solid rgba(139,155,255,.28);
+    border-radius: 16px;
+    box-shadow: 0 22px 48px -18px rgba(4,6,18,.85);
+  }
+  .js .fq-navmenu[data-open] { display: flex; }
+  .js .fq-navmenu > a {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 13px 16px !important;
+    border-radius: 10px;
+    font-size: 15.5px !important;
+  }
+  /* logo do header: link de 30px -> 46px de alvo */
+  header a[href="#hero"] { padding: 8px 0; }
+
+  /* o CTA vem junto no painel e ganha destaque de botão primário */
+  .js .fq-navmenu > a[href="#cadastro"] {
+    justify-content: center;
+    box-sizing: border-box;
+    margin-left: 0 !important;
+    margin-top: 6px;
+    font-size: 16px !important;
+    padding: 15px 20px !important;
+  }
+
+  /* parágrafo do cadastro vinha em 26px (duas media queries conflitantes no
+     design), maior que o próprio H2 */
+  .fq-oneline { white-space: normal !important; font-size: 15.5px !important; }
+
+  /* depoimentos: só a citação. A foto do PB não aparece no mobile — vale para
+     o slot preenchido e para os placeholders de dep-2/dep-3. Com um único item
+     no grid, o gap do <figure> também não é renderizado. */
+  .fq-dep { grid-template-columns: minmax(0,1fr) !important; }
+  .fq-dep .fq-slot { display: none !important; }
+
+  /* dots do carrossel: a barra segue 26x5, mas o alvo de toque vai a 34x44
+     por pseudo-elemento (o JS escreve o shorthand `background` inline, que
+     resetaria um background-clip vindo daqui). O -4px lateral preenche o gap
+     de 8px entre os dots sem sobrepor o vizinho. */
+  [data-ref^="dotRef"] { position: relative; }
+  [data-ref^="dotRef"]::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: 50%;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+  [data-click="depPrev"], [data-click="depNext"] {
+    width: 46px !important;
+    height: 46px !important;
+  }
+
+  /* grid de benefícios ficava em 2 colunas de 155px */
+  [style*="repeat(2,minmax(0,1fr))"] { grid-template-columns: minmax(0,1fr) !important; }
+  [style*="repeat(2,minmax(0,1fr))"] p[style*="width:80%"] { width: 100% !important; }
+
+  /* logos dos parceiros: 78px de altura do tile (o desktop usa 68px; o natural
+     do arquivo é 91px, então segue sem upscaling). O respiro vertical da faixa
+     cai de 18px para 12px, e o intervalo de 40px para 24px, para passarem ~2
+     logos por tela em vez de ~1,7.
+     Para calibrar, é só esta altura — o resto acompanha.
+     Obs.: a tinta dentro dos tiles não é normalizada (23% da altura no
+     santander, 68% no itaú), então marcas horizontais seguem menores que as
+     quadradas — isso é do asset, não do CSS. Ver README. */
+  header div[aria-hidden="true"] img { height: 78px !important; }
+  [style*="overflow:hidden;padding:18px 0"] { padding: 12px 0 !important; }
+  [style*="gap:40px;padding-right:40px"] {
+    gap: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  /* legenda dos passos ("01 · Dados"…) não aparece no mobile — sobram só as
+     três barras de progresso. O texto continua no DOM, escondido apenas
+     visualmente, para o leitor de tela não perder em que passo o usuário
+     está. O applyStep() do app.js segue pintando a cor dele sem problema. */
+  [data-ref^="stepBar"] > span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* CTA da Fran: 299px cobrindo o rodapé -> bolha compacta */
+  a[aria-label^="Fale com a Fran"] {
+    right: 16px !important;
+    bottom: 16px !important;
+    max-width: none !important;
+    padding: 5px !important;
+    gap: 0 !important;
+  }
+  a[aria-label^="Fale com a Fran"] > span { display: none !important; }
+
+  /* a coluna visual do hero inteira sai no mobile: foto, moldura, gradiente
+     e o selo "Loja própria de serviços financeiros". Como o container deixa
+     de ser item do grid, o gap dele também não é renderizado. O <picture>
+     cuida de o WebP nem ser baixado. */
+  [style*="max-width:480px"] { display: none !important; }
+
+  /* barra de números: um abaixo do outro e centralizado. O empilhamento já
+     vem do auto-fit (minmax 200px em 334px = 1 coluna); aqui centramos o
+     texto e trocamos a régua de cima por um fade simétrico — o original
+     esvanece só para a direita, que fica torto sob texto centralizado. */
+  [style*="minmax(200px,1fr)"] > div {
+    text-align: center;
+    border-image: linear-gradient(90deg,
+      rgba(139,155,255,0), rgba(139,155,255,.42), rgba(139,155,255,0)) 1 !important;
+  }
+
+  /* opções dos selects múltiplos: 41px -> 45px de alvo */
+  [data-option] { padding: 11px 12px !important; }
+
+  /* resposta do FAQ reservava 32px à direita para o chevron, que só existe na
+     linha do summary — devolve a largura ao texto */
+  details > p { padding-right: 0 !important; }
+
+  /* CTA fixo, ao lado da bolha da Fran (não empilha duas faixas fixas).
+     right = 16 (margem) + 57 (bolha) + 16 (respiro). Cor: azul franqueza
+     #4A5BD0 — o --primary-deep do design system. Difere do #687BEA dos CTAs do
+     header/menu de propósito; branco em cima dá 5,68:1 e passa AA (o #687BEA
+     dá 3,74:1 e reprova). Chapado, sem gradiente. */
+  .js .fq-sticky {
+    position: fixed;
+    left: 16px;
+    right: 89px;
+    bottom: 16px;
+    z-index: 29;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    min-height: 52px;
+    /* padding elástico: "Quero me tornar PB" + seta fica no limite da
+       pílula em 320px com os 20px fixos */
+    padding: 14px clamp(13px, 4vw, 20px);
+    border-radius: 999px;
+    background: #4A5BD0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 14px 34px -12px rgba(4,6,18,.7);
+    transform: translateY(150%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.2,.7,.2,1), opacity .2s;
+  }
+  .js .fq-sticky.is-on {
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .js .fq-sticky:hover, .js .fq-sticky:focus-visible { background: #3D4CB8; color: #fff; }
+
+  /* espaço para a bolha não sentar sobre o texto legal */
+  footer { padding-bottom: 92px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* --- estados extraídos de style-hover / style-focus / style-active ------- */
+[data-h="1"]:hover { background:rgba(255,255,255,.06) !important;color:#fff !important; }
+[data-h="2"]:hover { background:#4A5BD0 !important;box-shadow:0 12px 26px -10px rgba(104,123,234,.55) !important; }
+[data-h="3"]:hover { transform:translateY(-2px) !important;box-shadow:0 14px 30px -12px rgba(139,155,255,.45) !important; }
+[data-h="4"]:hover { opacity:1 !important; }
+[data-h="5"]:hover { background:rgba(255,255,255,.07) !important; }
+[data-h="6"]:hover { border-color:rgba(139,155,255,.38) !important; }
+[data-h="7"]:hover { background:rgba(139,155,255,.10) !important; }
+[data-h="8"]:hover { border-color:rgba(139,155,255,.5) !important;color:#fff !important; }
+[data-h="9"]:hover { background:#E7FF9B !important;box-shadow:0 18px 40px -12px rgba(4,6,18,.8) !important; }
+[data-f="10"]:focus { outline:none !important;background:rgba(255,255,255,.09) !important;border-color:rgba(139,155,255,.55) !important;box-shadow:0 0 0 4px rgba(104,123,234,.18) !important; }
+[data-a="11"]:active { transform:translateY(1px) !important; }

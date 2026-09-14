@@ -1,0 +1,18 @@
+{
+ "hero-banker": {
+  "src": "assets/img/hero-banker.webp",
+  "s": 1,
+  "x": 14.475018562908815,
+  "y": 0,
+  "bytes": 27594
+ },
+ "dep-1": {
+  "src": "assets/img/dep-1.webp",
+  "s": 1,
+  "x": 0,
+  "y": 0,
+  "bytes": 15914
+ },
+ "dep-2": null,
+ "dep-3": null
+}

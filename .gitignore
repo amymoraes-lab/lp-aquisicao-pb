@@ -1,0 +1,16 @@
+.DS_Store
+
+# Gerado por tools/build-appsscript.py — 1,1 MB de artefato derivado, que o
+# build refaz em um comando. O .clasp.json mora aqui e é local por natureza.
+build/
+
+# Estado das ferramentas do canvas do Claude Design, não é fonte
+.image-slots.state.json
+.thumbnail
+
+# Configuração local do editor
+.claude/
+
+# Material de importação do projeto de design. Contém o DESIGN_SYSTEM.md
+# interno da Franq — ver a nota no README antes de publicar em repo público.
+uploads/

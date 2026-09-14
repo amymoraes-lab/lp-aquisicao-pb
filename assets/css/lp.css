@@ -747,7 +747,6 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   background: linear-gradient(160deg, rgba(var(--c-linha),.13), rgba(19,26,51,.94) 46%, rgba(12,17,32,.98));
   overflow: hidden;
 }
-.fq-mac__ui .fq-mock__body { flex: 1; align-content: start; }
 
 /* A interface do beFranq é a mesma do card antigo, mas agora tem de caber
    numa tela 16:10. Sem esta redução ela pedia 372px numa tela de 297 e a
@@ -756,54 +755,29 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-mac__ui .fq-mock__bar { padding: 7px 10px; gap: 6px; }
 .fq-mac__ui .fq-mock__dot { width: 7px; height: 7px; }
 .fq-mac__ui .fq-mock__url { font-size: 9px; margin-left: 4px; }
-.fq-mac__ui .fq-mock__body { padding: 10px 11px; gap: 7px; }
-.fq-mac__ui .fq-mock__av { width: 28px; height: 28px; }
-.fq-mac__ui .fq-mock__who { gap: 9px; }
-.fq-mac__ui .fq-mock__nm { font-size: 12.5px; }
-.fq-mac__ui .fq-mock__nm span { font-size: 10.5px; }
-.fq-mac__ui .fq-mock__tag { font-size: 8.5px; padding: 4px 8px; letter-spacing: .13em; }
-.fq-mac__ui .fq-mock__kpis { gap: 7px; }
-.fq-mac__ui .fq-mock__kpi { padding: 7px 9px; border-radius: 10px; }
-.fq-mac__ui .fq-mock__kpi b { font-size: 16px; }
-.fq-mac__ui .fq-mock__kpi span { font-size: 9px; }
-.fq-mac__ui .fq-mock__list { gap: 5px; }
-.fq-mac__ui .fq-mock__it { padding: 6px 10px; border-radius: 9px; font-size: 11.5px; }
-.fq-mac__ui .fq-mock__it em { font-size: 9px; }
-.fq-mac__ui .fq-mock__st { font-size: 8.5px; }
 
-/* A régua acima é em px e vale para a tela de ~472px do desktop. Abaixo,
-   as mesmas medidas em cqw — proporção da largura da tela do laptop. É o que
-   faz a interface caber igual em 390px e em 1440px: um breakpoint não
-   resolveria, porque entre 1080 e 1440 a tela varia continuamente e o
-   conteúdo em px estourava. Referência: 100cqw = 472px. */
+/* A barra do navegador dentro da tela do laptop se mede em cqw — proporção
+   da largura da tela — para encolher junto em qualquer largura. A interface
+   abaixo dela é uma captura real, que o object-fit já resolve.
+   Referência: 100cqw = 472px. */
 @supports (container-type: size) {
   .fq-mac__ui .fq-mock__bar { padding: 1.483cqw 2.119cqw; gap: 1.271cqw; }
   .fq-mac__ui .fq-mock__dot { width: 1.483cqw; height: 1.483cqw; }
   .fq-mac__ui .fq-mock__url { font-size: 1.907cqw; margin-left: 0.847cqw; }
-  .fq-mac__ui .fq-mock__body { padding: 2.119cqw 2.331cqw; gap: 1.483cqw; }
-  .fq-mac__ui .fq-mock__row { gap: 2.966cqw; }
-  .fq-mac__ui .fq-mock__who { gap: 1.907cqw; }
-  .fq-mac__ui .fq-mock__av { width: 5.932cqw; height: 5.932cqw; }
-  .fq-mac__ui .fq-mock__nm { font-size: 2.648cqw; }
-  .fq-mac__ui .fq-mock__nm span { font-size: 2.225cqw; }
-  .fq-mac__ui .fq-mock__tag { font-size: 1.801cqw; padding: 0.847cqw 1.695cqw; }
-  .fq-mac__ui .fq-mock__kpis { gap: 1.483cqw; }
-  .fq-mac__ui .fq-mock__kpi { padding: 1.483cqw 1.907cqw; border-radius: 2.119cqw; }
-  .fq-mac__ui .fq-mock__kpi b { font-size: 3.39cqw; }
-  .fq-mac__ui .fq-mock__kpi span { font-size: 1.907cqw; }
-  .fq-mac__ui .fq-mock__list { gap: 1.059cqw; }
-  .fq-mac__ui .fq-mock__it {
-    padding: 1.271cqw 2.119cqw;
-    border-radius: 1.907cqw;
-    font-size: 2.436cqw;
-    gap: 2.119cqw;
-  }
-  .fq-mac__ui .fq-mock__it em { font-size: 1.907cqw; }
-  .fq-mac__ui .fq-mock__st { font-size: 1.801cqw; }
 }
 
 /* captura real, quando existir, entra no lugar da ilustração */
-.fq-mac__shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* A captura fica ABAIXO da barra do navegador, não cobrindo a tela inteira:
+   a barra é a moldura que faz o conjunto ler como "navegador num laptop".
+   Ancorada no topo à esquerda, onde estão o menu e as perguntas. */
+.fq-mac__shot {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: left top;
+  display: block;
+}
 
 /* reflexo do vidro: uma faixa clara que corre conforme o objeto gira */
 .fq-mac__vidro {
@@ -921,45 +895,6 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.fq-mock__body { padding: clamp(12px, 1.5vw, 20px); display: grid; gap: clamp(9px, 1vw, 14px); }
-.fq-mock__row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.fq-mock__who { display: flex; align-items: center; gap: 11px; }
-.fq-mock__av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(140deg, var(--violeta), var(--violeta-3)); flex: none; }
-.fq-mock__nm { font-size: 14px; font-weight: 700; color: var(--tx-1); line-height: 1.2; }
-.fq-mock__nm span { display: block; font-weight: 400; font-size: 12px; color: var(--tx-4); }
-.fq-mock__tag {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--lima-tx);
-  border: 1px solid rgba(220,255,121,.35);
-  border-radius: var(--r-pill);
-  padding: 5px 10px;
-  white-space: nowrap;
-}
-.fq-mock__kpis { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 9px; }
-.fq-mock__kpi { background: var(--surf-1); border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; }
-.fq-mock__kpi b { display: block; font-family: var(--display); font-weight: 700; font-size: 19px; color: var(--tx-1); letter-spacing: -.02em; }
-.fq-mock__kpi span { font-size: 10.5px; color: var(--tx-4); }
-.fq-mock__list { display: grid; gap: 7px; }
-.fq-mock__it {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  align-items: center;
-  background: var(--surf-1);
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  padding: 10px 12px;
-  font-size: 12.5px;
-  color: var(--tx-2);
-}
-.fq-mock__it em { font-style: normal; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--tx-4); }
-.fq-mock__st { font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; }
-.fq-mock__st--ok { color: var(--ok); }
-.fq-mock__st--go { color: var(--lima-tx); }
-.fq-mock__st--w { color: var(--violeta); }
 /* ------------------------------------------------------- faixa de logos --- */
 .fq-logos {
   position: relative;

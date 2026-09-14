@@ -831,6 +831,49 @@
   }
 
   /* ======================================================================
+     TROCA DE TEMA
+     O tema já foi aplicado por um script no <head>, antes da primeira
+     pintura. Aqui só ficam o clique, a persistência e o rótulo — que descreve
+     a AÇÃO ("mudar para o tema claro"), não o estado atual.
+     ================================================================== */
+  function trocaDeTema() {
+    var b = $("#tema");
+    if (!b) return;
+    var raiz = document.documentElement;
+
+    var rotular = function () {
+      var claro = raiz.getAttribute("data-tema") === "claro";
+      b.setAttribute("aria-label", claro ? "Mudar para o tema escuro" : "Mudar para o tema claro");
+      b.setAttribute("title", b.getAttribute("aria-label"));
+      var meta = $('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", claro ? "#FFFFFF" : "#0C1120");
+    };
+    rotular();
+
+    b.addEventListener("click", function () {
+      var claro = raiz.getAttribute("data-tema") === "claro";
+      if (claro) raiz.removeAttribute("data-tema");
+      else raiz.setAttribute("data-tema", "claro");
+      try { localStorage.setItem("fq-tema", claro ? "escuro" : "claro"); } catch (e) {}
+      rotular();
+    });
+
+    /* se o visitante nunca escolheu, segue o sistema quando ele mudar */
+    if (window.matchMedia) {
+      var mq = window.matchMedia("(prefers-color-scheme: light)");
+      var seguir = function (e) {
+        var salvo;
+        try { salvo = localStorage.getItem("fq-tema"); } catch (err) {}
+        if (salvo) return;
+        if (e.matches) raiz.setAttribute("data-tema", "claro");
+        else raiz.removeAttribute("data-tema");
+        rotular();
+      };
+      if (mq.addEventListener) mq.addEventListener("change", seguir);
+    }
+  }
+
+  /* ======================================================================
      MACBOOK DO HERO — gira conforme o mouse
      Um só loop escreve --rx / --ry / --dy / --gl no elemento; o transform
      em si mora no CSS. Assim o parallax de scroll e o giro do mouse não
@@ -1005,6 +1048,7 @@
   contadores();
   entradaHero();
   progresso();
+  trocaDeTema();
   macTilt();
   reveal();
 })();

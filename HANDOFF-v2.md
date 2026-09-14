@@ -547,6 +547,81 @@ iframe; é a do `doGet` que o celular enxerga.
 `HtmlService` não permite). O grosso são as capas (~250 KB em base64) — elas
 saem quando os vídeos entrarem.
 
+## 8.3 Tema claro e a troca de tema
+
+A página nasceu escura. O claro **não é uma inversão automática** — duas coisas
+impedem:
+
+- **Lima sobre branco dá 1,3:1.** Como FUNDO o lima é ótimo (texto escuro em
+  cima dá 16,7:1); como TEXTO no claro ele some. Por isso existem dois tokens:
+  `--lima` (fundo, não muda) e `--lima-tx` (texto — no claro vira a azeitona
+  `#4C6900`).
+- **Três elementos só fazem sentido escuros:** o MacBook (é um objeto físico),
+  a banda de conversão (lima cheio com texto escuro) e o mostrador do resultado
+  (é um display).
+
+### O mecanismo: canais RGB em token
+
+O problema real eram **167 cores cravadas** fora do `:root` — 76 delas em
+`rgba()` com alfa próprio, que nenhuma troca de token alcançaria. A saída foi
+tokenizar o **canal**, não a cor:
+
+    --c-linha: 139,155,255;   /* usado como rgba(var(--c-linha), .16) */
+    --c-luz: 255,255,255;     /* no claro vira 12,17,32 */
+    --c-sombra: 4,6,18;
+
+Com isso 76 declarações viraram tema-conscientes sem serem reescritas: o alfa
+fica em cada uso e o tema troca só o canal. `--c-luz` é o caso bonito — no
+escuro clareia o fundo escuro, no claro escurece o branco, com o mesmo alfa.
+
+**O refactor foi verificado como neutro:** renderizei a página inteira antes e
+depois e os dois JPEGs saíram **idênticos byte a byte**.
+
+### Ilhas escuras, por herança
+
+As três superfícies que continuam escuras reassumem o contexto inteiro do tema
+escuro num único bloco:
+
+    [data-tema="claro"] .fq-mac,
+    [data-tema="claro"] .fq-band,
+    [data-tema="claro"] .fq-res { --c-luz: 255,255,255; --tx-1: #EAEDF6; … }
+
+Como custom property herda, **nada lá dentro precisa saber qual tema está
+ativo** — inclusive os `rgba(var(--c-…))` já escritos.
+
+### Três defeitos que a medição pegou
+
+| Defeito | Correção |
+| --- | --- |
+| **Todos os CTAs com texto branco sobre lima** | `--btn-tx` era `var(--bg)`, que no claro vira branco. Criado `--tinta: #0C1120` — tinta para superfícies claras, que não inverte. Afetava 7 lugares |
+| **Painel do resultado lavado** | O fundo era semitransparente, pensado para assentar sobre o azul. Sobre branco virava cinza. No claro a base ficou opaca |
+| **5 pares de contraste abaixo de 4,5:1** | `--tx-3`, `--tx-4`, o violeta dos eyebrows e o placeholder cravado (`#98A1C2`, 2,4:1). Todos escurecidos |
+
+**Contraste medido no pixel renderizado**, 16 alvos em cada tema: **zero falhas
+nos dois**, mínimo 5,77:1 no claro e 6,03:1 no escuro.
+
+**Nota de método:** o primeiro probe leu o fundo pelo CSS computado e deu 7
+falhas — cinco eram falsas, porque ele tratava fundo semitransparente como
+opaco. O segundo recortava a caixa inteira e dava 1,00:1 em rótulos pequenos
+dentro de caixas com muito padding: media o preenchimento, não o texto. Só o
+terceiro — recorte na caixa de conteúdo, a 2×, glifo mais escuro contra o pixel
+mais claro — deu resposta confiável.
+
+### O botão
+
+Fica no header, à direita, antes do CTA (no mobile, ao lado do hambúrguer).
+42×42px, acima do mínimo de alvo de toque.
+
+- O **rótulo diz a ação**, não o estado: "Mudar para o tema claro".
+- O **ícone mostra para onde o clique leva**, não onde se está.
+- Ordem de decisão: escolha salva em `localStorage` > `prefers-color-scheme` >
+  escuro. Um script no `<head>` aplica antes da primeira pintura, senão a
+  página acende no tema errado e pisca.
+- Sem escolha salva, a página **segue o sistema** se ele mudar durante a visita.
+- `theme-color` acompanha, para a barra do navegador no mobile.
+- Em modo privado o `localStorage` lança: está dentro de `try/catch` e a página
+  fica no tema escuro em vez de quebrar.
+
 ## 9.0 Camada de motion
 
 A pedido, motion em tudo que fazia sentido. Regra de orçamento: **cinco

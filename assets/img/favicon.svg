@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58">
+  <!-- Marca da Franq isolada do wordmark (logos/franq-branco.svg), em lima
+       sobre o fundo da marca: legível tanto em aba clara quanto escura. -->
+  <rect width="58" height="58" rx="13" fill="#0C1120"/>
+  <path d="M45.4725 28.843C45.4725 19.6407 37.9966 12.1552 28.8061 12.1552C19.6156 12.1552 12.1397 19.6407 12.1397 28.843C12.1397 38.0452 19.6156 45.5307 28.8061 45.5307V57.6859C12.9627 57.6859 0 44.7066 0 28.843C0 12.9793 12.8942 0 28.8061 0C44.6495 0 57.6122 12.9107 57.6122 28.843H45.4725Z" fill="#DCFF79" transform="translate(0.2 0.2)"/>
+</svg>

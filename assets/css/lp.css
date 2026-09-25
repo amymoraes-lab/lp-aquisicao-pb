@@ -576,36 +576,142 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-nav a[aria-current="true"] { color: var(--lima-tx); }
 
 /* ------------------------------------------------------------ fotos --- */
-/* Faixa de imagem usada em três seções que não tinham nenhuma. Um componente
-   só para as três, para lerem como sistema e não como três avulsas.
+/* TRATAMENTO DE MARCA
+   As fotos chegaram com cara de banco de imagens. O que as denuncia não é o
+   assunto, é a paleta solta: cada uma tem seu próprio verde, bege, madeira.
+   Aqui elas passam por um duotone do sistema — sombras no azul da marca,
+   luzes num gelo levemente lilás — e param de brigar com a página.
 
-   O `--foco` é o enquadramento de cada uma: a fonte é 3:2 e a faixa é 2:1,
-   então ~25% da altura sai. Sem escolher o foco por imagem, o corte pega o
-   meio e decepa rosto. */
+   Feito em CSS, não no arquivo: o duotone acompanha o tema, e trocar a foto
+   não exige reeditar nada. */
 .fq-foto {
   --foco: 50% 45%;
+  --duo-sombra: #131C3A;
+  --duo-tinta: #4E63C8;      /* o azul que a marca usa; o `color` só empresta a matiz */
   position: relative;
-  /* margem nos dois lados: nas seções em que a foto vem DEPOIS do conteúdo
-     (suporte) ela encostava nos cards. Entre irmãos em fluxo as margens
-     colapsam, então onde ela segue o cabeçalho — que já tem a mesma margem
-     embaixo — o espaço continua o mesmo de antes. */
-  margin: clamp(36px, 4.5vw, 56px) 0;
+  isolation: isolate;          /* prende os blends dentro da figura */
+  /* a figura é quem tem a proporção; o quadro interno a preenche */
   aspect-ratio: 2 / 1;
-  border-radius: var(--r-card-lg);
+  margin: clamp(36px, 4.5vw, 56px) 0;
   overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: 0 30px 64px -34px rgba(var(--c-sombra), .85);
+  border-radius: var(--r-card-lg);
 }
+
+/* O quadro PREENCHE a figura, que é quem tem a proporção. Como `span` em
+   fluxo ele não tinha altura própria, e o `height: 100%` da imagem não
+   resolvia: a faixa saía como um bloco de cor sem foto. */
+.fq-foto__q {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  border: 1px solid rgba(var(--c-linha), .22);
+}
+
 .fq-foto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: var(--foco);
   display: block;
+  /* dessatura para o duotone ter o que pintar; o contraste compensa a perda
+     de mordida que a dessaturação traz */
+  /* dessatura parcial, não total: a 100% o duotone vira cianótipo e a foto
+     perde a pele. A 65% ela mantém o tom de pele e ainda aceita a tinta. */
+  filter: saturate(.35) contrast(1.08) brightness(.96);
+  /* 10% maior que a moldura: é a sobra que o parallax consome sem nunca
+     expor a borda. O --desloca vem do JS, em %. */
+  transform: scale(1.1) translate3d(0, var(--desloca, 0%), 0);
+  will-change: transform;
 }
-/* No mobile a faixa 2:1 vira uma fita fina e o assunto some: fica mais alta. */
+
+/* piso e teto do duotone: `lighten` levanta os pretos até o azul da marca,
+   `darken` derruba os brancos até o gelo. Juntos mapeiam a foto inteira
+   para dois pontos da paleta. */
+/* z-index explícito: a imagem tem `transform`, o que cria contexto de
+   empilhamento, e sem isto o ::before pintava EMBAIXO dela — o blend não
+   tinha o que tingir e a foto saía preto e branco. */
+.fq-foto__q::before,
+.fq-foto__q::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.fq-foto__q::after  { z-index: 1; }
+.fq-foto__q::before { z-index: 2; }
+/* `lighten`/`darken` só mapeiam os extremos e deixam os meios-tons cinzas —
+   o resultado saía preto e branco, não duotone. `color` troca matiz e
+   saturação preservando a luminância, então tinge a faixa inteira. */
+.fq-foto__q::before {
+  background: var(--duo-tinta);
+  mix-blend-mode: color;
+  /* ajustável por figura: a foto da casa é a única nota quente da página, e
+     no mesmo nível das outras a tinta apagava o dourado por completo */
+  opacity: var(--duo-forca, .5);
+}
+/* e um piso azul nas sombras, para o preto não ficar morto */
+.fq-foto__q::after {
+  background: linear-gradient(180deg, transparent 30%, var(--duo-sombra) 100%);
+  mix-blend-mode: lighten;
+  opacity: .55;
+}
+
+/* fio lima no topo: o mesmo sinal do formulário e da banda de conversão,
+   que é o que diz "isto pertence a esta página" */
+.fq-foto__q > .fq-foto__fio {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  z-index: 3;
+  background: linear-gradient(90deg, transparent, var(--lima), transparent);
+}
+
+/* FAIXA — de ponta a ponta, sem caixa. Mora fora do .fq-wrap, então já
+   ocupa a largura da seção; o que muda aqui é a proporção e os cantos. */
+.fq-foto--faixa {
+  border-radius: 0;
+  aspect-ratio: 16 / 4.2;
+}
+.fq-foto--faixa .fq-foto__q {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
 @media (max-width: 760px) {
+  /* no celular as proporções largas viram fitas e o assunto some */
   .fq-foto { aspect-ratio: 4 / 3; }
+  .fq-foto--faixa { aspect-ratio: 16 / 9; }
+}
+
+/* RETRATO — altura ditada pela coluna ao lado, não por uma proporção fixa.
+   É o que faz as duas colunas se sustentarem em vez de a foto ser uma faixa
+   solta embaixo dos cards. */
+.fq-suporte__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, .6fr);
+  gap: clamp(20px, 2.6vw, 34px);
+  align-items: stretch;
+}
+.fq-suporte__grid .fq-pilares { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fq-foto--retrato {
+  aspect-ratio: auto;
+  margin: 0;
+  min-height: 100%;
+}
+
+@media (max-width: 1080px) {
+  /* empilha: em duas colunas estreitas o retrato vira uma tira vertical */
+  .fq-suporte__grid { grid-template-columns: minmax(0, 1fr); }
+  .fq-foto--retrato { aspect-ratio: 16 / 9; min-height: 0; margin-top: clamp(20px, 2.6vw, 34px); }
+}
+
+/* No claro o piso clareia um pouco: um duotone calibrado para fundo escuro
+   fica pesado demais sobre branco. */
+[data-tema="claro"] .fq-foto {
+  --duo-sombra: #1B2445;
+  --duo-tinta: #4256B8;
 }
 
 /* ------------------------------------------------------- troca de tema --- */

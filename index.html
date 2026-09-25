@@ -200,8 +200,11 @@
     </div>
 
     <figure class="fq-foto" data-reveal style="--foco: 50% 38%">
-      <img src="assets/img/pb-atendimento.webp" width="1536" height="1024"
+      <span class="fq-foto__q">
+        <span class="fq-foto__fio" aria-hidden="true"></span>
+        <img src="assets/img/pb-atendimento.webp" width="1536" height="1024"
            loading="lazy" decoding="async" alt="Personal Banker conversando com uma cliente à mesa, com um notebook aberto ao lado">
+      </span>
     </figure>
 
     <ol class="fq-passos" style="list-style:none;margin:0;padding:0">
@@ -232,12 +235,21 @@
       <h2 class="fq-h2">Agência tradicional&nbsp;× <em class="fq-em">Personal Banker</em></h2>
       <p class="fq-lead">A agência te formou. O que muda não é a sua competência — é quem define a meta, o portfólio e o teto.</p>
     </div>
+  </div>
 
-    <figure class="fq-foto" data-reveal style="--foco: 50% 52%">
+  <!-- Faixa cinematográfica de ponta a ponta: fica FORA do .fq-wrap de
+       propósito, para romper a caixa de 1200px e servir de corte entre o
+       argumento e a tabela. -->
+  <figure class="fq-foto fq-foto--faixa" data-reveal style="--foco: 50% 54%; --duo-forca: .3">
+    <span class="fq-foto__q">
+      <span class="fq-foto__fio" aria-hidden="true"></span>
       <img src="assets/img/negocio-fechado.webp" width="1536" height="1024"
-           loading="lazy" decoding="async" alt="Miniatura de uma casa ao lado de um molho de chaves sobre uma mesa">
-    </figure>
+           loading="lazy" decoding="async"
+           alt="Miniatura de uma casa ao lado de um molho de chaves sobre uma mesa">
+    </span>
+  </figure>
 
+  <div class="fq-wrap">
     <div class="fq-vs" role="table" aria-label="Comparação entre atuar na agência e atuar como Personal Banker">
       <div class="fq-vs__h fq-vs__h--eixo" role="columnheader">O que muda</div>
       <div class="fq-vs__h fq-vs__h--ag" role="columnheader">
@@ -357,41 +369,51 @@
       <p class="fq-lead">Você atua com mais flexibilidade, autonomia e independência — com uma estrutura inteira por trás de cada negócio.</p>
     </div>
 
-    <div class="fq-pilares">
-      <div class="fq-pilar" data-reveal>
-        <div class="fq-pilar__ic">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h6l2 2h10v10a1 1 0 01-1 1H4a1 1 0 01-1-1V6z"/><path d="M8 13h8M8 16h5"/></svg>
+    <!-- Pilares e retrato lado a lado: a altura da foto é ditada pelos
+         cards, então as duas colunas se sustentam em vez de a imagem
+         ser uma faixa solta. -->
+    <div class="fq-suporte__grid">
+      <div class="fq-pilares">
+        <div class="fq-pilar" data-reveal>
+          <div class="fq-pilar__ic">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h6l2 2h10v10a1 1 0 01-1 1H4a1 1 0 01-1-1V6z"/><path d="M8 13h8M8 16h5"/></svg>
+          </div>
+          <h3 class="fq-pilar__t">Curadoria de produtos</h3>
+          <p>Os melhores produtos financeiros do mercado, reunidos em um só lugar para você oferecer ao seu cliente.</p>
         </div>
-        <h3 class="fq-pilar__t">Curadoria de produtos</h3>
-        <p>Os melhores produtos financeiros do mercado, reunidos em um só lugar para você oferecer ao seu cliente.</p>
-      </div>
-      <div class="fq-pilar" data-reveal>
-        <div class="fq-pilar__ic">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 14a2 2 0 01-2 2H8l-5 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 8h8M8 11.5h5"/></svg>
+        <div class="fq-pilar" data-reveal>
+          <div class="fq-pilar__ic">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 14a2 2 0 01-2 2H8l-5 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 8h8M8 11.5h5"/></svg>
+          </div>
+          <h3 class="fq-pilar__t">Suporte individualizado</h3>
+          <p>Acompanhamento próximo para tirar dúvidas, estruturar propostas e destravar cada operação.</p>
         </div>
-        <h3 class="fq-pilar__t">Suporte individualizado</h3>
-        <p>Acompanhamento próximo para tirar dúvidas, estruturar propostas e destravar cada operação.</p>
-      </div>
-      <div class="fq-pilar" data-reveal>
-        <div class="fq-pilar__ic">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20v-2a4 4 0 014-4h3a4 4 0 014 4v2"/><circle cx="8.5" cy="7" r="3"/><path d="M16 14h1a4 4 0 014 4v2M17 4.5a3 3 0 010 5.6"/></svg>
+        <div class="fq-pilar" data-reveal>
+          <div class="fq-pilar__ic">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20v-2a4 4 0 014-4h3a4 4 0 014 4v2"/><circle cx="8.5" cy="7" r="3"/><path d="M16 14h1a4 4 0 014 4v2M17 4.5a3 3 0 010 5.6"/></svg>
+          </div>
+          <h3 class="fq-pilar__t">Mesas de especialistas</h3>
+          <p>Times dedicados por linha de produto, prontos para apoiar você em negociações mais complexas.</p>
         </div>
-        <h3 class="fq-pilar__t">Mesas de especialistas</h3>
-        <p>Times dedicados por linha de produto, prontos para apoiar você em negociações mais complexas.</p>
-      </div>
-      <div class="fq-pilar" data-reveal>
-        <div class="fq-pilar__ic">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4M6.5 12l2.5-2.5 2.5 2.5 4-4.5"/></svg>
+        <div class="fq-pilar" data-reveal>
+          <div class="fq-pilar__ic">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4M6.5 12l2.5-2.5 2.5 2.5 4-4.5"/></svg>
+          </div>
+          <h3 class="fq-pilar__t">Tecnologia de ponta</h3>
+          <p>Plataforma própria para gerir clientes, simular produtos e acompanhar cada negócio do começo ao fim.</p>
         </div>
-        <h3 class="fq-pilar__t">Tecnologia de ponta</h3>
-        <p>Plataforma própria para gerir clientes, simular produtos e acompanhar cada negócio do começo ao fim.</p>
       </div>
+
+      <figure class="fq-foto fq-foto--retrato" data-reveal style="--foco: 50% 30%">
+        <span class="fq-foto__q">
+          <span class="fq-foto__fio" aria-hidden="true"></span>
+          <img src="assets/img/pb-celular.webp" width="1536" height="1024"
+             loading="lazy" decoding="async" alt="Personal Banker em pé no escritório, sorrindo ao olhar o celular">
+        </span>
+      </figure>
     </div>
 
-    <figure class="fq-foto" data-reveal style="--foco: 50% 30%">
-      <img src="assets/img/pb-celular.webp" width="1536" height="1024"
-           loading="lazy" decoding="async" alt="Personal Banker em pé no escritório, sorrindo ao olhar o celular">
-    </figure>
+    
 
     <div class="fq-acao" data-reveal>
       <a class="fq-btn" href="#cadastro">Quero me tornar PB

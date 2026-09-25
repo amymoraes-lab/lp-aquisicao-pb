@@ -622,38 +622,68 @@ Fica no header, à direita, antes do CTA (no mobile, ao lado do hambúrguer).
 - Em modo privado o `localStorage` lança: está dentro de `try/catch` e a página
   fica no tema escuro em vez de quebrar.
 
-## 8.4 As três faixas de foto
+## 8.4 As três fotos
 
 Três seções seguidas não tinham imagem nenhuma — requisitos, comparação e
-suporte. Cada uma recebeu uma faixa, com um componente só (`.fq-foto`) para
-lerem como sistema e não como três avulsas.
+suporte. A primeira versão pôs uma faixa 2:1 igual em cada uma, e o retorno foi
+direto: **ficou simplista**. Tinha razão, por dois motivos distintos.
 
-| Seção | Imagem | Por que ali |
+### Problema 1: pareciam banco de imagens
+
+O que denuncia uma foto de estoque não é o assunto, é a paleta solta — cada uma
+com seu verde, bege, madeira. As três passam agora por um **duotone do sistema**,
+feito em CSS e não no arquivo, então acompanha o tema e trocar a foto não exige
+reeditar nada.
+
+Três tentativas até acertar:
+
+| Tentativa | O que deu |
+| --- | --- |
+| `lighten` + `darken` | Só mapeia os extremos: os meios-tons ficam cinzas e o resultado saiu preto e branco, não duotone |
+| `color` com a camada abaixo da imagem | Não tingiu nada. A imagem tem `transform`, que cria contexto de empilhamento, e o `::before` pintava **embaixo** dela — resolvido com `z-index` explícito |
+| `color` a 100% sobre `grayscale(1)` | Cianótipo: azul elétrico, sem pele |
+
+O ajuste final é `saturate(.35)` na imagem e a tinta a 50% — tinge sem
+monocromar. A força é ajustável por figura (`--duo-forca`): a foto da casa está
+a 30%, porque é a única nota quente da página e no mesmo nível das outras o
+dourado sumia por completo.
+
+### Problema 2: as três tinham o mesmo formato
+
+Três retângulos iguais soltos entre blocos são banda de foto, não composição.
+Cada uma passou a ter um papel diferente e uma relação com o conteúdo ao lado:
+
+| Seção | Forma | Relação |
 | --- | --- | --- |
-| Requisitos | Atendimento a uma cliente | Ilustra literalmente o passo 02, "cadastro e conversa com um especialista" |
-| Comparação | Casa e chaves | A seção mais longa da página (1.354px de tabela) e sem nenhum respiro visual |
-| Suporte | PB com o celular | Depois dos 4 pilares: a estrutura é o argumento, a pessoa é o fecho |
+| Requisitos | Faixa 2:1 dentro do wrap | Abre a seção, antes dos passos |
+| Comparação | **Faixa cinematográfica 16:4,2, de ponta a ponta** | Mora **fora do `.fq-wrap`**, rompe a caixa de 1200px e serve de corte entre o argumento e a tabela |
+| Suporte | **Retrato ao lado dos 4 pilares em 2×2** | A altura é ditada pelos cards: as duas colunas se sustentam em vez de a foto ser uma faixa solta |
 
-**O enquadramento é por imagem.** A fonte é 3:2 e a faixa é 2:1, então ~25% da
-altura sai. Sem escolher o foco, o corte pega o meio e decepa rosto — daí o
-`--foco` em cada figura (38% no atendimento, 30% no celular, 52% na casa). No
-mobile a faixa vira 4:3, senão o assunto some numa fita fina.
+**Parallax dentro da moldura.** A imagem é 10% maior que o quadro e desliza até
+±4% conforme a seção atravessa a tela — só `transform`, composto na GPU. Um
+`IntersectionObserver` é o interruptor: sem ele o handler mediria as três fotos
+a cada frame de scroll da página inteira. Medido: −3,67% entrando, +3,22%
+saindo, **borda nunca exposta** (52px de sobra contra ±21px de curso).
 
-**Margens simétricas, por causa do colapso.** A foto começou só com margem
-embaixo e encostava nos cards no suporte, onde ela vem *depois* do conteúdo.
-Com margem nos dois lados, o colapso entre irmãos em fluxo garante que onde ela
-segue o cabeçalho — que já tem a mesma margem — o espaço não dobre. Medido:
-56px acima e abaixo nas três.
+### Dois defeitos de layout no caminho
 
-**Peso: o bundle do Apps Script quase dobrou** (589 → 1.079 KB), porque lá tudo
-vira base64 num response único e sem cache. O build passou a reduzir as fotos
-para 1.100px (1,02× do tamanho de exibição) com `cwebp`, e o bundle voltou para
-**709 KB**. Os arquivos do projeto continuam em 1.536px, porque no GitHub Pages
-cada imagem é cacheada em separado.
+- **A foto encostava nos cards** no suporte, onde ela vem *depois* do conteúdo:
+  só tinha margem embaixo. Com margem nos dois lados, o colapso entre irmãos
+  evita que o espaço dobre onde ela segue o cabeçalho — 56px nos três.
+- **A faixa saiu como um bloco de cor sem foto.** O quadro interno era um
+  `span` em fluxo, sem altura própria, e o `height: 100%` da imagem não
+  resolvia. O quadro passou a preencher a figura, que é quem tem a proporção.
+
+### Peso
+
+O bundle do Apps Script quase dobrou (589 → 1.079 KB), porque lá tudo vira
+base64 num response único e sem cache. O build passou a reduzir as fotos para
+1.100px com `cwebp` e ele voltou a **715 KB**. Os arquivos do projeto seguem em
+1.536px, que é o que o GitHub Pages serve com cache por imagem.
 
 Duas medições que orientaram isso: converter os webp para JPEG sairia **maior**
 (134 KB contra 112 KB), e o `sips` não grava webp — só o `cwebp`. A perda da
-recompressão é de **2,24/255 de desvio médio por canal**, imperceptível.
+recompressão é de 2,24/255 de desvio médio por canal, imperceptível.
 
 ## 9.0 Camada de motion
 

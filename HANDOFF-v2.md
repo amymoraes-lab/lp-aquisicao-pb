@@ -622,6 +622,39 @@ Fica no header, à direita, antes do CTA (no mobile, ao lado do hambúrguer).
 - Em modo privado o `localStorage` lança: está dentro de `try/catch` e a página
   fica no tema escuro em vez de quebrar.
 
+## 8.4 As três faixas de foto
+
+Três seções seguidas não tinham imagem nenhuma — requisitos, comparação e
+suporte. Cada uma recebeu uma faixa, com um componente só (`.fq-foto`) para
+lerem como sistema e não como três avulsas.
+
+| Seção | Imagem | Por que ali |
+| --- | --- | --- |
+| Requisitos | Atendimento a uma cliente | Ilustra literalmente o passo 02, "cadastro e conversa com um especialista" |
+| Comparação | Casa e chaves | A seção mais longa da página (1.354px de tabela) e sem nenhum respiro visual |
+| Suporte | PB com o celular | Depois dos 4 pilares: a estrutura é o argumento, a pessoa é o fecho |
+
+**O enquadramento é por imagem.** A fonte é 3:2 e a faixa é 2:1, então ~25% da
+altura sai. Sem escolher o foco, o corte pega o meio e decepa rosto — daí o
+`--foco` em cada figura (38% no atendimento, 30% no celular, 52% na casa). No
+mobile a faixa vira 4:3, senão o assunto some numa fita fina.
+
+**Margens simétricas, por causa do colapso.** A foto começou só com margem
+embaixo e encostava nos cards no suporte, onde ela vem *depois* do conteúdo.
+Com margem nos dois lados, o colapso entre irmãos em fluxo garante que onde ela
+segue o cabeçalho — que já tem a mesma margem — o espaço não dobre. Medido:
+56px acima e abaixo nas três.
+
+**Peso: o bundle do Apps Script quase dobrou** (589 → 1.079 KB), porque lá tudo
+vira base64 num response único e sem cache. O build passou a reduzir as fotos
+para 1.100px (1,02× do tamanho de exibição) com `cwebp`, e o bundle voltou para
+**709 KB**. Os arquivos do projeto continuam em 1.536px, porque no GitHub Pages
+cada imagem é cacheada em separado.
+
+Duas medições que orientaram isso: converter os webp para JPEG sairia **maior**
+(134 KB contra 112 KB), e o `sips` não grava webp — só o `cwebp`. A perda da
+recompressão é de **2,24/255 de desvio médio por canal**, imperceptível.
+
 ## 9.0 Camada de motion
 
 A pedido, motion em tudo que fazia sentido. Regra de orçamento: **cinco

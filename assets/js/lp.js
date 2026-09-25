@@ -831,60 +831,6 @@
   }
 
   /* ======================================================================
-     PARALLAX DAS FOTOS
-     A imagem é maior que a moldura e desliza dentro dela conforme a seção
-     atravessa a tela. Só `transform` numa variável, então compõe na GPU.
-
-     O observer é o interruptor: sem ele o handler mediria as três fotos a
-     cada frame de scroll da página inteira, inclusive com elas longe da tela.
-     ================================================================== */
-  function fotosParallax() {
-    var figs = $$(".fq-foto");
-    if (!figs.length || reduzir) return;
-
-    var visiveis = [];
-    var tick = false;
-
-    function passo() {
-      tick = false;
-      var h = window.innerHeight;
-      for (var i = 0; i < visiveis.length; i++) {
-        var f = visiveis[i];
-        var r = f.getBoundingClientRect();
-        /* -1 quando a figura entra por baixo, +1 quando sai por cima */
-        var t = (r.top + r.height / 2 - h / 2) / (h / 2 + r.height / 2);
-        t = Math.max(-1, Math.min(1, t));
-        /* a imagem tem 10% de sobra; move-se até 4% para não expor a borda */
-        f.style.setProperty("--desloca", (t * -4).toFixed(2) + "%");
-      }
-    }
-
-    function agendar() {
-      if (tick) return;
-      tick = true;
-      requestAnimationFrame(passo);
-    }
-
-    if (temIO) {
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          var i = visiveis.indexOf(e.target);
-          if (e.isIntersecting && i === -1) visiveis.push(e.target);
-          else if (!e.isIntersecting && i !== -1) visiveis.splice(i, 1);
-        });
-        if (visiveis.length) agendar();
-      }, { rootMargin: "10% 0px" });
-      figs.forEach(function (f) { io.observe(f); });
-    } else {
-      visiveis = figs;
-    }
-
-    window.addEventListener("scroll", agendar, { passive: true });
-    window.addEventListener("resize", agendar);
-    agendar();
-  }
-
-  /* ======================================================================
      TROCA DE TEMA
      O tema já foi aplicado por um script no <head>, antes da primeira
      pintura. Aqui só ficam o clique, a persistência e o rótulo — que descreve
@@ -1103,7 +1049,6 @@
   entradaHero();
   progresso();
   trocaDeTema();
-  fotosParallax();
   macTilt();
   reveal();
 })();

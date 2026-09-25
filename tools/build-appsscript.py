@@ -34,17 +34,11 @@ FONTES_GOOGLE = (
 )
 
 
-def otimizar_imagens():
-    """Reduz o que pesa, só para o bundle — os arquivos do projeto continuam
-    grandes, porque no GitHub Pages cada imagem é cacheada em separado. Aqui
-    tudo vira base64 num response único e sem cache, então o peso manda.
-
-    Capas dos depoimentos: aparecem no máximo a 348px; 420px dá 1,2×.
-    Faixas de foto: aparecem no máximo a 1080px; 1100px dá 1,02×.
-    """
+def otimizar_capas():
+    """As capas dos depoimentos são o maior peso. Aparecem no máximo a 348px de
+    largura; 420px dá 1,2× e corta ~25% dos bytes sem perda visível."""
     TMP.mkdir(parents=True, exist_ok=True)
     mapa = {}
-
     for orig in sorted((RAIZ / "assets/img/depoimentos").glob("*.jpg")):
         dest = TMP / orig.name
         subprocess.run(
@@ -52,20 +46,6 @@ def otimizar_imagens():
              "-s", "formatOptions", "78", str(orig), "--out", str(dest)],
             check=True, capture_output=True)
         mapa[f"assets/img/depoimentos/{orig.name}"] = dest
-
-    # webp só o cwebp reescreve: o sips não grava webp, e converter para JPEG
-    # sairia MAIOR que o original (134 KB contra 112 KB, medido)
-    for nome in ("pb-atendimento", "pb-celular", "negocio-fechado"):
-        orig = RAIZ / "assets/img" / f"{nome}.webp"
-        if not orig.exists():
-            continue
-        dest = TMP / f"{nome}.webp"
-        subprocess.run(
-            ["cwebp", "-quiet", "-q", "72", "-resize", "1100", "0",
-             str(orig), "-o", str(dest)],
-            check=True, capture_output=True)
-        mapa[f"assets/img/{nome}.webp"] = dest
-
     return mapa
 
 
@@ -95,7 +75,7 @@ def main():
     html = (RAIZ / "index.html").read_text()
     css = (RAIZ / "assets/css/lp.css").read_text()
     js = (RAIZ / "assets/js/lp.js").read_text()
-    reduzidas = otimizar_imagens()
+    capas = otimizar_capas()
 
     # ---------------- CSS ----------------
     # o @font-face local sai: a família passa a vir do Google Fonts
@@ -115,7 +95,7 @@ def main():
     for fonte_nome in ("html", "js"):
         texto = html if fonte_nome == "html" else js
         for m in sorted(set(re.findall(ALVO, texto))):
-            arq = reduzidas.get(m) or (RAIZ / m)
+            arq = capas.get(m) or (RAIZ / m)
             if not arq.exists():
                 raise SystemExit(f"asset citado mas ausente: {m}")
             texto = texto.replace(m, data_uri(arq))

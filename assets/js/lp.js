@@ -831,6 +831,128 @@
   }
 
   /* ======================================================================
+     FOCO DOS TÍTULOS (blur reveal)
+     O título entra unidade por unidade: transparente, desfocada e abaixo da
+     linha de base, ganhando nitidez com atraso sobre a anterior. Uma vez só.
+
+     A divisão percorre o DOM em vez de achatar o texto. Cinco títulos desta
+     página têm <em class="fq-em"> — o acento lima — e um tem <br>; usar
+     textContent, como costuma aparecer nas receitas do efeito, apagaria os
+     dois e a página perderia o sistema de ênfase inteiro.
+     ================================================================== */
+  function focoTitulos() {
+    var titulos = $$("[data-foco]");
+    if (!titulos.length || reduzir) return;
+
+    /* grafemas, não code units: "ã" e "ç" compostos quebrariam ao meio */
+    var seg = (typeof Intl !== "undefined" && Intl.Segmenter)
+      ? new Intl.Segmenter("pt-BR", { granularity: "grapheme" })
+      : null;
+    function grafemas(t) {
+      if (!seg) return Array.from(t);
+      var out = [], it = seg.segment(t);
+      for (var g of it) out.push(g.segment);
+      return out;
+    }
+
+    function dividir(el) {
+      var modo = el.getAttribute("data-foco");
+      /* o rótulo acessível é a frase inteira: o leitor de tela não deve
+         soletrar as unidades */
+      /* o <br> não produz espaço em textContent: sem isto o leitor de tela
+         ouviria "clientes.Faltava" colado */
+      var frase = "";
+      (function texto(no) {
+        Array.prototype.forEach.call(no.childNodes, function (f) {
+          if (f.nodeType === 3) frase += f.nodeValue;
+          else if (f.nodeType === 1) { if (f.tagName === "BR") frase += " "; else texto(f); }
+        });
+      })(el);
+      el.setAttribute("aria-label", frase.replace(/\s+/g, " ").trim());
+      var i = 0;
+
+      (function percorre(no) {
+        var filhos = Array.prototype.slice.call(no.childNodes);
+        filhos.forEach(function (f) {
+          if (f.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            f.nodeValue.split(/(\s+)/).forEach(function (parte) {
+              if (!parte) return;
+              if (/^\s+$/.test(parte)) { frag.appendChild(document.createTextNode(" ")); return; }
+              var palavra = document.createElement("span");
+              palavra.className = "fq-foco__p";
+              palavra.setAttribute("aria-hidden", "true");
+              var unidades = modo === "palavra" ? [parte] : grafemas(parte);
+              unidades.forEach(function (u) {
+                var un = document.createElement("span");
+                un.className = "fq-foco__u";
+                un.style.setProperty("--i", i++);
+                un.textContent = u;
+                palavra.appendChild(un);
+              });
+              frag.appendChild(palavra);
+            });
+            no.replaceChild(frag, f);
+          } else if (f.nodeType === 1 && f.tagName !== "BR") {
+            percorre(f);      /* preserva <em>, <strong>, o que houver */
+          }
+        });
+      })(el);
+
+      return i;
+    }
+
+    function tocar(el, total) {
+      el.classList.add("is-focado");
+      var passo = parseFloat(getComputedStyle(el).getPropertyValue("--foco-passo")) || 35;
+      setTimeout(function () { el.classList.add("is-pronto"); }, 700 + total * passo);
+    }
+
+    function iniciar() {
+      var totais = titulos.map(dividir);
+
+      if (!temIO) { titulos.forEach(function (el, n) { tocar(el, totais[n]); }); return; }
+
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var n = titulos.indexOf(e.target);
+          /* no hero, um respiro antes de começar */
+          var espera = e.target.tagName === "H1" ? 150 : 0;
+          setTimeout(function () { tocar(e.target, totais[n]); }, espera);
+        });
+      }, { threshold: 0.25 });
+      titulos.forEach(function (el) { io.observe(el); });
+
+      /* Rede de segurança. O texto só fica visível se a transição rodar e se
+         o observer disparar; se qualquer um dos dois falhar, o título some da
+         página. Passados 6s, quem não tocou entra sem efeito — título
+         invisível é pior do que título sem animação. */
+      setTimeout(function () {
+        titulos.forEach(function (el) {
+          if (el.classList.contains("is-focado")) return;
+          io.unobserve(el);
+          el.classList.add("is-focado", "is-pronto");
+        });
+      }, 6000);
+    }
+
+    /* dividir só depois das fontes: a Playfair muda a métrica e sem esperar
+       o texto salta quando ela chega */
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(iniciar);
+      /* rede de segurança: se `fonts.ready` nunca resolver, o título ficaria
+         inteiro e sem efeito — aceitável, mas melhor tentar */
+      setTimeout(function () {
+        if (!titulos[0].querySelector(".fq-foco__u")) iniciar();
+      }, 2500);
+    } else {
+      iniciar();
+    }
+  }
+
+  /* ======================================================================
      TROCA DE TEMA
      O tema já foi aplicado por um script no <head>, antes da primeira
      pintura. Aqui só ficam o clique, a persistência e o rótulo — que descreve
@@ -1049,6 +1171,7 @@
   entradaHero();
   progresso();
   trocaDeTema();
+  focoTitulos();
   macTilt();
   reveal();
 })();

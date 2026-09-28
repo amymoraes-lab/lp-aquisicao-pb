@@ -622,6 +622,49 @@ Fica no header, à direita, antes do CTA (no mobile, ao lado do hambúrguer).
 - Em modo privado o `localStorage` lança: está dentro de `try/catch` e a página
   fica no tema escuro em vez de quebrar.
 
+## 8.4 Blur reveal dos títulos
+
+Efeito especificado em `blur-reveal-titulo.md`: cada unidade entra transparente,
+desfocada e abaixo da linha de base, ganhando nitidez com atraso sobre a
+anterior. Uma vez só, ao entrar na tela. **H1 por letra, os 7 H2 por palavra.**
+
+### Três adaptações que a especificação não previa
+
+A receita do `.md` roda em página limpa. Aqui ela quebrava três coisas:
+
+| Problema | Correção |
+| --- | --- |
+| O atributo `data-reveal` da spec **já existe nesta página** e comanda o sistema de entrada por scroll em **52 elementos** | O atributo virou `data-foco` |
+| O splitter da spec faz `el.textContent = ''`. **Cinco títulos têm `<em class="fq-em">`** — o acento lima — e dois têm `<br>`: seriam apagados, e a página perderia o sistema de ênfase inteiro | O divisor **percorre o DOM** e só substitui nós de texto, preservando qualquer elemento interno |
+| `<br>` não produz espaço em `textContent`, então o `aria-label` sairia "clientes.Faltava" colado | O rótulo é montado percorrendo a árvore, trocando `<br>` por espaço |
+
+### A rede de segurança
+
+O texto só fica visível se **a transição rodar e o observer disparar**. Se
+qualquer um dos dois falhar, o título some da página — a mesma classe de bug
+documentada em 9.0. Passados 6s, quem não tocou entra sem efeito.
+
+Testado com o `IntersectionObserver` sabotado: aos 2,5s as 74 unidades estão
+invisíveis; aos 7,5s, **zero**. A primeira versão da rede deixava 10 ainda
+invisíveis, porque aplicava o estado final *com* a transição e o atraso — o
+`is-pronto` passou a zerar os dois.
+
+### Medições
+
+| | |
+| --- | --- |
+| Hero (33 letras, 35ms) | **1.855ms** — abaixo do limite de 2,5s da spec |
+| H2 mais longo (8 palavras, 80ms) | 1.340ms |
+| Unidades na página | 74, **todas dentro de h1/h2** |
+| Grafemas quebrados | **0** — `Intl.Segmenter`, não split de code units |
+| Acentos renderizados | 12 unidades com `á à â ã é ê í ó ô õ ú ü ç` |
+| Movimento reduzido | Títulos **não são divididos**; aparecem inteiros, acento lima intacto |
+| Sem JS | Nada é dividido, o estado escondido não casa com nada, títulos normais |
+
+A divisão espera `document.fonts.ready` — a Playfair muda a métrica e sem isso
+o texto salta quando ela chega. Há um segundo timer de 2,5s caso a promessa
+nunca resolva.
+
 ## 9.0 Camada de motion
 
 A pedido, motion em tudo que fazia sentido. Regra de orçamento: **cinco

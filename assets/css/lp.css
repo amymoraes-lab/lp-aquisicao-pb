@@ -575,6 +575,66 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-nav a:hover { background: var(--surf-2); color: var(--tx-1); }
 .fq-nav a[aria-current="true"] { color: var(--lima-tx); }
 
+/* ------------------------------------------------- foco dos títulos --- */
+/* Blur reveal: cada unidade entra transparente, desfocada e abaixo da linha
+   de base, e ganha nitidez com atraso sobre a anterior. Roda uma vez.
+
+   O atributo é `data-foco`, não `data-reveal`: este já comanda o sistema de
+   entrada por scroll em 52 elementos desta página, e reusá-lo quebraria todos.
+
+   O estado escondido só existe depois que o JS divide o texto — sem JS, ou
+   antes dele, o título aparece normalmente. */
+[data-foco] .fq-foco__u {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(var(--foco-blur, 12px));
+  transform: translateY(0.18em);
+  will-change: opacity, filter, transform;
+}
+
+[data-foco].is-focado .fq-foco__u {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition:
+    opacity 700ms ease-out,
+    filter 700ms ease-out,
+    transform 700ms cubic-bezier(.2, .8, .2, 1);
+  transition-delay: calc(var(--i) * var(--foco-passo, 35ms));
+}
+
+/* mantém as letras de uma palavra juntas na quebra de linha */
+[data-foco] .fq-foco__p {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* devolve a GPU quando termina */
+[data-foco].is-pronto .fq-foco__u { will-change: auto; }
+
+/* Quando a rede de segurança entra, o estado final vale SEM transição nem
+   atraso — senão as unidades ainda levariam o stagger inteiro para aparecer,
+   e o ponto da rede é justamente o texto já estar legível. No caminho normal
+   esta classe só chega depois da animação terminar, então não corta nada. */
+[data-foco].is-pronto.is-focado .fq-foco__u {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  transition: none;
+}
+
+/* títulos de seção são menores: o desfoque no limite inferior da faixa */
+[data-foco="palavra"] { --foco-blur: 8px; --foco-passo: 80ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-foco] .fq-foco__u {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ------------------------------------------------------- troca de tema --- */
 .fq-tema {
   display: inline-flex;

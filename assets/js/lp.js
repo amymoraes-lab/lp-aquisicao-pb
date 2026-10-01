@@ -21,17 +21,28 @@
      vitrine (4.8) e pelo formulário (4.10).
 
      Os percentuais vêm do simulador oficial do beFranq
-     (be.franq.com.br/minha-conta/simulador-de-comissoes), que lista 12 produtos
-     em 4 famílias. Cada categoria aqui recebe o **menor** percentual entre os
-     produtos que caem nela — `fonte` registra qual. Por ser o menor, o "a
-     partir de" exibido é piso demonstrável, nunca otimista:
+     Fonte: **Mapa de Comissionamento, V1 — 01/10/2026** (PDF oficial de
+     marketing). Substituiu os valores que vinham do simulador interno do
+     beFranq, que estavam defasados em três categorias.
 
-       Consórcio      3,00%  (Bens Móveis; Bens Imóveis é 3,50%)
-       Crédito PF     1,50%  (Auto Equity; Consignado 2,00%, Home Equity 3,00%)
-       Crédito PJ     0,50%  (Middle/Corporate; Varejo 1,25%)
-       Financiamentos 1,00%  (Imobiliário; Veículo 1,50%)
-       Seguros       20,00%  (Seguro de Vida PF ou PJ)
-       Previdência   25,00%  (Plano Mensal)
+     Cada categoria recebe o **menor** percentual entre os produtos que caem
+     nela — `fonte` registra qual. Por ser o menor, o "a partir de" exibido é
+     piso demonstrável, nunca otimista:
+
+       Consórcio      2,20%  (Rodobens, 2,20% a 4,00%; Bradesco/Porto/Servopa
+                              2,50%; Itaú/Santander 3,00%)
+       Crédito PF     1,50%  (Auto Equity; Consignado PF 2,00%; Home Equity
+                              3,00% a 4,00%)
+       Crédito PJ     0,35%  (Daycoval, contrato de 12 a 24 meses; Omni e BS2
+                              0,50%; parcelado e FGI/PEAC 1,00%; Senff com
+                              garantia 2,00%; crédito para condomínio 2,50%)
+       Financiamentos 1,00%  (Imobiliário — Aquisição, e Construção; Veículos
+                              1,50%; CashMe construção 3,00%)
+       Seguros       10,00%  (Residencial PF, Patrimonial PJ e demais seguros;
+                              Vida individual e em grupo vai ATÉ 80%)
+       Previdência   25,00%  (Plano Mensal, sobre a primeira PMT; aporte único
+                              0,40% e portabilidade 0,50% têm outra base e por
+                              isso não entram neste piso)
 
      `base` importa: crédito e financiamento incidem sobre o valor da venda,
      seguros e previdência sobre prêmio recorrente. A lista de chips é plana, e
@@ -42,12 +53,12 @@
      Investimentos e Câmbio não têm produto no simulador oficial.
      ================================================================== */
   var CATS = {
-    consorcio:      { nome: "Consórcio",      pct: 0.030, base: "crédito contratado no mês", escala: "media",  fonte: "Consórcios de Bens Móveis" },
-    "credito-pf":   { nome: "Crédito PF",     pct: 0.015, base: "volume liberado no mês",    escala: "media",  fonte: "Auto Equity" },
-    "credito-pj":   { nome: "Crédito PJ",     pct: 0.005, base: "volume liberado no mês",    escala: "grande", fonte: "Empréstimo Parcelado Middle / Corporate" },
-    financiamentos: { nome: "Financiamentos", pct: 0.010, base: "volume financiado no mês",  escala: "grande", fonte: "Financiamento Imobiliário" },
-    seguros:        { nome: "Seguros",        pct: 0.200, base: "prêmio mensal",             escala: "premio", fonte: "Seguro de Vida PF ou PJ" },
-    previdencia:    { nome: "Previdência",    pct: 0.250, base: "aporte mensal do plano",    escala: "premio", fonte: "Previdência — Plano Mensal" },
+    consorcio:      { nome: "Consórcio",      pct: 0.022, base: "carta de crédito contratada no mês", escala: "media",  fonte: "Consórcio — Rodobens" },
+    "credito-pf":   { nome: "Crédito PF",     pct: 0.015, base: "valor líquido liberado no mês",      escala: "media",  fonte: "Auto Equity" },
+    "credito-pj":   { nome: "Crédito PJ",     pct: 0.0035, base: "valor líquido liberado no mês",     escala: "grande", fonte: "Empréstimo Parcelado — Daycoval, 12 a 24 meses" },
+    financiamentos: { nome: "Financiamentos", pct: 0.010, base: "valor total financiado no mês",      escala: "grande", fonte: "Financiamento Imobiliário — Aquisição" },
+    seguros:        { nome: "Seguros",        pct: 0.100, base: "prêmio líquido mensal",              escala: "premio", fonte: "Seguro Residencial PF / Patrimonial PJ" },
+    previdencia:    { nome: "Previdência",    pct: 0.250, base: "primeira PMT do plano",              escala: "premio", fonte: "Previdência Privada — Plano Mensal" },
     investimentos:  { nome: "Investimentos",  pct: null },
     cambio:         { nome: "Câmbio",         pct: null }
   };
@@ -953,50 +964,7 @@
   }
 
   /* ======================================================================
-     TROCA DE TEMA
-     O tema já foi aplicado por um script no <head>, antes da primeira
-     pintura. Aqui só ficam o clique, a persistência e o rótulo — que descreve
-     a AÇÃO ("mudar para o tema claro"), não o estado atual.
-     ================================================================== */
-  function trocaDeTema() {
-    var b = $("#tema");
-    if (!b) return;
-    var raiz = document.documentElement;
-
-    var rotular = function () {
-      var claro = raiz.getAttribute("data-tema") === "claro";
-      b.setAttribute("aria-label", claro ? "Mudar para o tema escuro" : "Mudar para o tema claro");
-      b.setAttribute("title", b.getAttribute("aria-label"));
-      var meta = $('meta[name="theme-color"]');
-      if (meta) meta.setAttribute("content", claro ? "#FFFFFF" : "#0C1120");
-    };
-    rotular();
-
-    b.addEventListener("click", function () {
-      var claro = raiz.getAttribute("data-tema") === "claro";
-      if (claro) raiz.removeAttribute("data-tema");
-      else raiz.setAttribute("data-tema", "claro");
-      try { localStorage.setItem("fq-tema", claro ? "escuro" : "claro"); } catch (e) {}
-      rotular();
-    });
-
-    /* se o visitante nunca escolheu, segue o sistema quando ele mudar */
-    if (window.matchMedia) {
-      var mq = window.matchMedia("(prefers-color-scheme: light)");
-      var seguir = function (e) {
-        var salvo;
-        try { salvo = localStorage.getItem("fq-tema"); } catch (err) {}
-        if (salvo) return;
-        if (e.matches) raiz.setAttribute("data-tema", "claro");
-        else raiz.removeAttribute("data-tema");
-        rotular();
-      };
-      if (mq.addEventListener) mq.addEventListener("change", seguir);
-    }
-  }
-
-  /* ======================================================================
-     MACBOOK DO HERO — gira conforme o mouse
+     IPHONE DO HERO — gira conforme o mouse
      Um só loop escreve --rx / --ry / --dy / --gl no elemento; o transform
      em si mora no CSS. Assim o parallax de scroll e o giro do mouse não
      disputam a mesma propriedade, e a animação de entrada (que fica no
@@ -1006,9 +974,9 @@
      alvo com interpolação. Objeto pesado não cola no ponteiro — colar é o
      que faz esse efeito parecer barato.
      ================================================================== */
-  function macTilt() {
-    var mac = $("#mac");
-    var palco = $("#mac-palco");
+  function foneTilt() {
+    var mac = $("#fone");
+    var palco = $("#fone-palco");
     if (!mac || !palco) return;
 
     /* Limites do giro. O eixo X é bem mais curto que o Y de propósito: cada
@@ -1170,8 +1138,7 @@
   contadores();
   entradaHero();
   progresso();
-  trocaDeTema();
   focoTitulos();
-  macTilt();
+  foneTilt();
   reveal();
 })();

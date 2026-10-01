@@ -100,6 +100,9 @@
    troca só o canal, então 76 declarações de rgba() viram tema-conscientes
    sem serem reescritas.
    ========================================================================== */
+/* INATIVO: o botão de troca foi removido a pedido, e com ele a detecção por
+   `prefers-color-scheme`. O bloco continua aqui porque basta reintroduzir o
+   botão para voltar a valer — nada dele depende de JS para existir. */
 [data-tema="claro"] {
   color-scheme: light;
 
@@ -133,7 +136,7 @@
 /* Ilhas que continuam escuras no tema claro. Reassumem o contexto inteiro do
    tema escuro por herança — nada lá dentro precisa saber qual tema está
    ativo, e isso vale inclusive para os `rgba(var(--c-…))` já escritos. */
-[data-tema="claro"] .fq-mac,
+[data-tema="claro"] .fq-fone,
 [data-tema="claro"] .fq-band,
 [data-tema="claro"] .fq-res {
   --bg: #0C1120;
@@ -164,9 +167,6 @@
     linear-gradient(165deg, #1E2747 0%, #0E1428 100%);
 }
 [data-tema="claro"] .fq-res__saida { background: #090D1A; }
-[data-tema="claro"] .fq-mac__ui {
-  background: linear-gradient(160deg, #1B2444 0%, #131A33 46%, #0C1120 100%);
-}
 [data-tema="claro"] .fq-hero {
   background:
     radial-gradient(110% 90% at 78% -10%, #EEF2FE 0%, transparent 55%),
@@ -635,30 +635,6 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   }
 }
 
-/* ------------------------------------------------------- troca de tema --- */
-.fq-tema {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  flex: none;
-  border: 1px solid var(--line-2);
-  border-radius: 50%;
-  background: var(--surf-1);
-  color: var(--tx-2);
-  cursor: pointer;
-  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
-}
-.fq-tema:hover { background: var(--surf-2); border-color: var(--line-3); color: var(--tx-1); }
-.fq-tema:focus-visible { outline: 3px solid var(--violeta); outline-offset: 3px; }
-
-/* mostra o ícone do tema para onde o clique LEVA, não o do tema atual */
-.fq-tema__sol { display: block; }
-.fq-tema__lua { display: none; }
-[data-tema="claro"] .fq-tema__sol { display: none; }
-[data-tema="claro"] .fq-tema__lua { display: block; }
-
 .fq-burger { display: none; }
 
 /* ------------------------------------------------------------------ hero --- */
@@ -685,7 +661,9 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  /* o celular é bem mais estreito que o laptop que havia aqui: o texto
+     ganha a largura que sobrou */
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
   gap: clamp(32px, 4vw, 64px);
   align-items: center;
 }
@@ -711,250 +689,143 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-num__l { font-size: 14px; color: var(--tx-3); margin-top: 7px; }
 
 /* =========================================================================
-   MACBOOK DO HERO
-   Substitui a foto de banco de imagens: mostra a plataforma, que é o que
-   diferencia. Alumínio e tela desenhados em CSS, sem imagem — a tela é
-   ilustração de produto com dados de exemplo.
+   IPHONE DO HERO
+   Aparelho desenhado em CSS, sem imagem. Divisão de trabalho igual à do
+   MacBook que ele substituiu, para o JS de giro não mudar:
+     .fq-fone-palco  perspectiva + animação de entrada (CSS)
+     .fq-fone        giro pelo mouse + parallax de scroll (JS, --rx/--ry/--dy)
+     .fq-fone__vidro reflexo que corre no vidro (JS, --gl)
 
-   Divisão de trabalho, para nada disputar o mesmo transform:
-     .fq-mac-palco  perspectiva + animação de entrada (CSS)
-     .fq-mac        giro pelo mouse + parallax de scroll (JS, via --rx/--ry/--dy)
-     .fq-mac__vidro reflexo que corre no vidro (JS, via --gl)
+   Dimensionado pela ALTURA, não pela largura: um celular 9:19,5 com a
+   largura da coluna do hero teria mais de mil pixels de altura.
    ====================================================================== */
-.fq-mac-palco {
+.fq-fone-palco {
   position: relative;
-  /* perspectiva longa de propósito: em 1500px o deck avança tanto para a
-     câmera que fica mais largo que a tampa e vira uma rampa. Em 2200px a
-     projeção é a de uma foto de produto. */
-  perspective: 2200px;
+  perspective: 1500px;
   perspective-origin: 50% 44%;
-  padding-bottom: 30px;   /* espaço para a sombra no chão */
+  display: flex;
+  justify-content: center;
+  padding-bottom: 34px;      /* espaço para a sombra no chão */
 }
 
-.fq-mac {
+.fq-fone {
   --rx: 0deg;
   --ry: 0deg;
   --dy: 0px;
   position: relative;
+  height: clamp(420px, 46vw, 560px);
+  aspect-ratio: 9 / 19.5;
   transform-style: preserve-3d;
-  transform: translate3d(0, var(--dy), 0) rotateX(calc(2.5deg + var(--rx))) rotateY(var(--ry));
+  transform: translate3d(0, var(--dy), 0) rotateX(var(--rx)) rotateY(var(--ry));
   will-change: transform;
 }
 
-/* AÇÃO ISOLADA — botão sozinho no fim de uma seção, sem a placa de lima
-   cheio. A banda invertida ficou reservada para o simulador; aqui a chamada
-   aparece sem competir com aquele pico. */
-.fq-acao {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-/* ---- tampa: moldura de alumínio ao redor do vidro ---- */
-.fq-mac__tampa {
-  position: relative;
-  padding: 6px 6px 8px;
-  border-radius: 13px 13px 6px 6px;
-  transform-style: preserve-3d;
-  /* prateado: claro na quina de cima, escurecendo para baixo, com uma
-     lambida de luz na diagonal para o alumínio não ficar chapado */
+/* corpo: titânio escuro, com a quina clara que o alumínio faz na luz */
+.fq-fone__corpo {
+  position: absolute;
+  inset: 0;
+  border-radius: 13.5%/6.2%;
+  padding: 1.9%;
   background:
-    linear-gradient(112deg, rgba(var(--c-luz),.22) 0%, rgba(var(--c-luz),0) 34%),
-    linear-gradient(178deg, #dfe3ea 0%, #c3c8d2 26%, #a7adba 74%, #8f95a3 100%);
+    linear-gradient(118deg, rgba(var(--c-luz), .30) 0%, rgba(var(--c-luz), 0) 28%),
+    linear-gradient(170deg, #5B6170 0%, #343A47 24%, #272C37 62%, #434A59 100%);
   box-shadow:
-    inset 0 1px 0 rgba(var(--c-luz),.75),
-    inset 0 -1px 0 rgba(0,0,0,.28),
-    inset 1px 0 0 rgba(var(--c-luz),.3),
-    inset -1px 0 0 rgba(var(--c-luz),.3),
-    0 26px 50px -26px rgba(var(--c-sombra),.9);
+    inset 0 0 0 1px rgba(var(--c-luz), .22),
+    0 30px 60px -28px rgba(var(--c-sombra), .95);
 }
 
-/* ---- vidro ---- */
-.fq-mac__tela {
+.fq-fone__tela {
   position: relative;
-  /* container de consulta: tudo dentro da tela se mede em cqw, então a
-     interface escala junto com o laptop em qualquer largura */
-  container-type: size;
-  aspect-ratio: 16 / 10.3;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #05070e;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.75), inset 0 2px 14px rgba(0,0,0,.6);
-}
-
-/* notch do MacBook Pro — é o detalhe que faz o objeto ser reconhecido */
-.fq-mac__notch {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 15.5%;
-  height: 3.1%;
-  min-height: 7px;
-  border-radius: 0 0 5px 5px;
-  background: #05070e;
-  z-index: 3;
-}
-
-/* a interface dentro da tela: o card antigo, agora encostado nas bordas */
-/* o bezel preto é o vão entre esta caixa e a borda da tela */
-.fq-mac__ui {
-  position: absolute;
-  inset: 3.1% 1.7% 2.1%;
-  border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(160deg, rgba(var(--c-linha),.13), rgba(19,26,51,.94) 46%, rgba(12,17,32,.98));
-  overflow: hidden;
-}
-
-/* A interface do beFranq é a mesma do card antigo, mas agora tem de caber
-   numa tela 16:10. Sem esta redução ela pedia 372px numa tela de 297 e a
-   terceira proposta ficava cortada. Só medidas menores — nada de scale(),
-   que borraria o texto. */
-.fq-mac__ui .fq-mock__bar { padding: 7px 10px; gap: 6px; }
-.fq-mac__ui .fq-mock__dot { width: 7px; height: 7px; }
-.fq-mac__ui .fq-mock__url { font-size: 9px; margin-left: 4px; }
-
-/* A barra do navegador dentro da tela do laptop se mede em cqw — proporção
-   da largura da tela — para encolher junto em qualquer largura. A interface
-   abaixo dela é uma captura real, que o object-fit já resolve.
-   Referência: 100cqw = 472px. */
-@supports (container-type: size) {
-  .fq-mac__ui .fq-mock__bar { padding: 1.483cqw 2.119cqw; gap: 1.271cqw; }
-  .fq-mac__ui .fq-mock__dot { width: 1.483cqw; height: 1.483cqw; }
-  .fq-mac__ui .fq-mock__url { font-size: 1.907cqw; margin-left: 0.847cqw; }
-}
-
-/* captura real, quando existir, entra no lugar da ilustração */
-/* A captura fica ABAIXO da barra do navegador, não cobrindo a tela inteira:
-   a barra é a moldura que faz o conjunto ler como "navegador num laptop".
-   Ancorada no topo à esquerda, onde estão o menu e as perguntas. */
-.fq-mac__shot {
-  flex: 1;
   width: 100%;
-  min-height: 0;
+  height: 100%;
+  border-radius: 11.5%/5.3%;
+  overflow: hidden;
+  background: #05070E;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.85);
+}
+
+/* a captura preenche a tela. Enquanto for a de desktop, ancorar à esquerda
+   mostra o menu e a primeira coluna, que é o pedaço que faz algum sentido
+   num aparelho estreito. */
+.fq-fone__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: left top;
+  object-position: 13% 0;
   display: block;
 }
 
-/* reflexo do vidro: uma faixa clara que corre conforme o objeto gira */
-.fq-mac__vidro {
+/* Dynamic Island */
+.fq-fone__ilha {
+  position: absolute;
+  top: 1.6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 31%;
+  height: 4.1%;
+  border-radius: var(--r-pill);
+  background: #05070E;
+  z-index: 3;
+}
+
+/* barra de início */
+.fq-fone__inicio {
+  position: absolute;
+  bottom: 1.1%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35%;
+  height: 0.55%;
+  min-height: 3px;
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,.55);
+  z-index: 3;
+}
+
+/* reflexo do vidro: corre conforme o aparelho gira */
+.fq-fone__vidro {
   position: absolute;
   inset: -20% -40%;
   z-index: 2;
   pointer-events: none;
   transform: translateX(calc(var(--gl, 0) * 1%));
   background: linear-gradient(104deg,
-    rgba(var(--c-luz),0) 38%,
-    rgba(var(--c-luz),.055) 47%,
-    rgba(var(--c-luz),.10) 50%,
-    rgba(var(--c-luz),.055) 53%,
-    rgba(var(--c-luz),0) 62%);
+    rgba(255,255,255,0) 38%,
+    rgba(255,255,255,.06) 47%,
+    rgba(255,255,255,.11) 50%,
+    rgba(255,255,255,.06) 53%,
+    rgba(255,255,255,0) 62%);
 }
 
-/* ---- dobradiça ---- */
-.fq-mac__dobra {
-  display: block;
-  height: 4px;
-  margin: 0 14%;
-  border-radius: 0 0 3px 3px;
-  background: linear-gradient(180deg, #5b6270, #3c414b);
-  box-shadow: inset 0 1px 0 rgba(var(--c-luz),.2);
-}
-
-/* ---- base: o deck deitado, girado para trás em 3D ---- */
-.fq-mac__base {
-  position: relative;
-  /* profundidade curta + 80°: projeta ~28px de deck e só 7% de alargamento
-     por perspectiva — o suficiente para ler como laptop aberto */
-  aspect-ratio: 16 / 4.8;
-  /* recuado nas laterais: a tampa avança sobre o deck num MacBook fechado,
-     e sem esse recuo o deck sobra para fora e lê como prateleira */
-  margin-inline: 1.6%;
-  transform: rotateX(80deg);
-  /* transform não mexe em layout: a caixa continua com 30% da largura de
-     altura, mas projeta só ~5,4%. Sem esta margem negativa o pé e a nota
-     ficam 123px abaixo do laptop, num vão vazio. */
-  margin-bottom: -24.6%;
-  transform-origin: top center;
-  transform-style: preserve-3d;
-  border-radius: 2px 2px 13px 13px;
-  background:
-    linear-gradient(100deg, rgba(var(--c-luz),.10) 0%, rgba(var(--c-luz),0) 44%),
-    linear-gradient(180deg, #4e545f 0%, #6f7684 32%, #5f6672 74%, #454b55 100%);
-  box-shadow:
-    inset 0 2px 6px rgba(var(--c-sombra),.55),   /* a tampa faz sombra no deck */
-    inset 0 -1px 0 rgba(var(--c-luz),.34),
-    inset 1px 0 0 rgba(var(--c-luz),.18),
-    inset -1px 0 0 rgba(var(--c-luz),.18);
-}
-/* área do teclado e trackpad: em perspectiva viram só duas manchas, e é
-   exatamente o que se vê num MacBook aberto visto de frente */
-.fq-mac__teclado {
+/* botões laterais */
+.fq-fone__bt {
   position: absolute;
-  inset: 11% 7% 38%;
-  border-radius: 5px;
-  background: linear-gradient(180deg, rgba(30,33,41,.62), rgba(20,22,28,.8));
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.4);
+  width: 1.9%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #2B313D, #596073 60%, #333945);
+  z-index: 1;
 }
-.fq-mac__trackpad {
-  position: absolute;
-  left: 36%;
-  right: 36%;
-  bottom: 11%;
-  height: 26%;
-  border-radius: 6px;
-  background: linear-gradient(180deg, rgba(118,124,136,.75), rgba(136,143,155,.6));
-  box-shadow: inset 0 1px 0 rgba(var(--c-luz),.35), inset 0 -1px 2px rgba(0,0,0,.18);
-}
+.fq-fone__bt--silencioso { left: -1.2%; top: 17.5%; height: 4.2%; }
+.fq-fone__bt--vol-mais   { left: -1.2%; top: 24.5%; height: 7.4%; }
+.fq-fone__bt--vol-menos  { left: -1.2%; top: 33.5%; height: 7.4%; }
+.fq-fone__bt--power      { right: -1.2%; top: 27%;  height: 10.5%; }
 
-/* lábio frontal: dá espessura ao deck, senão o alumínio parece papel */
-.fq-mac__pe {
-  display: block;
-  height: 4px;
-  margin: -1px 4% 0;
-  border-radius: 0 0 7px 7px;
-  background: linear-gradient(180deg, #8d94a1, #656b78 55%, #4b515c);
-  box-shadow: 0 3px 7px rgba(var(--c-sombra),.75);
-}
-
-/* sombra no chão — fora do 3D, é só uma mancha desfocada */
-.fq-mac__sombra {
+/* sombra no chão, fora do 3D */
+.fq-fone__sombra {
   position: absolute;
-  left: 10%;
-  right: 10%;
+  left: 50%;
   bottom: 4px;
-  height: 28px;
+  width: 58%;
+  height: 26px;
+  transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(var(--c-sombra),.85), rgba(var(--c-sombra),0) 72%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(var(--c-sombra), .85), rgba(var(--c-sombra), 0) 72%);
   filter: blur(9px);
   z-index: -1;
 }
 
-/* A legenda "Ilustração da plataforma · dados de exemplo" saiu a pedido. A
-   ressalva continua no `aria-label` do MacBook, que abre com "Ilustração de
-   um MacBook…" — quem usa leitor de tela ainda é avisado. */
-.fq-mock__bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(12,17,32,.55);
-}
-.fq-mock__dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(var(--c-linha),.3); }
-.fq-mock__url {
-  margin-left: 6px;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: .06em;
-  color: var(--tx-4);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 /* ------------------------------------------------------- faixa de logos --- */
 .fq-logos {
   position: relative;
@@ -1704,8 +1575,8 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   transform: none;
   transition: opacity .75s var(--ease), transform .75s var(--ease);
 }
-.js .fq-hero [data-entra].fq-mac-palco { transform: translateY(26px) scale(.985); }
-.js .fq-hero.is-in [data-entra].fq-mac-palco { transform: none; }
+.js .fq-hero [data-entra].fq-fone-palco { transform: translateY(26px) scale(.985); }
+.js .fq-hero.is-in [data-entra].fq-fone-palco { transform: none; }
 
 /* --- luz ambiente do hero -------------------------------------------------
    Orbes à deriva + feixes varrendo. A deriva anterior (36px num orbe de
@@ -1847,7 +1718,7 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   .fq-pilares { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .fq-deps { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .fq-hero__grid { grid-template-columns: minmax(0, 1fr); }
-  .fq-mac-palco { max-width: 520px; }
+  .fq-fone-palco { padding-bottom: 28px; }
 }
 
 @media (max-width: 760px) {
@@ -1873,7 +1744,6 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   .fq-nav[data-open] { display: flex; }
   .fq-nav a { min-height: 48px; display: flex; align-items: center; padding: 13px 16px; font-size: 15.5px; border-radius: 10px; }
   .fq-header__cta { display: none; }
-  .fq-tema { width: 40px; height: 40px; margin-left: auto; }
   .fq-burger {
     display: inline-flex;
     align-items: center;

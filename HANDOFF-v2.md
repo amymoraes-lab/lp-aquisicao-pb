@@ -665,6 +665,70 @@ A divisão espera `document.fonts.ready` — a Playfair muda a métrica e sem is
 o texto salta quando ela chega. Há um segundo timer de 2,5s caso a promessa
 nunca resolva.
 
+## 8.5 Mapa de Comissionamento oficial, iPhone e fim do tema claro
+
+### As taxas vieram do PDF oficial
+
+O simulador usava os percentuais do simulador interno do beFranq. Passaram a
+vir do **Mapa de Comissionamento V1 — 01/10/2026**. **Três categorias estavam
+defasadas:**
+
+| Categoria | Antes | Agora | De onde vem o mínimo |
+| --- | --- | --- | --- |
+| Consórcio | 3,00% | **2,20%** | Rodobens (2,20% a 4,00%); Bradesco/Porto/Servopa 2,50%; Itaú/Santander 3,00% |
+| Crédito PF | 1,50% | 1,50% ✓ | Auto Equity |
+| Crédito PJ | 0,50% | **0,35%** | Daycoval, contrato de 12 a 24 meses |
+| Financiamentos | 1,00% | 1,00% ✓ | Imobiliário — Aquisição |
+| Seguros | 20,00% | **10,00%** | Residencial PF / Patrimonial PJ e demais. O seguro de vida vai **até 80%** |
+| Previdência | 25,00% | 25,00% ✓ | Plano Mensal, sobre a **primeira PMT** |
+
+**Efeito prático:** o cenário que a gente usa para conferir — Consórcio em
+R$ 400 mil e Seguros em R$ 12 mil — caiu de **R$ 14.400 para R$ 10.000**.
+
+As bases também ganharam a linguagem do mapa: "carta de crédito contratada",
+"valor líquido liberado", "prêmio líquido mensal", "primeira PMT do plano". O
+disclaimer cita a versão e a data do mapa, e o exemplo ilustrativo trocou de
+Consórcio+Seguros para **Previdência+Seguros**, que com os números novos são de
+fato os dois maiores percentuais.
+
+**O PDF resolve a pendência dos máximos.** O brief pedia "sempre faixa", e até
+aqui só havia mínimos. Agora dá para exibir "de X a Y" — seguros de 10% a 80%,
+consórcio de 2,20% a 4,00%, crédito PJ de 0,35% a 2,50%. Não implementei porque
+muda o desenho do painel de resultado; é a próxima decisão.
+
+**Nota de método:** o PDF usa fontes em subconjunto, então os operadores trazem
+códigos de glifo (`<0026> Tj`), não caracteres. Foi preciso ler o `/ToUnicode`
+de cada fonte, seguir qual está ativa (`/F4 Tf`) e agrupar os glifos por
+coordenada Y para remontar as linhas. O extrator ficou em
+`tools/` como referência.
+
+### iPhone no lugar do MacBook
+
+Mesma divisão de camadas, para o giro pelo mouse continuar valendo sem mudança:
+palco com a perspectiva, aparelho recebendo `--rx`/`--ry`/`--dy`, vidro
+recebendo `--gl`. Dynamic Island, barra de início, quatro botões laterais e
+sombra no chão, tudo em CSS.
+
+**Dimensionado pela altura, não pela largura:** um 9:19,5 com a largura da
+coluna do hero passaria de mil pixels de altura. Fica em 258×560 (1:2,17). Como
+o celular é bem mais estreito que o laptop, a grade do hero passou de
+`1,02fr / 0,98fr` para `1,25fr / 0,75fr` e o texto ganhou o espaço que sobrou.
+
+**⚠ A tela ainda é a captura de DESKTOP.** É uma interface larga dentro de um
+aparelho estreito: o enquadramento pula o menu lateral e mostra a coluna de
+cards, mas continua lendo como página de computador espremida. Para acertar,
+basta trocar o `src` de `.fq-fone__shot` por uma captura do beFranq em tela de
+celular.
+
+### Tema claro: botão removido
+
+Saiu o botão e **também a detecção por `prefers-color-scheme`** — sem o botão,
+quem tem o sistema no claro ficaria preso no tema claro sem volta. Verificado
+com o Chrome emulando `prefers-color-scheme: light`: a página continua escura.
+
+O bloco `[data-tema="claro"]` do CSS **ficou**, marcado como inativo: nada nele
+depende de JS, então basta reintroduzir o botão para voltar a valer.
+
 ## 9.0 Camada de motion
 
 A pedido, motion em tudo que fazia sentido. Regra de orçamento: **cinco

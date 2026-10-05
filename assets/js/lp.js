@@ -292,54 +292,30 @@
 
   /* ======================================================================
      4.9 DEPOIMENTOS
-     Os 3 depoimentos são Shorts do canal da Franq. A citação de cada cartão
-     é o TÍTULO do próprio vídeo — já é uma fala em primeira pessoa, e vem da
-     fonte, não de transcrição minha. O único ajuste foi um erro de digitação
-     em "liberdade", que no título do YouTube está "liberadade".
+     Três Shorts do canal da Franq. O cartão mostra o vídeo e o nome, e nada
+     mais: cidade e tempo de casa não existem em lugar nenhum que eu possa
+     consultar, e marcador visível em três cartões seguidos vira ruído.
 
-     Cidade e tempo de casa não existem em lugar nenhum que eu possa consultar:
-     ficam com o marcador ⟨…⟩, como o resto do projeto faz com dado ausente.
+     As citações que estavam aqui eram os títulos dos próprios vídeos e
+     ficaram registradas no HANDOFF, caso se decida trazê-las de volta.
 
      A capa é o quadro vertical do Short (oardefault, 1080×1920), baixado e
      recomprimido: servido daqui, o YouTube não recebe nenhuma requisição —
      nem cookie — antes de a pessoa clicar em assistir.
      ================================================================== */
   var DEPS = [
-    {
-      q: "Ser Personal Banker foi uma bênção.",
-      nome: "Anderson Paulino",
-      cidade: "⟨cidade⟩",
-      tempo: "⟨tempo como PB⟩",
-      video: "1DAnZxVDj9c",
-      capa: "assets/img/depoimentos/anderson-paulino.webp"
-    },
-    {
-      q: "Eu estava obstinada a fazer dar certo.",
-      nome: "Greice Thomaz",
-      cidade: "⟨cidade⟩",
-      tempo: "⟨tempo como PB⟩",
-      video: "5J1AOUqBgPk",
-      capa: "assets/img/depoimentos/greice-thomaz.webp"
-    },
-    {
-      q: "Eu quero atender os meus clientes e ter liberdade de escolha como Personal Banker.",
-      nome: "Rosana Agostini",
-      cidade: "⟨cidade⟩",
-      tempo: "⟨tempo como PB⟩",
-      video: "Rempc2NsPT4",
-      capa: "assets/img/depoimentos/rosana-agostini.webp"
-    }
+    { nome: "Anderson Paulino", video: "1DAnZxVDj9c", capa: "assets/img/depoimentos/anderson-paulino.webp" },
+    { nome: "Greice Thomaz",    video: "5J1AOUqBgPk", capa: "assets/img/depoimentos/greice-thomaz.webp" },
+    { nome: "Rosana Agostini",  video: "Rempc2NsPT4", capa: "assets/img/depoimentos/rosana-agostini.webp" }
   ];
 
   function renderDeps() {
     var cx = $("#deps");
     if (!cx) return;
     cx.innerHTML = DEPS.map(function (d) {
-      var meta = '<span class="fq-dep__ln">' + d.cidade + "</span>" +
-                 '<span class="fq-dep__ln">' + d.tempo + "</span>";
       var midia = d.capa
         /* dimensões declaradas: sem elas a imagem entra depois do layout e
-           empurra o texto do cartão para baixo */
+           empurra o nome do cartão para baixo */
         ? '<img src="' + d.capa + '" width="640" height="1138" loading="lazy" ' +
           'decoding="async" alt="' + d.nome + ', Personal Banker da Franq, em vídeo">' +
           (d.video
@@ -354,14 +330,8 @@
 
       return '<article class="fq-dep" data-reveal>' +
         '<div class="fq-dep__v">' + midia + "</div>" +
-        '<div class="fq-dep__b">' +
-          '<p class="fq-dep__q">' + d.q + "</p>" +
-          '<div class="fq-dep__id">' +
-            '<span class="fq-dep__foto fq-dep__foto--vazia">⟨foto⟩</span>' +
-            "<span><span class=\"fq-dep__nm\">" + d.nome + "</span>" +
-            '<span class="fq-dep__mt">' + meta + "</span></span>" +
-          "</div>" +
-        "</div></article>";
+        '<div class="fq-dep__b"><span class="fq-dep__nm">' + d.nome + "</span></div>" +
+        "</article>";
     }).join("");
   }
 

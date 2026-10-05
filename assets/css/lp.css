@@ -1355,13 +1355,13 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 }
 .fq-dep__slot { text-align: center; padding: 22px; color: var(--tx-4); font-size: 12.5px; line-height: 1.5; }
 .fq-dep__slot svg { margin: 0 auto 12px; color: var(--line-3); }
-.fq-dep__b { padding: 18px 19px 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
-.fq-dep__q { font-family: var(--display); font-weight: 500; font-size: 17px; line-height: 1.42; color: var(--tx-1); margin: 0; text-wrap: pretty; }
-.fq-dep__id { display: flex; align-items: center; gap: 11px; margin-top: auto; }
-.fq-dep__foto { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: none; border: 1px solid var(--line-2); }
-.fq-dep__foto--vazia { display: grid; place-items: center; background: var(--surf-2); color: var(--tx-4); font-family: var(--mono); font-size: 9px; }
-.fq-dep__nm { display: block; font-size: 14px; font-weight: 700; color: var(--tx-1); line-height: 1.25; }
-.fq-dep__ln { display: block; }
+/* O corpo do cartão passou a ter só o nome: citação, foto, cidade e tempo
+   saíram. Com uma linha só, o respiro de antes (18/20px num bloco de três
+   elementos) sobrava — daí a altura mais enxuta. */
+.fq-dep__b { padding: 15px 18px 17px; display: flex; align-items: center; }
+.fq-dep__nm { display: block; font-size: 15px; font-weight: 700; color: var(--tx-1); line-height: 1.25; }
+
+/* ainda usado pelo card de prova social da seção do formulário */
 .fq-dep__mt { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--tx-4); margin-top: 5px; line-height: 1.75; }
 
 /* ==================== FORMULÁRIO ==================== */

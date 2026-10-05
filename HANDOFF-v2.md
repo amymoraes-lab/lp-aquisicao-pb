@@ -747,11 +747,24 @@ depende de JS, então basta reintroduzir o botão para voltar a valer.
 Os três cartões passaram a ser Shorts do canal da Franq, com **pessoas novas** —
 nenhuma delas é Karen, Jeferson ou Douglas, cujos depoimentos estavam na página.
 
-| Pessoa | Vídeo | Citação (título do próprio Short) |
-| --- | --- | --- |
-| Anderson Paulino | `1DAnZxVDj9c` | “Ser Personal Banker foi uma bênção.” |
-| Greice Thomaz | `5J1AOUqBgPk` | “Eu estava obstinada a fazer dar certo.” |
-| Rosana Agostini | `Rempc2NsPT4` | “Eu quero atender os meus clientes e ter liberdade de escolha como Personal Banker.” |
+| Pessoa | Vídeo |
+| --- | --- |
+| Anderson Paulino | `1DAnZxVDj9c` |
+| Greice Thomaz | `5J1AOUqBgPk` |
+| Rosana Agostini | `Rempc2NsPT4` |
+
+**O cartão mostra o vídeo e o nome, e nada mais.** Cidade e tempo de casa não
+existem em lugar nenhum que se possa consultar, e marcador `⟨…⟩` repetido em
+três cartões seguidos vira ruído em vez de honestidade — num ponto da página
+que existe para dar prova social, isso trabalha contra.
+
+As citações saíram junto, a pedido. Eram os títulos dos próprios Shorts e ficam
+registradas aqui, caso se decida trazê-las de volta — é uma linha por cartão:
+
+- Anderson: “Ser Personal Banker foi uma bênção.”
+- Greice: “Eu estava obstinada a fazer dar certo.”
+- Rosana: “Eu quero atender os meus clientes e ter liberdade de escolha como
+  Personal Banker.” *(o título no YouTube traz “liberadade”)*
 
 **A citação é o título do vídeo.** Já é fala em primeira pessoa e vem da fonte,
 não de transcrição minha. O único ajuste foi um erro de digitação no título do

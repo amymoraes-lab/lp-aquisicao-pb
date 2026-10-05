@@ -961,11 +961,23 @@ frente e o que passa atrás é o navegador**, comparando o Z que a transformaç�
 produz. Medido em execução: as três marcas ficam em Z −157, −14 e +171 — as
 negativas estão atrás do aparelho e somem atrás da silhueta sozinhas.
 
+**A aresta arredondada vem de um perfil, não de um `border-radius`.** Não dá
+para arredondar a quina de um sólido feito de planos empilhados com CSS. O que
+funciona é **encolher as camadas das duas pontas seguindo um perfil circular**
+(`scale`, de 0,83 na ponta a 1,0 no miolo, com `1 − √(1−u²)`): a silhueta deixa
+de ser um bloco reto e a quina some. Na primeira tentativa eu escrevi `(1−u)²`
+onde era `u²` e o bisel saiu invertido — pontas em escala cheia e o miolo
+encolhido.
+
+**O degradê vai do claro ao escuro atravessando a peça.** A camada da frente é
+30% na direção do branco, o meio é a cor pura e o fundo 66% na direção de
+`#04070F`. Não é sombreado de parede lateral só: é a peça inteira variando, que
+é o que faz ela parecer iluminada de frente.
+
 **A marca é um sólido, não um adesivo.** Na primeira versão ela sempre ficava
 de frente para quem olha, e o resultado era uma folha de papel andando em 3D.
-Agora são **14 cópias empilhadas em Z** por marca: a pilha forma a parede
-lateral, e o degradê de cor entre as camadas (`color-mix` com `#04070F`, de 0% a
-58%) é o que lê como sombreado. Uma segunda animação (`fq-rodopiar`, 9s) gira a
+Agora são **20 cópias empilhadas em Z** por marca: a pilha forma a parede
+lateral, e o degradê de cor entre as camadas (`color-mix`) é o que lê como sombreado. Uma segunda animação (`fq-rodopiar`, 9s) gira a
 marca no próprio eixo em ±44° — sem ela a espessura nunca apareceria; com mais
 que isso, a marca ficaria de perfil e sumiria.
 

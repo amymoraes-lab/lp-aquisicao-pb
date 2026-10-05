@@ -748,9 +748,9 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 
 .fq-orbita__q {
   /* o tamanho acompanha a tela pelo mesmo motivo do raio */
-  --tam: clamp(46px, 4.6vw, 66px);
-  /* a espessura da extrusão: 13 passos ≈ 28% da largura da marca */
-  --passo: calc(var(--tam) / 48);
+  --tam: clamp(58px, 5.8vw, 84px);
+  /* a espessura: 19 passos ≈ 56% da largura da marca */
+  --passo: calc(var(--tam) / 34);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -785,20 +785,26 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   height: 100%;
   display: block;
 }
-.fq-marca3d__c:nth-child(1) { transform: translateZ(calc(var(--passo) * 6.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 0%); }
-.fq-marca3d__c:nth-child(2) { transform: translateZ(calc(var(--passo) * 5.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 4%); }
-.fq-marca3d__c:nth-child(3) { transform: translateZ(calc(var(--passo) * 4.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 9%); }
-.fq-marca3d__c:nth-child(4) { transform: translateZ(calc(var(--passo) * 3.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 13%); }
-.fq-marca3d__c:nth-child(5) { transform: translateZ(calc(var(--passo) * 2.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 18%); }
-.fq-marca3d__c:nth-child(6) { transform: translateZ(calc(var(--passo) * 1.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 22%); }
-.fq-marca3d__c:nth-child(7) { transform: translateZ(calc(var(--passo) * 0.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 27%); }
-.fq-marca3d__c:nth-child(8) { transform: translateZ(calc(var(--passo) * -0.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 31%); }
-.fq-marca3d__c:nth-child(9) { transform: translateZ(calc(var(--passo) * -1.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 36%); }
-.fq-marca3d__c:nth-child(10) { transform: translateZ(calc(var(--passo) * -2.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 40%); }
-.fq-marca3d__c:nth-child(11) { transform: translateZ(calc(var(--passo) * -3.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 45%); }
-.fq-marca3d__c:nth-child(12) { transform: translateZ(calc(var(--passo) * -4.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 49%); }
-.fq-marca3d__c:nth-child(13) { transform: translateZ(calc(var(--passo) * -5.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 54%); }
-.fq-marca3d__c:nth-child(14) { transform: translateZ(calc(var(--passo) * -6.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 58%); }
+.fq-marca3d__c:nth-child(1) { transform: translateZ(calc(var(--passo) * 9.5)) scale(0.83); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 30%); }
+.fq-marca3d__c:nth-child(2) { transform: translateZ(calc(var(--passo) * 8.5)) scale(0.9403); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 27%); }
+.fq-marca3d__c:nth-child(3) { transform: translateZ(calc(var(--passo) * 7.5)) scale(0.975); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 24%); }
+.fq-marca3d__c:nth-child(4) { transform: translateZ(calc(var(--passo) * 6.5)) scale(0.9931); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 21%); }
+.fq-marca3d__c:nth-child(5) { transform: translateZ(calc(var(--passo) * 5.5)) scale(0.9998); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 17%); }
+.fq-marca3d__c:nth-child(6) { transform: translateZ(calc(var(--passo) * 4.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 14%); }
+.fq-marca3d__c:nth-child(7) { transform: translateZ(calc(var(--passo) * 3.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 11%); }
+.fq-marca3d__c:nth-child(8) { transform: translateZ(calc(var(--passo) * 2.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 8%); }
+.fq-marca3d__c:nth-child(9) { transform: translateZ(calc(var(--passo) * 1.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 5%); }
+.fq-marca3d__c:nth-child(10) { transform: translateZ(calc(var(--passo) * 0.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #FFFFFF 2%); }
+.fq-marca3d__c:nth-child(11) { transform: translateZ(calc(var(--passo) * -0.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #04070F 3%); }
+.fq-marca3d__c:nth-child(12) { transform: translateZ(calc(var(--passo) * -1.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #04070F 10%); }
+.fq-marca3d__c:nth-child(13) { transform: translateZ(calc(var(--passo) * -2.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #04070F 17%); }
+.fq-marca3d__c:nth-child(14) { transform: translateZ(calc(var(--passo) * -3.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #04070F 24%); }
+.fq-marca3d__c:nth-child(15) { transform: translateZ(calc(var(--passo) * -4.5)) scale(1.0); color: color-mix(in srgb, var(--marca-cor), #04070F 31%); }
+.fq-marca3d__c:nth-child(16) { transform: translateZ(calc(var(--passo) * -5.5)) scale(0.9998); color: color-mix(in srgb, var(--marca-cor), #04070F 38%); }
+.fq-marca3d__c:nth-child(17) { transform: translateZ(calc(var(--passo) * -6.5)) scale(0.9931); color: color-mix(in srgb, var(--marca-cor), #04070F 45%); }
+.fq-marca3d__c:nth-child(18) { transform: translateZ(calc(var(--passo) * -7.5)) scale(0.975); color: color-mix(in srgb, var(--marca-cor), #04070F 52%); }
+.fq-marca3d__c:nth-child(19) { transform: translateZ(calc(var(--passo) * -8.5)) scale(0.9403); color: color-mix(in srgb, var(--marca-cor), #04070F 59%); }
+.fq-marca3d__c:nth-child(20) { transform: translateZ(calc(var(--passo) * -9.5)) scale(0.83); color: color-mix(in srgb, var(--marca-cor), #04070F 66%); }
 
 /* Três marcas, mesmo anel, fases diferentes: uma só lê como enfeite solto.
    Nenhuma usa `opacity`: translúcida sobre a tela branca do aparelho, a marca
@@ -806,12 +812,12 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-orbita__q--1 { animation-delay: 0s; }
 .fq-orbita__q--1 .fq-marca3d { animation-delay: -1.2s; }
 .fq-orbita__q--2 {
-  --tam: clamp(36px, 3.6vw, 52px);
+  --tam: clamp(46px, 4.6vw, 66px);
   animation-delay: -7.33s;
 }
 .fq-orbita__q--2 .fq-marca3d { animation-delay: -4.6s; }
 .fq-orbita__q--3 {
-  --tam: clamp(28px, 2.8vw, 40px);
+  --tam: clamp(36px, 3.6vw, 52px);
   animation-delay: -14.66s;
 }
 .fq-orbita__q--3 .fq-marca3d { animation-delay: -7.1s; }

@@ -742,6 +742,50 @@ com o Chrome emulando `prefers-color-scheme: light`: a página continua escura.
 O bloco `[data-tema="claro"]` do CSS **ficou**, marcado como inativo: nada nele
 depende de JS, então basta reintroduzir o botão para voltar a valer.
 
+## 8.6 Depoimentos em vídeo
+
+Os três cartões passaram a ser Shorts do canal da Franq, com **pessoas novas** —
+nenhuma delas é Karen, Jeferson ou Douglas, cujos depoimentos estavam na página.
+
+| Pessoa | Vídeo | Citação (título do próprio Short) |
+| --- | --- | --- |
+| Anderson Paulino | `1DAnZxVDj9c` | “Ser Personal Banker foi uma bênção.” |
+| Greice Thomaz | `5J1AOUqBgPk` | “Eu estava obstinada a fazer dar certo.” |
+| Rosana Agostini | `Rempc2NsPT4` | “Eu quero atender os meus clientes e ter liberdade de escolha como Personal Banker.” |
+
+**A citação é o título do vídeo.** Já é fala em primeira pessoa e vem da fonte,
+não de transcrição minha. O único ajuste foi um erro de digitação no título do
+terceiro, onde está “liberadade”.
+
+**Cidade e tempo de casa continuam como `⟨…⟩`** — não existem em lugar nenhum
+que eu possa consultar. Trocar as pessoas **resolveu o conflito de nomes** que
+estava aberto desde as capas antigas.
+
+### Fachada, não iframe
+
+Três iframes do YouTube carregados de saída custariam alguns MB de script de
+terceiro e plantariam cookies **antes de qualquer interesse da pessoa** — numa
+página de fintech regulada isso é consentimento, não só peso. A página mostra a
+capa e um botão; o iframe (`youtube-nocookie.com`, autoplay) só entra no clique.
+
+**Medido: zero requisições ao YouTube antes do clique.** O único domínio Google
+na página continua sendo `fonts.googleapis.com`, que já estava lá.
+
+A capa é o quadro vertical do próprio Short (`oardefault.jpg`, 1080×1920),
+baixado e recomprimido com `cwebp` — servido daqui, nem a miniatura toca o
+YouTube. Pesos: 111→27 KB, 254→95 KB, 368→97 KB.
+
+### Dois detalhes de enquadramento
+
+O `object-position` estava em `50% 0`, herdado das artes antigas, onde o texto
+ficava embaixo. Nos quadros de Short o topo é a tarja da marca e a pessoa está
+no meio: passou para `50% 42%`.
+
+**Nota de método:** por duas vezes a captura saiu com os quadros vazios e
+pareceu bug da página. Não era — `captureBeyondViewport` não pinta imagem que
+nunca esteve na tela. A verificação honesta é rolar até a seção e fotografar a
+viewport; `rola.mjs` faz isso.
+
 ## 9.0 Camada de motion
 
 A pedido, motion em tudo que fazia sentido. Regra de orçamento: **cinco

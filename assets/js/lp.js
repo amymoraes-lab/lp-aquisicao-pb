@@ -292,45 +292,42 @@
 
   /* ======================================================================
      4.9 DEPOIMENTOS
-     Os 3 depoimentos reais. Campos que não temos ficam marcados, não
-     inventados.
+     Os 3 depoimentos são Shorts do canal da Franq. A citação de cada cartão
+     é o TÍTULO do próprio vídeo — já é uma fala em primeira pessoa, e vem da
+     fonte, não de transcrição minha. O único ajuste foi um erro de digitação
+     em "liberdade", que no título do YouTube está "liberadade".
 
-     `capa` é a arte vertical que ocupa o slot ENQUANTO o vídeo não existe —
-     é cartaz, não frame de vídeo, então não leva botão de play: não há nada
-     para tocar. Quando o .mp4 chegar, `video` assume e a capa passa a ser o
-     poster dele.
+     Cidade e tempo de casa não existem em lugar nenhum que eu possa consultar:
+     ficam com o marcador ⟨…⟩, como o resto do projeto faz com dado ausente.
 
-     ATENÇÃO: as capas 2 e 3 são de Rogério Rojo e Erica Vieira, mas os
-     depoimentos 2 e 3 são de Jeferson Cantanhede e Douglas Biscaia. O cartão
-     mostra dois nomes diferentes. Ver a nota no HANDOFF.
+     A capa é o quadro vertical do Short (oardefault, 1080×1920), baixado e
+     recomprimido: servido daqui, o YouTube não recebe nenhuma requisição —
+     nem cookie — antes de a pessoa clicar em assistir.
      ================================================================== */
   var DEPS = [
     {
-      q: "Com a Franq tenho a oportunidade de atender meus clientes com soluções que irão agregar valor, sem colocar em risco minha credibilidade a qual construí na minha trajetória profissional.",
-      nome: "Karen Lopes",
-      cidade: "Gravataí/RS", // corrigido: Gravataí é RS, estava creditado como SC
-      tempo: "Personal Banker há 2 anos",
-      foto: null, video: null,
-      capa: "assets/img/depoimentos/karen-lopes.jpg",
-      capaDe: "Karen Lopes"
+      q: "Ser Personal Banker foi uma bênção.",
+      nome: "Anderson Paulino",
+      cidade: "⟨cidade⟩",
+      tempo: "⟨tempo como PB⟩",
+      video: "1DAnZxVDj9c",
+      capa: "assets/img/depoimentos/anderson-paulino.webp"
     },
     {
-      q: "Gosto muito da ideia de estimular as pessoas a empreender, encorajá-las a trilhar seu próprio caminho. A Franq, aliada à tecnologia de uma nova era do mercado financeiro, faz isso acontecer.",
-      nome: "Jeferson Cantanhede",
-      cidade: "Porto Alegre/RS",
-      tempo: "Personal Banker há 3 anos",
-      foto: null, video: null,
-      capa: "assets/img/depoimentos/rogerio-rojo.jpg",
-      capaDe: "Rogério Rojo"
+      q: "Eu estava obstinada a fazer dar certo.",
+      nome: "Greice Thomaz",
+      cidade: "⟨cidade⟩",
+      tempo: "⟨tempo como PB⟩",
+      video: "5J1AOUqBgPk",
+      capa: "assets/img/depoimentos/greice-thomaz.webp"
     },
     {
-      q: "A Franq é totalmente diferente de um banco. Empreender com ela é ter liberdade nas suas escolhas e buscar a melhor opção para atender os seus clientes, respeitando o seu momento de vida.",
-      nome: "Douglas Biscaia",
-      cidade: "Curitiba/PR",
-      tempo: "Personal Banker há 2 anos",
-      foto: null, video: null,
-      capa: "assets/img/depoimentos/erica-vieira.jpg",
-      capaDe: "Erica Vieira"
+      q: "Eu quero atender os meus clientes e ter liberdade de escolha como Personal Banker.",
+      nome: "Rosana Agostini",
+      cidade: "⟨cidade⟩",
+      tempo: "⟨tempo como PB⟩",
+      video: "Rempc2NsPT4",
+      capa: "assets/img/depoimentos/rosana-agostini.webp"
     }
   ];
 
@@ -340,15 +337,23 @@
     cx.innerHTML = DEPS.map(function (d) {
       var meta = '<span class="fq-dep__ln">' + d.cidade + "</span>" +
                  '<span class="fq-dep__ln">' + d.tempo + "</span>";
+      var midia = d.capa
+        /* dimensões declaradas: sem elas a imagem entra depois do layout e
+           empurra o texto do cartão para baixo */
+        ? '<img src="' + d.capa + '" width="640" height="1138" loading="lazy" ' +
+          'decoding="async" alt="' + d.nome + ', Personal Banker da Franq, em vídeo">' +
+          (d.video
+            ? '<button class="fq-dep__play" type="button" data-video="' + d.video + '" ' +
+              'aria-label="Assistir ao depoimento de ' + d.nome + '">' +
+              '<svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">' +
+              '<path d="M8 5.5v13l11-6.5z"/></svg>assistir</button>'
+            : "")
+        : '<div class="fq-dep__slot">' +
+          '<svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="16" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>' +
+          "⟨vídeo vertical de " + d.nome.split(" ")[0] + "⟩</div>";
+
       return '<article class="fq-dep" data-reveal>' +
-        '<div class="fq-dep__v">' + (d.capa
-          /* dimensões declaradas: sem elas a imagem entra depois do layout e
-             empurra o texto do cartão para baixo */
-          ? '<img src="' + d.capa + '" width="480" height="846" loading="lazy" ' +
-            'decoding="async" alt="' + (d.capaDe || d.nome) + ', Personal Banker da Franq">'
-          : '<div class="fq-dep__slot">' +
-            '<svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="16" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>' +
-            "⟨vídeo vertical de " + d.nome.split(" ")[0] + "⟩</div>") + "</div>" +
+        '<div class="fq-dep__v">' + midia + "</div>" +
         '<div class="fq-dep__b">' +
           '<p class="fq-dep__q">' + d.q + "</p>" +
           '<div class="fq-dep__id">' +
@@ -359,6 +364,39 @@
         "</div></article>";
     }).join("");
   }
+
+  /* ======================================================================
+     VÍDEO DOS DEPOIMENTOS — fachada
+     A página mostra a capa e um botão; o iframe do YouTube só entra no
+     clique. Três iframes carregados de saída custariam alguns MB de script
+     de terceiro e plantariam cookies antes de qualquer interesse da pessoa —
+     numa página de fintech regulada isso é questão de consentimento, não só
+     de peso. O domínio é o `-nocookie`.
+     ================================================================== */
+  function videoDepoimentos() {
+    var cx = $("#deps");
+    if (!cx) return;
+    cx.addEventListener("click", function (e) {
+      var b = e.target.closest(".fq-dep__play");
+      if (!b) return;
+      var id = b.getAttribute("data-video");
+      var slot = b.closest(".fq-dep__v");
+      if (!id || !slot) return;
+
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + id +
+              "?autoplay=1&rel=0&modestbranding=1&playsinline=1";
+      f.title = b.getAttribute("aria-label") || "Depoimento em vídeo";
+      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture";
+      f.setAttribute("allowfullscreen", "");
+      f.setAttribute("loading", "eager");
+      slot.innerHTML = "";
+      slot.appendChild(f);
+      f.focus();
+    });
+  }
+
+
 
   /* ======================================================================
      4.10 FORMULÁRIO
@@ -1131,6 +1169,7 @@
   montarChipsSim($("#sim-chips"));
   montarChipsCategoria($("#form-chips"));
   renderDeps();
+  videoDepoimentos();
 
   aoMudar(sincronizarChips);
   aoMudar(renderSim);

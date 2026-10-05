@@ -1228,7 +1228,9 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--violeta);
-  align-items: center;
+  /* Alinha pelo topo, como as células: centrado, o rótulo descia 15px nas
+     linhas que quebram em duas e a linha inteira parecia torta. */
+  align-items: flex-start;
 }
 .fq-vs__c--ag { color: var(--tx-3); }
 .fq-vs__c--ag .fq-vs__ic { color: var(--tx-4); }
@@ -1244,7 +1246,10 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 /* Nas linhas de custo e de contrapartida a gramática se inverte: lá a coluna
    do PB não é "melhor", é o preço do negócio. Marcador neutro nas duas
    colunas — um check em "sem FGTS" seria propaganda enganosa. */
-.fq-vs__ic--neutro { color: var(--tx-4); width: 13px; height: 13px; margin-top: 4px; }
+/* Mesma caixa de 17px dos outros ícones, só com o desenho menor dentro: um
+   ícone mais estreito é um item flex mais estreito, e empurrava o texto desta
+   linha 4px para a esquerda em relação a todas as outras. */
+.fq-vs__ic--neutro { color: var(--tx-4); }
 .fq-vs__c--pb .fq-vs__ic--neutro { color: var(--tx-4); }
 .fq-vs__h--pb { border-left: 2px solid var(--lima); }
 

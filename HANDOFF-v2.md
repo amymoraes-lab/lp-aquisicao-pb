@@ -1071,7 +1071,27 @@ Entregues e depois revertidos a pedido, em 05/10/2026:
 - o widget do canto voltou a ser a **Fran**, apontando para `#cadastro`. O
   botão de WhatsApp saiu junto com o placeholder do número.
 
-### Uma armadilha desta rodada
+### A tabela estava torta por dois motivos somados
+
+Medido linha a linha, comparando o topo do **texto** (não da caixa — o ícone e
+o padding enganam):
+
+- **O rótulo da linha vinha centrado verticalmente** (`align-items: center`)
+  enquanto as células alinham pelo topo. Em linha de uma linha ninguém nota; nas
+  que quebram em duas — Estrutura e Custo — o rótulo descia **15px**.
+- **O ícone neutro era 13px contra os 17px dos outros.** Ícone é item flex: mais
+  estreito, empurrava o texto do Custo **4px** para a esquerda em relação a
+  todas as outras linhas. A correção foi devolver a caixa de 17px e deixar só o
+  desenho menor dentro do `viewBox`.
+
+Depois: **1px de desvio em todas as sete linhas** — a diferença de altura de
+maiúscula entre a mono do rótulo e a fonte do corpo. No mobile a tabela vira
+layout empilhado e já estava uniforme.
+
+Detalhe de método: a primeira medição acusou 67px de desvio em tudo. Era um
+`slice(1)` meu pareando o rótulo de uma linha com o texto da seguinte.
+
+### Uma armadilha da rodada de conteúdo
 
 **Um `</div>` sobrando jogou o formulário para fora do card.** Ao trocar as três
 etapas por duas, o recorte parou no `</div>` do último `.fq-step` em vez do da

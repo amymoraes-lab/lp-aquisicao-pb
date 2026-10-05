@@ -1037,16 +1037,13 @@ recriar os componentes, essa regra precisa ir junto.
 | --- | --- | --- |
 | Selo "Cadastro gratuito" | coluna de reasseguramento | — |
 | Linha **Custo** na comparação | R$ 200/mês por loja, até 75% no anual | a própria FAQ da página |
-| Linha **O que você assume** | renda variável, sem FGTS e sem benefícios | o rodapé já declara "profissional autônomo" |
-| **Comissão líquida** no simulador | bruto − R$ 200 | idem |
 | Formulário enxuto | saíram CPF, CEP e endereço; ficaram cidade e UF | — |
 | Critério de experiência | passou a repetir o texto divulgado, com Ancord | a FAQ de aprovação |
 | Caminho para o "Não" | lista de espera + escritórios de investimento | a FAQ de experiência |
 | FAQ: −2 perguntas, +6 | consumidor e CPF saíram | — |
 
-As duas linhas novas da tabela usam **marcador neutro**, não o check das
-outras: ali a gramática "agência limita / PB libera" se inverte, e um check
-verde em "sem FGTS" seria propaganda enganosa.
+A linha de **Custo** usa **marcador neutro**, não o check das outras: ali a
+coluna do PB não é "melhor", é o preço do negócio.
 
 A pergunta do CPF saiu da FAQ junto com o campo — ficou sem objeto.
 
@@ -1062,17 +1059,19 @@ Nada disso existe em fonte que eu possa consultar, então entrou como
   operar ainda empregado, quarentena de clientes, prazo da primeira comissão e
   os primeiros 30 dias. Onde eu tinha meia resposta, ela está escrita e só o
   que falta está marcado.
-- **O número do WhatsApp** — o widget da Fran virou WhatsApp, com
-  `href="https://wa.me/55DDDNUMERO"`. Não é número válido de propósito: ninguém
-  publica isso sem perceber, e enquanto isso ninguém liga para um estranho.
 - **O link dos escritórios de investimento**, no ramo do "Não".
 
-### Duas armadilhas desta rodada
+### Três itens voltaram atrás
 
-**O ramo "não cobre a mensalidade" é inalcançável.** O simulador avisa quando a
-estimativa fica abaixo dos R$ 200, mas com as escalas atuais o pior cenário
-possível é **R$ 700** (crédito PJ no volume mínimo). O código fica como
-proteção para quem mexer nas escalas, não como estado real.
+Entregues e depois revertidos a pedido, em 05/10/2026:
+
+- a linha **O que você assume** (renda variável, sem FGTS) saiu da tabela — o
+  **Custo** fica;
+- o simulador voltou a mostrar **só o bruto**, sem descontar a mensalidade;
+- o widget do canto voltou a ser a **Fran**, apontando para `#cadastro`. O
+  botão de WhatsApp saiu junto com o placeholder do número.
+
+### Uma armadilha desta rodada
 
 **Um `</div>` sobrando jogou o formulário para fora do card.** Ao trocar as três
 etapas por duas, o recorte parou no `</div>` do último `.fq-step` em vez do da

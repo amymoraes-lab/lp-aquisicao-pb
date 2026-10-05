@@ -213,10 +213,6 @@
     });
   }
 
-  /* A mensalidade da loja. Mesmo número que a FAQ e a tabela comparativa
-     informam — se mudar, muda aqui e lá. */
-  var MENSALIDADE = 200;
-
   /* mesma conta da ferramenta oficial: base mensal × percentual mínimo */
   function calcular() {
     var total = 0, itens = [];
@@ -240,8 +236,6 @@
       if (exemplo) exemplo.hidden = false;
       var v0 = $(".fq-res__val", saida);
       if (v0) v0.remove();
-      var l0 = $(".fq-res__liq", saida);
-      if (l0) l0.remove();
       if (bkLista) bkLista.innerHTML = "";
       if (det) det.hidden = true;
       return;
@@ -270,26 +264,6 @@
     }
     val.setAttribute("aria-label",
       "Comissão potencial estimada a partir de " + brl(r.total) + " por mês");
-
-    /* O bruto sozinho omite o custo. Este público desconta de cabeça — melhor
-       a página fazer a conta do que deixar a desconfiança fazer. */
-    var liq = $(".fq-res__liq", saida);
-    if (!liq) {
-      liq = document.createElement("p");
-      liq.className = "fq-res__liq";
-      saida.appendChild(liq);
-    }
-    var liquido = r.total - MENSALIDADE;
-    if (liquido > 0) {
-      liq.innerHTML = "menos " + brl(MENSALIDADE) + " de mensalidade = <b>" +
-        brl(liquido) + "</b> líquidos por mês";
-      liq.classList.remove("is-negativo");
-    } else {
-      /* não esconde o caso ruim: nesse volume a loja não se paga */
-      liq.innerHTML = "nesse volume a estimativa ainda <b>não cobre</b> a " +
-        "mensalidade de " + brl(MENSALIDADE);
-      liq.classList.add("is-negativo");
-    }
 
     if (det) det.hidden = false;
     if (bkLista) {

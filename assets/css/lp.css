@@ -704,138 +704,44 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 
 /* =========================================================================
    IPHONE DO HERO
-   Aparelho desenhado em CSS, sem imagem. Divisão de trabalho igual à do
-   MacBook que ele substituiu, para o JS de giro não mudar:
-     .fq-fone-palco  perspectiva + animação de entrada (CSS)
-     .fq-fone        giro pelo mouse + parallax de scroll (JS, --rx/--ry/--dy)
-     .fq-fone__vidro reflexo que corre no vidro (JS, --gl)
+   Render com a tela do beFranq, fundo transparente. Substituiu o aparelho
+   que era desenhado em CSS.
 
-   Dimensionado pela ALTURA, não pela largura: um celular 9:19,5 com a
-   largura da coluna do hero teria mais de mil pixels de altura.
+   NÃO há giro em 3D aqui: a perspectiva já vem embutida no arquivo, e
+   rotacionar por cima dela daria perspectiva dupla — o aparelho pareceria
+   dobrado. O que resta é translação, que acompanha o mouse e o scroll sem
+   brigar com o render.
    ====================================================================== */
 .fq-fone-palco {
   position: relative;
-  perspective: 1500px;
-  perspective-origin: 50% 44%;
   display: flex;
   justify-content: center;
-  padding-bottom: 34px;      /* espaço para a sombra no chão */
+  padding-bottom: 30px;      /* espaço para a sombra no chão */
 }
 
 .fq-fone {
-  --rx: 0deg;
-  --ry: 0deg;
-  --dy: 0px;
-  position: relative;
-  height: clamp(420px, 46vw, 560px);
-  aspect-ratio: 9 / 19.5;
-  transform-style: preserve-3d;
-  transform: translate3d(0, var(--dy), 0) rotateX(var(--rx)) rotateY(var(--ry));
+  --dx: 0px;    /* mouse, horizontal */
+  --my: 0px;    /* mouse, vertical */
+  --dy: 0px;    /* scroll */
+  display: block;
+  height: clamp(420px, 46vw, 580px);
+  width: auto;
+  max-width: 100%;
+  transform: translate3d(var(--dx), calc(var(--my) + var(--dy)), 0);
   will-change: transform;
 }
 
-/* corpo: titânio escuro, com a quina clara que o alumínio faz na luz */
-.fq-fone__corpo {
-  position: absolute;
-  inset: 0;
-  border-radius: 13.5%/6.2%;
-  padding: 1.9%;
-  background:
-    linear-gradient(118deg, rgba(var(--c-luz), .30) 0%, rgba(var(--c-luz), 0) 28%),
-    linear-gradient(170deg, #5B6170 0%, #343A47 24%, #272C37 62%, #434A59 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(var(--c-luz), .22),
-    0 30px 60px -28px rgba(var(--c-sombra), .95);
-}
-
-.fq-fone__tela {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 11.5%/5.3%;
-  overflow: hidden;
-  background: #05070E;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.85);
-}
-
-/* a captura preenche a tela. Sendo uma captura de celular, a proporção já
-   bate com a do aparelho: `cover` não descarta nada. */
-.fq-fone__shot {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 0;
-  display: block;
-}
-
-/* Dynamic Island */
-.fq-fone__ilha {
-  position: absolute;
-  top: 1.6%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 31%;
-  height: 4.1%;
-  border-radius: var(--r-pill);
-  background: #05070E;
-  z-index: 3;
-}
-
-/* barra de início */
-.fq-fone__inicio {
-  position: absolute;
-  bottom: 1.1%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 35%;
-  height: 0.55%;
-  min-height: 3px;
-  border-radius: var(--r-pill);
-  background: rgba(255,255,255,.55);
-  z-index: 3;
-}
-
-/* reflexo do vidro: corre conforme o aparelho gira */
-.fq-fone__vidro {
-  position: absolute;
-  inset: -20% -40%;
-  z-index: 2;
-  pointer-events: none;
-  transform: translateX(calc(var(--gl, 0) * 1%));
-  background: linear-gradient(104deg,
-    rgba(255,255,255,0) 38%,
-    rgba(255,255,255,.06) 47%,
-    rgba(255,255,255,.11) 50%,
-    rgba(255,255,255,.06) 53%,
-    rgba(255,255,255,0) 62%);
-}
-
-/* botões laterais */
-.fq-fone__bt {
-  position: absolute;
-  width: 1.9%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #2B313D, #596073 60%, #333945);
-  z-index: 1;
-}
-.fq-fone__bt--silencioso { left: -1.2%; top: 17.5%; height: 4.2%; }
-.fq-fone__bt--vol-mais   { left: -1.2%; top: 24.5%; height: 7.4%; }
-.fq-fone__bt--vol-menos  { left: -1.2%; top: 33.5%; height: 7.4%; }
-.fq-fone__bt--power      { right: -1.2%; top: 27%;  height: 10.5%; }
-
-/* sombra no chão, fora do 3D */
+/* sombra no chão: o render vem recortado, sem apoio nenhum */
 .fq-fone__sombra {
   position: absolute;
   left: 50%;
-  bottom: 4px;
-  width: 58%;
-  height: 26px;
+  bottom: 10px;
+  width: 46%;
+  height: 24px;
   transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(var(--c-sombra), .85), rgba(var(--c-sombra), 0) 72%);
-  filter: blur(9px);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(var(--c-sombra), .8), rgba(var(--c-sombra), 0) 72%);
+  filter: blur(10px);
   z-index: -1;
 }
 
@@ -1744,7 +1650,7 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   .fq-pilares { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .fq-deps { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .fq-hero__grid { grid-template-columns: minmax(0, 1fr); }
-  .fq-fone-palco { padding-bottom: 28px; }
+  .fq-fone-palco { padding-bottom: 24px; }
 }
 
 @media (max-width: 760px) {

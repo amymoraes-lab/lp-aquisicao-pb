@@ -715,29 +715,30 @@ de cada fonte, seguir qual está ativa (`/F4 Tf`) e agrupar os glifos por
 coordenada Y para remontar as linhas. O extrator ficou em
 `tools/` como referência.
 
-### iPhone no lugar do MacBook
+### iPhone no hero
 
-Mesma divisão de camadas, para o giro pelo mouse continuar valendo sem mudança:
-palco com a perspectiva, aparelho recebendo `--rx`/`--ry`/`--dy`, vidro
-recebendo `--gl`. Dynamic Island, barra de início, quatro botões laterais e
-sombra no chão, tudo em CSS.
+Começou desenhado em CSS e terminou como **render com fundo transparente**
+(`assets/img/befranq-iphone.webp`), com a tela do beFranq já composta no
+arquivo. O palco segue dando a animação de entrada e o parallax; o aparelho
+virou um `<img>`.
 
-**Dimensionado pela altura, não pela largura:** um 9:19,5 com a largura da
-coluna do hero passaria de mil pixels de altura. Fica em 258×560 (1:2,17). Como
-o celular é bem mais estreito que o laptop, a grade do hero passou de
-`1,02fr / 0,98fr` para `1,25fr / 0,75fr` e o texto ganhou o espaço que sobrou.
+**O movimento perdeu a rotação de propósito.** O render traz a perspectiva
+embutida, e girar por cima dela somaria duas perspectivas — o aparelho
+pareceria dobrado. Sobrou translação: ±14px no eixo X e ±9px no Y, com a mesma
+inércia de antes (persegue 12% da distância por frame). Verificado no computado:
+`matrix(1, 0, 0, 1, …)`, nenhuma rotação.
 
-**A tela é uma captura real do beFranq em celular** (fluxo de Home Equity,
-`assets/img/befranq-home-equity.webp`). A proporção dela, **1:2,163**, bate com
-a da tela do aparelho, 1:2,167 — o `cover` descarta 1,95% da largura e nada da
-altura. A captura de desktop que servia de provisório saiu do projeto.
+Como a perspectiva, a moldura, a Dynamic Island e os botões laterais vêm todos
+no arquivo, saíram do CSS as peças que os desenhavam — `__corpo`, `__tela`,
+`__ilha`, `__inicio`, `__bt`, `__vidro` e `__shot`. Ficaram o palco, a sombra de
+chão e o próprio `<img>`. A captura solta do beFranq também saiu: o render já a
+contém.
 
-A barra de status da captura fica exatamente onde a Dynamic Island do CSS
-entra, com a hora à esquerda e a bateria à direita. Isso deixa o conjunto mais
-verossímil, não menos: é como um iPhone de verdade se parece.
+Peso: 98 KB → **48 KB** em webp a 760px, que é 2× o tamanho de exibição.
 
-Peso: 60 KB em JPEG → **17 KB** em webp a 560px de largura, que é 2,2× o
-tamanho de exibição.
+**Um ganho que o render trouxe de graça:** antes a captura de celular precisava
+caber numa tela 9:19,5 desenhada em CSS, e eu media quanto o `cover` descartava.
+Agora o enquadramento é decisão de quem fez o render.
 
 ### Tema claro: botão removido
 

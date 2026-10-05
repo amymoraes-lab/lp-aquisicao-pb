@@ -976,50 +976,51 @@
   }
 
   /* ======================================================================
-     IPHONE DO HERO — gira conforme o mouse
-     Um só loop escreve --rx / --ry / --dy / --gl no elemento; o transform
-     em si mora no CSS. Assim o parallax de scroll e o giro do mouse não
+     IPHONE DO HERO — acompanha o mouse
+     Um só loop escreve --dx / --my / --dy no elemento; o transform em si
+     mora no CSS. Assim o parallax de scroll e o movimento do mouse não
      disputam a mesma propriedade, e a animação de entrada (que fica no
      palco, um nível acima) também não entra no meio.
+
+     Só TRANSLAÇÃO, nenhuma rotação: a perspectiva já vem embutida no render
+     do aparelho, e girar por cima dela deixaria o iPhone com duas
+     perspectivas somadas — pareceria dobrado.
 
      O movimento tem inércia: o alvo vem do cursor, mas a peça persegue o
      alvo com interpolação. Objeto pesado não cola no ponteiro — colar é o
      que faz esse efeito parecer barato.
      ================================================================== */
   function foneTilt() {
-    var mac = $("#fone");
+    var fone = $("#fone");
     var palco = $("#fone-palco");
-    if (!mac || !palco) return;
+    if (!fone || !palco) return;
 
-    /* Limites do giro. O eixo X é bem mais curto que o Y de propósito: cada
-       grau em X abre o deck do laptop, e passando de ~5° o alumínio vira a
-       coisa mais clara da tela e o objeto lê como prateleira. */
-    var MAX_Y = 13, MAX_X = 4.5;
+    /* curso curto: o render é grande e qualquer deslocamento maior lê como
+       a imagem escorregando, não como o objeto reagindo */
+    var MAX_X = 14, MAX_Y = 9;
 
     var alvoX = 0, alvoY = 0, atualX = 0, atualY = 0;
-    var scrollY = 0, alvoScroll = 0;
+    var rolagem = 0, alvoRolagem = 0;
     var rodando = false, ativo = false;
 
-    /* sem giro onde ele não faz sentido ou incomoda: teclado/toque não têm
-       cursor para seguir, e reduced-motion pediu para ficar parado */
-    var podeGirar = !reduzir &&
+    /* sem movimento onde ele não faz sentido ou incomoda: teclado e toque não
+       têm cursor para seguir, e reduced-motion pediu para ficar parado */
+    var podeMover = !reduzir &&
       window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     function loop() {
       /* perseguição exponencial: 12% da distância por frame */
       atualX += (alvoX - atualX) * 0.12;
       atualY += (alvoY - atualY) * 0.12;
-      scrollY += (alvoScroll - scrollY) * 0.14;
+      rolagem += (alvoRolagem - rolagem) * 0.14;
 
-      mac.style.setProperty("--rx", atualX.toFixed(3) + "deg");
-      mac.style.setProperty("--ry", atualY.toFixed(3) + "deg");
-      mac.style.setProperty("--dy", scrollY.toFixed(2) + "px");
-      /* o reflexo corre para o lado oposto ao giro, como vidro de verdade */
-      mac.style.setProperty("--gl", (atualY * -1.6).toFixed(2));
+      fone.style.setProperty("--dx", atualX.toFixed(2) + "px");
+      fone.style.setProperty("--my", atualY.toFixed(2) + "px");
+      fone.style.setProperty("--dy", rolagem.toFixed(2) + "px");
 
-      var parado = Math.abs(alvoX - atualX) < 0.01 &&
-                   Math.abs(alvoY - atualY) < 0.01 &&
-                   Math.abs(alvoScroll - scrollY) < 0.05;
+      var parado = Math.abs(alvoX - atualX) < 0.05 &&
+                   Math.abs(alvoY - atualY) < 0.05 &&
+                   Math.abs(alvoRolagem - rolagem) < 0.05;
       if (parado) { rodando = false; return; }
       requestAnimationFrame(loop);
     }
@@ -1030,22 +1031,18 @@
       requestAnimationFrame(loop);
     }
 
-    if (podeGirar) {
+    if (podeMover) {
       window.addEventListener("mousemove", function (e) {
-        /* só trabalha enquanto o hero está na tela */
-        if (!ativo) return;
+        if (!ativo) return;           /* só trabalha com o hero na tela */
         var r = palco.getBoundingClientRect();
         var cx = r.left + r.width / 2;
         var cy = r.top + r.height / 2;
-        /* normaliza pela metade da janela: o giro máximo acontece nas
-           bordas da tela, não nas bordas do objeto — assim o Mac reage ao
-           mouse em qualquer lugar do hero, não só sobre ele */
-        var nx = (e.clientX - cx) / (window.innerWidth / 2);
-        var ny = (e.clientY - cy) / (window.innerHeight / 2);
-        nx = Math.max(-1, Math.min(1, nx));
-        ny = Math.max(-1, Math.min(1, ny));
-        alvoY = nx * MAX_Y;
-        alvoX = -ny * MAX_X;
+        /* normaliza pela metade da janela: o curso máximo acontece nas bordas
+           da tela, então o aparelho reage ao mouse em qualquer ponto do hero */
+        var nx = Math.max(-1, Math.min(1, (e.clientX - cx) / (window.innerWidth / 2)));
+        var ny = Math.max(-1, Math.min(1, (e.clientY - cy) / (window.innerHeight / 2)));
+        alvoX = nx * MAX_X;
+        alvoY = ny * MAX_Y;
         acordar();
       }, { passive: true });
 
@@ -1059,13 +1056,12 @@
     if (!reduzir) {
       window.addEventListener("scroll", function () {
         var y = window.scrollY;
-        alvoScroll = y < 900 ? y * -0.045 : -40.5;
+        alvoRolagem = y < 900 ? y * -0.045 : -40.5;
         acordar();
       }, { passive: true });
     }
 
-    /* liga e desliga junto com a visibilidade do hero: fora da tela, nem
-       o mousemove nem o loop têm o que fazer */
+    /* liga e desliga junto com a visibilidade do hero */
     if (temIO) {
       new IntersectionObserver(function (es) {
         ativo = es[0].isIntersecting;
@@ -1075,6 +1071,7 @@
       ativo = true;
     }
   }
+
 
   /* reveal no scroll — mesmas três redes de segurança da v1:
      estado escondido só sob <html class="reveal">, timer folgado que derruba

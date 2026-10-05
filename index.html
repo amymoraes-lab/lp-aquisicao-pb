@@ -80,35 +80,14 @@
         </div>
       </div>
 
-      <!-- iPhone em CSS 3D com o beFranq aberto. O palco tem a perspectiva;
-           o JS gira só a peça de dentro (.fq-fone), para não disputar o
-           transform da animação de entrada, que fica no palco.
-
-           A tela é uma captura real do beFranq em celular (fluxo de Home
-           Equity). A proporção dela, 1:2,163, bate com a da tela do aparelho,
-           1:2,167 — nada é cortado. A barra de status da captura fica onde a
-           Dynamic Island do CSS entra, com a hora à esquerda e a bateria à
-           direita, que é como um iPhone de verdade se parece. -->
+      <!-- Render do iPhone com a tela do beFranq (Home Equity). Substituiu o
+           aparelho desenhado em CSS: a perspectiva já vem embutida no arquivo,
+           e o PNG tem fundo transparente, então assenta direto no escuro do
+           hero. O palco segue dando a animação de entrada e o parallax. -->
       <div class="fq-fone-palco" id="fone-palco" data-entra>
-        <div class="fq-fone" id="fone" role="img" aria-label="Um iPhone com a plataforma beFranq aberta, na tela de Home Equity, perguntando que bem o cliente quer usar como garantia">
-
-          <span class="fq-fone__bt fq-fone__bt--silencioso" aria-hidden="true"></span>
-          <span class="fq-fone__bt fq-fone__bt--vol-mais" aria-hidden="true"></span>
-          <span class="fq-fone__bt fq-fone__bt--vol-menos" aria-hidden="true"></span>
-          <span class="fq-fone__bt fq-fone__bt--power" aria-hidden="true"></span>
-
-          <div class="fq-fone__corpo" aria-hidden="true">
-            <div class="fq-fone__tela">
-              <img class="fq-fone__shot" src="assets/img/befranq-home-equity.webp"
-                   width="560" height="1215" loading="eager" decoding="async" alt="">
-              <span class="fq-fone__ilha"></span>
-              <span class="fq-fone__inicio"></span>
-              <span class="fq-fone__vidro"></span>
-            </div>
-          </div>
-
-        </div>
-
+        <img class="fq-fone" id="fone" src="assets/img/befranq-iphone.webp"
+             width="760" height="950" loading="eager" decoding="async"
+             alt="Um iPhone com a plataforma beFranq aberta, na tela de Home Equity, perguntando que bem o cliente quer usar como garantia">
         <span class="fq-fone__sombra" aria-hidden="true"></span>
       </div>
     </div>

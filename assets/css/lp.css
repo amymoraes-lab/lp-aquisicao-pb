@@ -445,6 +445,20 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   margin-top: 34px;
 }
 
+/* AÇÃO ISOLADA — botão sozinho no fim de uma seção, sem a placa de lima
+   cheio. A banda invertida ficou reservada para o simulador; aqui a chamada
+   aparece sem competir com aquele pico.
+
+   Mora JUNTO DOS BOTÕES de propósito: esta regra já foi apagada uma vez por
+   estar dentro do bloco do aparelho do hero, que foi substituído inteiro na
+   troca do MacBook pelo iPhone. Os dois CTAs voltaram a encostar no conteúdo
+   de cima e a alinhar à esquerda, sem ninguém notar. */
+.fq-acao {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
 /* banda de conversão entre seções.
    Peso visual alto — display serifado grande, lima, centralizado, CTA maior —
    mas sem urgência: nada de contador, "vagas limitadas" ou promessa de

@@ -734,7 +734,19 @@ no arquivo, saíram do CSS as peças que os desenhavam — `__corpo`, `__tela`,
 chão e o próprio `<img>`. A captura solta do beFranq também saiu: o render já a
 contém.
 
-Peso: 98 KB → **48 KB** em webp a 760px, que é 2× o tamanho de exibição.
+Peso: 84 KB → **49 KB** em webp a 780px, que é 2× o tamanho de exibição.
+
+**Um bug latente que a segunda troca de render revelou.** A altura é fixa
+(`clamp`) e a largura é limitada pela coluna, então com o `object-fit: fill`
+padrão o arquivo era **esticado** para preencher a caixa. O render que estava
+antes, de proporção 1:1,25, saía exibido em 1:1,51 — **21% mais alto do que é**,
+e eu não tinha notado. O que denunciou foi o novo medir exatamente a mesma
+caixa apesar de ter outra proporção.
+
+Resolvido com `object-fit: contain`: a imagem preserva a proporção qualquer que
+seja o arquivo, e como o fundo é transparente a sobra da caixa é invisível.
+Medido: **0,00% de distorção** em 1440 e em 390px. Trocar o render agora é só
+trocar o arquivo — a página não o deforma.
 
 **Um ganho que o render trouxe de graça:** antes a captura de celular precisava
 caber numa tela 9:19,5 desenhada em CSS, e eu media quanto o `cover` descartava.

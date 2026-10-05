@@ -725,8 +725,12 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   --dy: 0px;    /* scroll */
   display: block;
   height: clamp(420px, 46vw, 580px);
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  /* `contain`, não o `fill` padrão: a altura é fixa e a largura é limitada
+     pela coluna, então sem isto o render é ESTICADO para preencher a caixa —
+     o aparelho anterior saía 21% mais alto do que é. Com o fundo
+     transparente, a sobra do contain é invisível. */
+  object-fit: contain;
   transform: translate3d(var(--dx), calc(var(--my) + var(--dy)), 0);
   will-change: transform;
 }

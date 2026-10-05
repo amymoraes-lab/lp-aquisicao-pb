@@ -949,6 +949,41 @@ congelado num valor errado é erro de informação, não de animação.
 
 ---
 
+### O símbolo da Franq orbitando o aparelho
+
+Três marcas da Franq giram em torno do iPhone num anel 3D de verdade — não é
+uma animação 2D com `z-index` alternado.
+
+O palco (`.fq-fone-palco`) ganhou `perspective: 1200px` e `preserve-3d`; o anel
+(`.fq-orbita`) é um plano inclinado em `rotateX(72deg)`; cada marca percorre
+`rotateY(0 → 360deg) translateX(var(--raio))`. **Quem decide o que passa na
+frente e o que passa atrás é o navegador**, comparando o Z que a transformação
+produz. Medido em execução: as três marcas ficam em Z −157, −14 e +171 — as
+negativas estão atrás do aparelho e somem atrás da silhueta sozinhas.
+
+Dois detalhes que não são óbvios:
+
+- **A contrarrotação no fim da cadeia.** Sem `rotateY(-360deg) rotateX(-72deg)`
+  no `to`, a marca giraria junto com o anel e apareceria deitada e de perfil.
+  Com ela, a marca percorre a elipse sempre de frente para quem olha.
+- **O raio é responsivo** (`--raio: clamp(148px, 13vw, 190px)`). Com 190px
+  fixos, a marca da esquerda saía da viewport no celular, onde o aparelho tem
+  350px de largura e não 580px. Medido: em 390, 768 e 1440 não há overflow
+  horizontal e as marcas ficam dentro do palco.
+
+A cor é `var(--lima-tx)`, não `var(--lima)`: no tema escuro são a mesma coisa
+(`#DCFF79`), mas no claro o `--lima-tx` é `#4C6900`. Lima pura sobre branco dava
+**1,13:1** — praticamente invisível; com o token certo, 6,31:1. É elemento
+decorativo, então WCAG não se aplica, mas invisível não serve.
+
+O anel é `aria-hidden` e some inteiro em `prefers-reduced-motion` — verificado
+com `--force-prefers-reduced-motion`: `display: none` no anel, aparelho intacto.
+
+Uma armadilha achada no caminho: `logos/franq-branco.svg` tem **7 paths**, e a
+marca (o "Q") são os dois primeiros, não só o `paths[0]`. Usar só o primeiro
+rende meio símbolo. O `assets/img/favicon.svg` carregava esse mesmo bug desde
+que foi criado e foi corrigido junto.
+
 ## 9.1 Uma armadilha de CSS que vale conhecer
 
 `[hidden]` é estilo de **user-agent**, e perde para qualquer `display` de autor.

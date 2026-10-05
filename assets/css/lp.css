@@ -717,6 +717,61 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   display: flex;
   justify-content: center;
   padding-bottom: 30px;      /* espaço para a sombra no chão */
+  /* perspectiva para a órbita da marca; o render em si não é girado */
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+  transform-style: preserve-3d;
+}
+
+/* --------------------------------------------------- órbita da marca --- */
+/* A marca da Franq dá a volta no aparelho. É órbita 3D de verdade: o anel e
+   o render compartilham o mesmo contexto `preserve-3d`, então a oclusão sai
+   do Z de cada peça e o navegador resolve — nada de alternar z-index no
+   meio do caminho, que é o que costuma denunciar esse efeito.
+
+   Anima só `transform` e `opacity`, então compõe na GPU. */
+.fq-orbita {
+  /* o raio acompanha a tela: com 190px fixos a marca da esquerda saía da
+     viewport no celular, onde o aparelho tem 350px e não 580px */
+  --raio: clamp(148px, 13vw, 190px);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  /* a inclinação do anel: de frente ele seria uma linha reta */
+  transform: rotateX(72deg);
+}
+
+.fq-orbita__q {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  /* --lima-tx é a mesma lima no escuro e a versão legível no claro */
+  color: var(--lima-tx);
+  transform-style: preserve-3d;
+  animation: fq-orbitar 22s linear infinite;
+}
+.fq-orbita__q svg { width: 100%; height: 100%; display: block; }
+
+/* três marcas, mesmo anel, fases diferentes: uma só lê como enfeite solto */
+.fq-orbita__q--1 { animation-delay: 0s; }
+.fq-orbita__q--2 { animation-delay: -7.33s; width: 26px; height: 26px; margin: -13px 0 0 -13px; opacity: .72; }
+.fq-orbita__q--3 { animation-delay: -14.66s; width: 20px; height: 20px; margin: -10px 0 0 -10px; opacity: .5; }
+
+/* O `rotateX(-72deg)` no fim desfaz a inclinação do anel e a contrarrotação
+   em Y cancela o giro: a marca percorre a elipse sempre de frente para quem
+   olha, em vez de tombar junto com o anel. */
+@keyframes fq-orbitar {
+  from { transform: rotateY(0deg) translateX(var(--raio)) rotateY(0deg) rotateX(-72deg); }
+  to   { transform: rotateY(360deg) translateX(var(--raio)) rotateY(-360deg) rotateX(-72deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fq-orbita { display: none; }
 }
 
 .fq-fone {

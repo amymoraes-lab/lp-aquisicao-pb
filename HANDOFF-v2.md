@@ -727,11 +727,17 @@ coluna do hero passaria de mil pixels de altura. Fica em 258×560 (1:2,17). Como
 o celular é bem mais estreito que o laptop, a grade do hero passou de
 `1,02fr / 0,98fr` para `1,25fr / 0,75fr` e o texto ganhou o espaço que sobrou.
 
-**⚠ A tela ainda é a captura de DESKTOP.** É uma interface larga dentro de um
-aparelho estreito: o enquadramento pula o menu lateral e mostra a coluna de
-cards, mas continua lendo como página de computador espremida. Para acertar,
-basta trocar o `src` de `.fq-fone__shot` por uma captura do beFranq em tela de
-celular.
+**A tela é uma captura real do beFranq em celular** (fluxo de Home Equity,
+`assets/img/befranq-home-equity.webp`). A proporção dela, **1:2,163**, bate com
+a da tela do aparelho, 1:2,167 — o `cover` descarta 1,95% da largura e nada da
+altura. A captura de desktop que servia de provisório saiu do projeto.
+
+A barra de status da captura fica exatamente onde a Dynamic Island do CSS
+entra, com a hora à esquerda e a bateria à direita. Isso deixa o conjunto mais
+verossímil, não menos: é como um iPhone de verdade se parece.
+
+Peso: 60 KB em JPEG → **17 KB** em webp a 560px de largura, que é 2,2× o
+tamanho de exibição.
 
 ### Tema claro: botão removido
 

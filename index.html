@@ -230,6 +230,14 @@
       <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>Do banco</div>
       <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Curadoria, mesas de especialistas, plataforma e suporte da Franq</div>
 
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>Custo</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic fq-vs__ic--neutro" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="3.4"/></svg>Nenhum — a estrutura é do banco</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic fq-vs__ic--neutro" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="3.4"/></svg>R$ 200 por mês, por loja. Com até 75% de desconto no plano anual</div>
+
+      <div class="fq-vs__c fq-vs__c--eixo" role="rowheader" data-reveal>O que você assume</div>
+      <div class="fq-vs__c fq-vs__c--ag" role="cell" data-reveal><svg class="fq-vs__ic fq-vs__ic--neutro" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="3.4"/></svg>Salário fixo, FGTS, férias e benefícios</div>
+      <div class="fq-vs__c fq-vs__c--pb" role="cell" data-reveal><svg class="fq-vs__ic fq-vs__ic--neutro" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="3.4"/></svg>Renda variável, sem FGTS e sem benefícios. Você é autônomo</div>
+
     </div>
 
     <!-- só o botão: a banda de lima cheio ficou reservada para o simulador -->
@@ -379,7 +387,6 @@
         <div class="fq-steps" id="steps">
           <div class="fq-step" data-on><span class="fq-step__bar"></span><span class="fq-step__lb">01 · Dados</span></div>
           <div class="fq-step"><span class="fq-step__bar"></span><span class="fq-step__lb">02 · Perfil</span></div>
-          <div class="fq-step"><span class="fq-step__bar"></span><span class="fq-step__lb">03 · Endereço</span></div>
         </div>
 
         <form class="fq-form" id="form" novalidate>
@@ -403,17 +410,38 @@
               <input class="fq-inp" id="f-tel" name="celular" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000" maxlength="15">
               <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
             </div>
+            <!-- cidade e UF bastam para a triagem: o endereço completo só faz
+                 sentido na contratação, não aqui -->
+            <div class="fq-row fq-row--cidade">
+              <div class="fq-f">
+                <label for="f-cidade">Cidade</label>
+                <input class="fq-inp" id="f-cidade" name="cidade" type="text" autocomplete="address-level2" required placeholder="Onde você atua">
+                <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+              </div>
+              <div class="fq-f fq-f--uf">
+                <label for="f-uf">UF</label>
+                <select class="fq-inp" id="f-uf" name="uf" required>
+                  <option value="">—</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select>
+                <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+              </div>
+            </div>
           </div>
 
           <!-- etapa 2 — perfil -->
           <div class="fq-pane" data-pane="1" hidden>
             <div class="fq-f">
-              <span class="fq-f__lb" id="lb-exp">Você possui 5 ou mais anos de experiência no mercado financeiro em instituições como bancos de varejo ou cooperativas de crédito?</span>
+              <span class="fq-f__lb" id="lb-exp">Você tem 5 ou mais anos de experiência em banco de varejo ou cooperativa de crédito, <b>ou</b> é assessor de investimentos com certificação Ancord?</span>
               <div class="fq-radios" role="radiogroup" aria-labelledby="lb-exp">
                 <label class="fq-radio"><input type="radio" name="experiencia5" value="sim" required> Sim</label>
                 <label class="fq-radio"><input type="radio" name="experiencia5" value="nao"> Não</label>
               </div>
               <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
+              <!-- Responder "Não" não pode ser um beco sem saída: a pessoa
+                   qualificou-se até aqui e merece um caminho, não um silêncio -->
+              <div class="fq-ramo" id="ramo-nao" hidden>
+                <p><b>Hoje o cadastro de Personal Banker segue esse critério</b> — mas isso não encerra a conversa.</p>
+                <p>Se você continuar, seu cadastro entra na <b>lista de espera</b>: guardamos seus dados e avisamos quando abrirmos para outros perfis. A Franq também tem soluções para <b>escritórios de investimento</b> — <a class="fq-link" href="#LINK-ESCRITORIOS">fale com a gente</a>.</p>
+              </div>
             </div>
 
             <div class="fq-f">
@@ -429,45 +457,6 @@
             <div class="fq-f">
               <label for="f-linkedin">Qual seu LinkedIn? <span>· opcional</span></label>
               <input class="fq-inp" id="f-linkedin" name="linkedin" type="url" placeholder="linkedin.com/in/seu-perfil">
-            </div>
-          </div>
-
-          <!-- etapa 3 — CPF e endereço, depois do compromisso assumido -->
-          <div class="fq-pane" data-pane="2" hidden>
-            <div class="fq-f">
-              <label for="f-cpf">CPF</label>
-              <input class="fq-inp" id="f-cpf" name="cpf" type="text" inputmode="numeric" required placeholder="000.000.000-00" maxlength="14" aria-describedby="cpf-hint">
-              <!-- a microcópia fica ao lado do campo, no momento do medo.
-                   Antes existia só na FAQ, seis seções abaixo. -->
-              <p class="fq-f__hint" id="cpf-hint"><b>Por que pedimos:</b> o CPF é para termos certeza de que você é uma pessoa real, e não um robô. Ele não é consultado em bureau de crédito e não é compartilhado com as instituições parceiras.</p>
-              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
-            </div>
-
-            <div class="fq-f">
-              <label for="f-cep">CEP</label>
-              <input class="fq-inp" id="f-cep" name="cep" type="text" inputmode="numeric" required placeholder="00000-000" maxlength="9" aria-describedby="cep-msg">
-              <p class="fq-f__hint" id="cep-msg">Preencha o CEP para carregar o endereço.</p>
-              <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
-            </div>
-
-            <div id="endereco" hidden>
-              <div class="fq-f" style="margin-bottom:16px">
-                <label for="f-rua">Endereço</label>
-                <input class="fq-inp" id="f-rua" name="logradouro" type="text" readonly>
-              </div>
-              <div class="fq-row" style="margin-bottom:16px">
-                <div class="fq-f"><label for="f-bairro">Bairro</label><input class="fq-inp" id="f-bairro" name="bairro" type="text" readonly></div>
-                <div class="fq-f"><label for="f-cidade">Cidade</label><input class="fq-inp" id="f-cidade" name="cidade" type="text" readonly></div>
-                <div class="fq-f"><label for="f-uf">UF</label><input class="fq-inp" id="f-uf" name="uf" type="text" readonly></div>
-              </div>
-              <div class="fq-row">
-                <div class="fq-f">
-                  <label for="f-num">Número</label>
-                  <input class="fq-inp" id="f-num" name="numero" type="text" inputmode="numeric" required placeholder="Ex.: 1200">
-                  <p class="fq-f__err"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span></span></p>
-                </div>
-                <div class="fq-f"><label for="f-comp">Complemento <span>· opcional</span></label><input class="fq-inp" id="f-comp" name="complemento" type="text" placeholder="Apto, bloco, sala"></div>
-              </div>
             </div>
 
             <div class="fq-f">
@@ -492,7 +481,7 @@
       <aside data-reveal>
         <div class="fq-garantias">
           <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Leva 2 minutos</p>
-          <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Sem custo e sem mensalidade para se cadastrar</p>
+          <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Cadastro gratuito</p>
           <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Não afeta seu vínculo atual</p>
           <p class="fq-garantia"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Seus dados não são compartilhados com as instituições</p>
         </div>
@@ -528,10 +517,6 @@
         </div>
       </details>
       <details data-reveal>
-        <summary>Por que tenho que colocar meu CPF no cadastro?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
-        <div class="fq-faq__a"><p>O uso do CPF é importante para termos certeza de que você é uma pessoa real – e não um robô. <a class="fq-link" href="#cpf-hint">Saiba mais</a></p></div>
-      </details>
-      <details data-reveal>
         <summary>Como funciona o processo de aprovação do Personal Banker?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="fq-faq__a">
           <p>Atualmente, a Franq destina-se aos bancários, com no mínimo, 5 anos de experiência em bancos de varejo, cooperativa de crédito ou assessores de investimento com certificação Ancord.</p>
@@ -545,7 +530,7 @@
       </details>
       <details data-reveal>
         <summary>A Franq oferece uma carteira de clientes?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
-        <div class="fq-faq__a"><p>Não. Cada Personal Banker tem a sua própria rede de contatos ou clientes. Oferecemos a tecnologia plataforma/tecnologia/marketplace para os Personal Bankers se desenvolverem com autonomia, apoiando em todas as etapas do negócio e orientando sobre a prospecção de novos clientes.</p></div>
+        <div class="fq-faq__a"><p>Não. Cada Personal Banker tem a sua própria rede de contatos ou clientes. Oferecemos a tecnologia — plataforma, aplicativo e marketplace — para os Personal Bankers se desenvolverem com autonomia, apoiando em todas as etapas do negócio e orientando sobre a prospecção de novos clientes.</p></div>
       </details>
       <details data-reveal>
         <summary>Qual o vínculo do Personal Banker com a Franq?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
@@ -554,18 +539,37 @@
       <details data-reveal>
         <summary>Qual a diferença entre um Personal Banker e correspondente bancário?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="fq-faq__a">
-          <p>O Personal Banker é o profissional capacitado para encontrar a melhor oferta em seguros, financiamentos, consórcios, investimentos, ofertas de crédito e demais serviços bancários, e indicar aos seus clientes.</p>
-          <p>Ou seja, ele faz um trabalho de curadoria e indicação de produtos e serviços financeiros. Nesse caso, o trabalho operacional fica a cargo do parceiro representado e em alguns casos da Franq, por meio das mesas de operação. O Personal Banker apenas direciona seus esforços em capturar, gerenciar e se relacionar com a sua carteira de clientes.</p>
-          <p>Já o correspondente bancário representa um serviço financeiro de um banco/instituição e usa os recursos da instituição para conceder crédito. Ele é responsável, ainda, por toda a operação. Ou seja, precisa colocar energia e tempo em todas as etapas de uma negociação.</p>
+          <p>O correspondente bancário representa <b>uma</b> instituição e responde por toda a operação — é dele a energia gasta em cada etapa da negociação.</p>
+          <p>O Personal Banker faz <b>curadoria</b>: compara as ofertas de mais de 50 instituições e indica a melhor para cada cliente. A parte operacional fica com o parceiro ou com as mesas de especialistas da Franq, e você concentra o seu tempo em captar e cuidar da sua carteira.</p>
         </div>
-      </details>
-      <details data-reveal>
-        <summary>Como os consumidores usam a plataforma da Franq?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
-        <div class="fq-faq__a"><p>Empresas e Pessoas Físicas podem acessar a plataforma da Franq totalmente grátis. Ele escolhe o Personal Banker e com este profissional, seleciona na loja digital as soluções mais atrativas para as necessidades do cliente, sem compromisso com uma ou outra instituição.</p></div>
       </details>
       <details data-reveal>
         <summary>A Franq é uma franquia?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="fq-faq__a"><p>Não. Franq vem da palavra Franqueza – e não de franquia. Somos uma plataforma financeira para bancários independentes, os Personal Bankers. Eles são os nossos clientes e não franqueados.</p></div>
+      </details>
+      <details data-reveal>
+        <summary>Preciso abrir CNPJ ou MEI para atuar?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>A remuneração é paga por venda efetiva, mediante nota fiscal — o que pressupõe um CNPJ para emiti-la. <i class="fq-falta">⟨confirmar se MEI atende, qual CNAE e se a Franq apoia na abertura⟩</i></p></div>
+      </details>
+      <details data-reveal>
+        <summary>Preciso de alguma certificação?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Para <b>entrar</b>, o critério é ter 5 anos de banco de varejo ou cooperativa de crédito, ou ser assessor de investimentos com certificação Ancord. <i class="fq-falta">⟨confirmar se algum produto exige certificação específica — CPA-10, CPA-20, CEA, corretor de seguros⟩</i></p></div>
+      </details>
+      <details data-reveal>
+        <summary>Preciso sair do banco antes de me cadastrar?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>Não para se cadastrar: a avaliação do seu perfil não mexe no seu vínculo atual. <i class="fq-falta">⟨confirmar a regra para operar ainda empregado — acúmulo de vínculo, conflito de interesse, exclusividade⟩</i></p></div>
+      </details>
+      <details data-reveal>
+        <summary>Posso atender os clientes que já atendo hoje?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>A carteira de clientes do banco é do banco — a sua rede de contatos é sua. <i class="fq-falta">⟨confirmar se existe quarentena contratual, qual o prazo e o que o contrato do banco costuma prever⟩</i></p></div>
+      </details>
+      <details data-reveal>
+        <summary>Em quanto tempo recebo a primeira comissão?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p>O pagamento segue a regra de cada parceiro: a maioria apura mensalmente, mas há casos trimestrais e semestrais. <i class="fq-falta">⟨confirmar o prazo entre a venda e o crédito, e o ciclo de pagamento mais comum⟩</i></p></div>
+      </details>
+      <details data-reveal>
+        <summary>Como são os primeiros 30 dias?<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="fq-faq__a"><p><i class="fq-falta">⟨descrever o onboarding: treinamento, acesso ao beFranq, primeira mesa de especialistas, quando a loja fica no ar e o que se espera do primeiro mês⟩</i></p></div>
       </details>
     </div>
   </div>
@@ -592,9 +596,9 @@
 </div>
 
 <!-- ===================== 5. WIDGET DA FRAN ===================== -->
-<a class="fq-fran" href="#cadastro" aria-label="Fale com a Fran, a agente da Franq">
-  <img src="logos/fran-avatar.png" alt="" width="40" height="40">
-  <span>Fale com a Fran, a agente da Franq</span>
+<a class="fq-fran" href="https://wa.me/55DDDNUMERO" target="_blank" rel="noopener" aria-label="Falar com a Franq no WhatsApp">
+  <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.15h-.01a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.23 8.23 0 01-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 012.41 5.82c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.05s.88 2.38 1 2.54c.12.17 1.73 2.64 4.19 3.7.59.26 1.04.41 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.22-.16-.47-.29z"/></svg>
+  <span>Falar no WhatsApp</span>
 </a>
 
 <script src="assets/js/lp.js" defer></script>

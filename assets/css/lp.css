@@ -1062,6 +1062,17 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-res__val small { display: block; font-family: var(--sans); font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--tx-3); margin-top: 8px; }
 .fq-res__val small .fq-ph { font-size: 10.5px; margin-right: 4px; }
 .fq-res__vazio { color: var(--tx-3); font-size: 14.5px; margin: 14px 0 0; }
+/* o líquido: discreto ao lado do número grande, mas não escondido */
+.fq-res__liq {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--tx-3);
+}
+.fq-res__liq b { color: var(--tx-1); font-weight: 600; }
+.fq-res__liq.is-negativo { color: var(--tx-4); }
+.fq-res__liq.is-negativo b { color: var(--tx-2); }
+
 .fq-res__ex {
   margin-top: 16px;
   padding: 14px 16px;
@@ -1241,6 +1252,11 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   border-left: 2px solid var(--lima);
 }
 .fq-vs__c--pb .fq-vs__ic { color: var(--lima-tx); }
+/* Nas linhas de custo e de contrapartida a gramática se inverte: lá a coluna
+   do PB não é "melhor", é o preço do negócio. Marcador neutro nas duas
+   colunas — um check em "sem FGTS" seria propaganda enganosa. */
+.fq-vs__ic--neutro { color: var(--tx-4); width: 13px; height: 13px; margin-top: 4px; }
+.fq-vs__c--pb .fq-vs__ic--neutro { color: var(--tx-4); }
 .fq-vs__h--pb { border-left: 2px solid var(--lima); }
 
 .fq-vs > *:nth-last-child(-n+3) { border-bottom: 0; }
@@ -1384,7 +1400,32 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 /* O corpo do cartão passou a ter só o nome: citação, foto, cidade e tempo
    saíram. Com uma linha só, o respiro de antes (18/20px num bloco de três
    elementos) sobrava — daí a altura mais enxuta. */
-.fq-dep__b { padding: 15px 18px 17px; display: flex; align-items: center; }
+/* era `flex; align-items:center` de quando o rodapé tinha só o nome. Com
+   cargo, cidade, tempo e frase, isso punha tudo lado a lado. */
+.fq-dep__b { padding: 15px 18px 17px; display: flex; flex-direction: column; align-items: flex-start; }
+/* contexto do depoimento: duas linhas de meta e a frase em texto */
+.fq-dep__meta {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--tx-4);
+  margin-top: 2px;
+}
+.fq-dep__q {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--tx-2);
+}
+/* dado que ainda não chegou: marcado de propósito, para não publicar por engano */
+.fq-falta {
+  font-style: normal;
+  color: var(--erro);
+  background: rgba(255, 122, 156, .12);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
 .fq-dep__nm { display: block; font-size: 15px; font-weight: 700; color: var(--tx-1); line-height: 1.25; }
 
 /* ainda usado pelo card de prova social da seção do formulário */
@@ -1424,6 +1465,9 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-pane { display: grid; gap: 19px; }
 .fq-pane[hidden] { display: none; }
 .fq-row { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+/* duas letras não precisam de metade da linha. Depois da regra base, senão
+   o auto-fit vence por ordem — mesma especificidade. */
+.fq-row--cidade { grid-template-columns: 1fr 92px; }
 
 .fq-f label, .fq-f__lb { display: block; font-size: 13.5px; font-weight: 700; color: var(--tx-1); margin-bottom: 7px; }
 .fq-f label span, .fq-f__lb span { font-weight: 500; color: var(--tx-4); }

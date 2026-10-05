@@ -213,6 +213,10 @@
     });
   }
 
+  /* A mensalidade da loja. Mesmo número que a FAQ e a tabela comparativa
+     informam — se mudar, muda aqui e lá. */
+  var MENSALIDADE = 200;
+
   /* mesma conta da ferramenta oficial: base mensal × percentual mínimo */
   function calcular() {
     var total = 0, itens = [];
@@ -236,6 +240,8 @@
       if (exemplo) exemplo.hidden = false;
       var v0 = $(".fq-res__val", saida);
       if (v0) v0.remove();
+      var l0 = $(".fq-res__liq", saida);
+      if (l0) l0.remove();
       if (bkLista) bkLista.innerHTML = "";
       if (det) det.hidden = true;
       return;
@@ -265,6 +271,26 @@
     val.setAttribute("aria-label",
       "Comissão potencial estimada a partir de " + brl(r.total) + " por mês");
 
+    /* O bruto sozinho omite o custo. Este público desconta de cabeça — melhor
+       a página fazer a conta do que deixar a desconfiança fazer. */
+    var liq = $(".fq-res__liq", saida);
+    if (!liq) {
+      liq = document.createElement("p");
+      liq.className = "fq-res__liq";
+      saida.appendChild(liq);
+    }
+    var liquido = r.total - MENSALIDADE;
+    if (liquido > 0) {
+      liq.innerHTML = "menos " + brl(MENSALIDADE) + " de mensalidade = <b>" +
+        brl(liquido) + "</b> líquidos por mês";
+      liq.classList.remove("is-negativo");
+    } else {
+      /* não esconde o caso ruim: nesse volume a loja não se paga */
+      liq.innerHTML = "nesse volume a estimativa ainda <b>não cobre</b> a " +
+        "mensalidade de " + brl(MENSALIDADE);
+      liq.classList.add("is-negativo");
+    }
+
     if (det) det.hidden = false;
     if (bkLista) {
       bkLista.innerHTML = r.itens.map(function (i) {
@@ -292,22 +318,39 @@
 
   /* ======================================================================
      4.9 DEPOIMENTOS
-     Três Shorts do canal da Franq. O cartão mostra o vídeo e o nome, e nada
-     mais: cidade e tempo de casa não existem em lugar nenhum que eu possa
-     consultar, e marcador visível em três cartões seguidos vira ruído.
+     Três Shorts do canal da Franq. O cartão agora traz contexto — cargo
+     anterior, banco, cidade, tempo de casa e uma frase em texto — porque num
+     público que desconfia, "Anderson Paulino" sozinho não prova nada: prova é
+     saber de que agência ele saiu e há quanto tempo.
 
-     As citações que estavam aqui eram os títulos dos próprios vídeos e
-     ficaram registradas no HANDOFF, caso se decida trazê-las de volta.
+     NADA DISSO EXISTE EM LUGAR QUE EU POSSA CONSULTAR. Os campos vazios ficam
+     como ⟨placeholder⟩ e aparecem marcados na página de propósito: assim não
+     se publica por engano, e quem tiver o dado sabe exatamente onde encaixar.
 
      A capa é o quadro vertical do Short (oardefault, 1080×1920), baixado e
      recomprimido: servido daqui, o YouTube não recebe nenhuma requisição —
      nem cookie — antes de a pessoa clicar em assistir.
      ================================================================== */
   var DEPS = [
-    { nome: "Anderson Paulino", video: "1DAnZxVDj9c", capa: "assets/img/depoimentos/anderson-paulino.webp" },
-    { nome: "Greice Thomaz",    video: "5J1AOUqBgPk", capa: "assets/img/depoimentos/greice-thomaz.webp" },
-    { nome: "Rosana Agostini",  video: "Rempc2NsPT4", capa: "assets/img/depoimentos/rosana-agostini.webp" }
+    { nome: "Anderson Paulino", video: "1DAnZxVDj9c", capa: "assets/img/depoimentos/anderson-paulino.webp",
+      cargo: null, banco: null, local: null, tempo: null, frase: null },
+    { nome: "Greice Thomaz",    video: "5J1AOUqBgPk", capa: "assets/img/depoimentos/greice-thomaz.webp",
+      cargo: null, banco: null, local: null, tempo: null, frase: null },
+    { nome: "Rosana Agostini",  video: "Rempc2NsPT4", capa: "assets/img/depoimentos/rosana-agostini.webp",
+      cargo: null, banco: null, local: null, tempo: null, frase: null }
   ];
+
+  /* Campo que falta não some: vira marca visível, para alguém preencher.
+     O texto é escapado porque esses valores vão virar HTML por concatenação
+     e um dia chegarão de uma planilha, não daqui. */
+  function escaparHtml(v) {
+    return String(v).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function dado(v, rotulo) {
+    return v ? escaparHtml(v) : '<i class="fq-falta">⟨' + rotulo + '⟩</i>';
+  }
 
   function renderDeps() {
     var cx = $("#deps");
@@ -330,7 +373,14 @@
 
       return '<article class="fq-dep" data-reveal>' +
         '<div class="fq-dep__v">' + midia + "</div>" +
-        '<div class="fq-dep__b"><span class="fq-dep__nm">' + d.nome + "</span></div>" +
+        '<div class="fq-dep__b">' +
+          '<span class="fq-dep__nm">' + d.nome + "</span>" +
+          '<span class="fq-dep__meta">' + dado(d.cargo, "cargo anterior") +
+            " · " + dado(d.banco, "banco") + "</span>" +
+          '<span class="fq-dep__meta">' + dado(d.local, "cidade/UF") +
+            " · PB há " + dado(d.tempo, "tempo") + "</span>" +
+          '<p class="fq-dep__q">' + dado(d.frase, "frase do depoimento") + "</p>" +
+        "</div>" +
         "</article>";
     }).join("");
   }
@@ -375,7 +425,7 @@
 
   var form = $("#form");
   var passo = 0;
-  var ULTIMO = 2;
+  var ULTIMO = 1;   // 0 dados, 1 perfil — CPF e endereço saíram da triagem
 
   var alerta = $("#form-alert");
   var btnAvancar = $("#btn-avancar");
@@ -439,24 +489,6 @@
     if (d.length <= 10) return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
     return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
   });
-  mascara($("#f-cpf"), function (v) {
-    var d = v.replace(/\D/g, "").slice(0, 11);
-    return d.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  });
-
-  // valida os dígitos verificadores: evita erro de digitação sem consultar nada
-  function cpfValido(v) {
-    var d = v.replace(/\D/g, "");
-    if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
-    var s = 0, r;
-    for (var i = 0; i < 9; i++) s += +d[i] * (10 - i);
-    r = (s * 10) % 11 % 10;
-    if (r !== +d[9]) return false;
-    s = 0;
-    for (var j = 0; j < 10; j++) s += +d[j] * (11 - j);
-    r = (s * 10) % 11 % 10;
-    return r === +d[10];
-  }
 
   /* uma checagem só, usada para exibir erro e para saber se o form está
      completo — assim as duas coisas nunca divergem */
@@ -467,8 +499,6 @@
     if (!v) return "Preencha este campo para continuar.";
     if (c.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Confira o e-mail — parece faltar algo.";
     if (c.id === "f-tel" && v.replace(/\D/g, "").length < 10) return "Informe o DDD e o número completo.";
-    if (c.id === "f-cpf" && !cpfValido(v)) return "Confira os números do CPF.";
-    if (c.id === "f-cep" && v.replace(/\D/g, "").length !== 8) return "O CEP tem 8 dígitos.";
     return "";
   }
 
@@ -527,6 +557,15 @@
     btnEnviar.setAttribute("aria-disabled", pronto ? "false" : "true");
   }
 
+  /* Responder "Não" revela o caminho alternativo em vez de barrar: a pessoa
+     chegou até aqui e continua valendo como lead, só que de outra fila. */
+  var ramoNao = $("#ramo-nao");
+  $$('input[name="experiencia5"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      if (ramoNao) ramoNao.hidden = r.value !== "nao" || !r.checked;
+    });
+  });
+
   if (btnAvancar) btnAvancar.addEventListener("click", function () {
     if (!validarPasso()) return;
     if (form) form.setAttribute("data-dir", "frente");
@@ -543,35 +582,6 @@
     aplicarPasso();
   });
 
-  /* CEP */
-  var cep = $("#f-cep"), cepMsg = $("#cep-msg"), end = $("#endereco");
-  if (cep) {
-    cep.addEventListener("input", function () {
-      var d = cep.value.replace(/\D/g, "").slice(0, 8);
-      cep.value = d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d;
-      if (cep.getAttribute("aria-invalid")) erroCampo(cep, "");
-      if (d.length < 8) return;
-      if (cepMsg) cepMsg.textContent = "Buscando endereço…";
-      fetch("https://viacep.com.br/ws/" + d + "/json/")
-        .then(function (r) { return r.json(); })
-        .catch(function () { return null; })
-        .then(function (j) {
-          if (end) end.hidden = false;
-          var set = function (sel, v) { var e = $(sel); if (e) e.value = v || ""; };
-          if (j && !j.erro) {
-            set("#f-rua", j.logradouro); set("#f-bairro", j.bairro);
-            set("#f-cidade", j.localidade); set("#f-uf", j.uf);
-            if (cepMsg) cepMsg.textContent = "Endereço carregado. Complete o número.";
-          } else {
-            if (cepMsg) cepMsg.textContent = "Não encontramos esse CEP. Preencha o endereço manualmente.";
-            ["#f-rua", "#f-bairro", "#f-cidade", "#f-uf"].forEach(function (s) {
-              var e = $(s); if (e) e.readOnly = false;
-            });
-          }
-          var n = $("#f-num"); if (n) n.focus();
-        });
-    });
-  }
 
   /* envio: loading → sucesso */
   /* reavalia a cada digitação/marcação */

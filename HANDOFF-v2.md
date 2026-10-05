@@ -1029,6 +1029,59 @@ recriar os componentes, essa regra precisa ir junto.
 
 ---
 
+## 9.2 Rodada de ajustes de conteúdo (13 itens)
+
+### O que entrou com dado real
+
+| Item | Onde | Fonte do dado |
+| --- | --- | --- |
+| Selo "Cadastro gratuito" | coluna de reasseguramento | — |
+| Linha **Custo** na comparação | R$ 200/mês por loja, até 75% no anual | a própria FAQ da página |
+| Linha **O que você assume** | renda variável, sem FGTS e sem benefícios | o rodapé já declara "profissional autônomo" |
+| **Comissão líquida** no simulador | bruto − R$ 200 | idem |
+| Formulário enxuto | saíram CPF, CEP e endereço; ficaram cidade e UF | — |
+| Critério de experiência | passou a repetir o texto divulgado, com Ancord | a FAQ de aprovação |
+| Caminho para o "Não" | lista de espera + escritórios de investimento | a FAQ de experiência |
+| FAQ: −2 perguntas, +6 | consumidor e CPF saíram | — |
+
+As duas linhas novas da tabela usam **marcador neutro**, não o check das
+outras: ali a gramática "agência limita / PB libera" se inverte, e um check
+verde em "sem FGTS" seria propaganda enganosa.
+
+A pergunta do CPF saiu da FAQ junto com o campo — ficou sem objeto.
+
+### O que ficou como placeholder marcado
+
+Nada disso existe em fonte que eu possa consultar, então entrou como
+`⟨placeholder⟩` em vermelho, visível na página (`.fq-falta`):
+
+- **15 campos dos depoimentos** — cargo anterior, banco, cidade/UF, tempo de
+  casa e a frase, nos três cartões. Isto reverte a decisão anterior de deixar
+  só vídeo e nome.
+- **6 respostas da FAQ** — CNPJ/MEI, certificações por produto, regra para
+  operar ainda empregado, quarentena de clientes, prazo da primeira comissão e
+  os primeiros 30 dias. Onde eu tinha meia resposta, ela está escrita e só o
+  que falta está marcado.
+- **O número do WhatsApp** — o widget da Fran virou WhatsApp, com
+  `href="https://wa.me/55DDDNUMERO"`. Não é número válido de propósito: ninguém
+  publica isso sem perceber, e enquanto isso ninguém liga para um estranho.
+- **O link dos escritórios de investimento**, no ramo do "Não".
+
+### Duas armadilhas desta rodada
+
+**O ramo "não cobre a mensalidade" é inalcançável.** O simulador avisa quando a
+estimativa fica abaixo dos R$ 200, mas com as escalas atuais o pior cenário
+possível é **R$ 700** (crédito PJ no volume mínimo). O código fica como
+proteção para quem mexer nas escalas, não como estado real.
+
+**Um `</div>` sobrando jogou o formulário para fora do card.** Ao trocar as três
+etapas por duas, o recorte parou no `</div>` do último `.fq-step` em vez do da
+`.fq-steps`. O navegador corrige HTML malformado em silêncio: o card fechou
+cedo, o formulário vazou para a coluna da direita e **nenhum erro apareceu no
+console**. Só a captura denunciou. Contar `<div>` num trecho de arquivo não
+serve — o trecho começa com divs já abertas; quem responde é o DOM
+(`form.closest('.fq-form__box')`).
+
 ## 10. Verificação
 
 Rodado em 1440px e 390px:

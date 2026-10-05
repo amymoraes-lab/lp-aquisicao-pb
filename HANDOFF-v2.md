@@ -51,7 +51,20 @@ O texto legal foi de 11px para **13,5px** em `--tx-3`.
 
 O recurso de itálico numa palavra-chave é mantido em todas.
 
-**1. “Você já tem os clientes. Faltava a *loja*.”** ← implementada
+**1. “Você já tem os clientes. Faltava decidir *as regras*.”** ← implementada
+
+A primeira metade permaneceu desde a v1: nomeia a situação do leitor em cinco
+palavras, e é o que a frase tem de mais forte. A segunda entregava um
+**substantivo de produto** (“a loja”) onde o argumento é autonomia. “As regras”
+é exatamente o que a seção de comparação detalha logo adiante — a meta, o
+portfólio e o teto —, então o h1 levanta a pergunta que a tabela responde.
+
+O acento lima leva `&nbsp;` para não quebrar entre linhas. **Isso expôs um bug
+entre os dois recursos:** o divisor do blur reveal separava por `\s`, que em
+JavaScript **inclui o espaço inquebrável** — o nbsp virava separador de palavra
+e perdia o efeito. O divisor passou a separar só em espaço comum, o que também
+consertou, em silêncio, o `×` de “Agência tradicional × Personal Banker”, solto
+desde que o blur reveal entrou.
 Tensão e resolução em duas frases curtas. Usa o vocabulário da marca (“loja”) e,
 para um público conservador, faz o trabalho mais importante: reduz o risco
 percebido. Não diz “comece de novo”, diz “você já está 90% lá; faltava a

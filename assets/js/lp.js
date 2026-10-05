@@ -887,9 +887,13 @@
         filhos.forEach(function (f) {
           if (f.nodeType === 3) {
             var frag = document.createDocumentFragment();
-            f.nodeValue.split(/(\s+)/).forEach(function (parte) {
+            /* separa só em espaço COMUM. `\s` inclui o espaço inquebrável
+               (U+00A0), e dividir nele o transformaria em separador de
+               palavra — o nbsp perderia o efeito justamente onde ele existe
+               para impedir a quebra: "as regras" no h1 e o "×" da comparação. */
+            f.nodeValue.split(/([ \t\r\n]+)/).forEach(function (parte) {
               if (!parte) return;
-              if (/^\s+$/.test(parte)) { frag.appendChild(document.createTextNode(" ")); return; }
+              if (/^[ \t\r\n]+$/.test(parte)) { frag.appendChild(document.createTextNode(" ")); return; }
               var palavra = document.createElement("span");
               palavra.className = "fq-foco__p";
               palavra.setAttribute("aria-hidden", "true");

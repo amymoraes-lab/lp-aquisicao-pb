@@ -733,42 +733,101 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
 .fq-orbita {
   /* o raio acompanha a tela: com 190px fixos a marca da esquerda saía da
      viewport no celular, onde o aparelho tem 350px e não 580px */
-  --raio: clamp(148px, 13vw, 190px);
+  --raio: clamp(150px, 14vw, 206px);
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   transform-style: preserve-3d;
-  /* a inclinação do anel: de frente ele seria uma linha reta */
-  transform: rotateX(72deg);
+  /* A inclinação: de frente o anel seria uma linha reta. O `translateY`
+     desce o centro — com o anel no meio do aparelho, a metade da frente
+     cruzava justamente o título da tela; mais abaixo ela passa sobre os
+     cards, que perdoam a sobreposição. */
+  transform: translateY(15%) rotateX(72deg);
 }
 
 .fq-orbita__q {
+  /* o tamanho acompanha a tela pelo mesmo motivo do raio */
+  --tam: clamp(46px, 4.6vw, 66px);
+  /* a espessura da extrusão: 13 passos ≈ 28% da largura da marca */
+  --passo: calc(var(--tam) / 48);
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
+  width: var(--tam);
+  height: var(--tam);
+  margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
   /* --lima-tx é a mesma lima no escuro e a versão legível no claro */
   color: var(--lima-tx);
   transform-style: preserve-3d;
   animation: fq-orbitar 22s linear infinite;
 }
-.fq-orbita__q svg { width: 100%; height: 100%; display: block; }
 
-/* três marcas, mesmo anel, fases diferentes: uma só lê como enfeite solto */
+/* A marca é um sólido, não um adesivo: 14 cópias empilhadas em Z formam a
+   parede lateral, e o degradê de cor entre elas é o que lê como sombreado.
+   `color-mix` em vez de `filter: brightness()` de propósito — filtro em 42
+   elementos criaria 42 superfícies de composição; cor é de graça. */
+.fq-marca3d {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* o giro próprio: sem ele a marca orbita de frente o tempo todo e a
+     espessura nunca aparece. ±44° mostra a lateral sem nunca ficar de perfil */
+  animation: fq-rodopiar 9s ease-in-out infinite;
+}
+.fq-marca3d__c {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.fq-marca3d__c:nth-child(1) { transform: translateZ(calc(var(--passo) * 6.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 0%); }
+.fq-marca3d__c:nth-child(2) { transform: translateZ(calc(var(--passo) * 5.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 4%); }
+.fq-marca3d__c:nth-child(3) { transform: translateZ(calc(var(--passo) * 4.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 9%); }
+.fq-marca3d__c:nth-child(4) { transform: translateZ(calc(var(--passo) * 3.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 13%); }
+.fq-marca3d__c:nth-child(5) { transform: translateZ(calc(var(--passo) * 2.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 18%); }
+.fq-marca3d__c:nth-child(6) { transform: translateZ(calc(var(--passo) * 1.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 22%); }
+.fq-marca3d__c:nth-child(7) { transform: translateZ(calc(var(--passo) * 0.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 27%); }
+.fq-marca3d__c:nth-child(8) { transform: translateZ(calc(var(--passo) * -0.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 31%); }
+.fq-marca3d__c:nth-child(9) { transform: translateZ(calc(var(--passo) * -1.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 36%); }
+.fq-marca3d__c:nth-child(10) { transform: translateZ(calc(var(--passo) * -2.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 40%); }
+.fq-marca3d__c:nth-child(11) { transform: translateZ(calc(var(--passo) * -3.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 45%); }
+.fq-marca3d__c:nth-child(12) { transform: translateZ(calc(var(--passo) * -4.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 49%); }
+.fq-marca3d__c:nth-child(13) { transform: translateZ(calc(var(--passo) * -5.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 54%); }
+.fq-marca3d__c:nth-child(14) { transform: translateZ(calc(var(--passo) * -6.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 58%); }
+
+/* Três marcas, mesmo anel, fases diferentes: uma só lê como enfeite solto.
+   Nenhuma usa `opacity`: translúcida sobre a tela branca do aparelho, a marca
+   voltava a parecer adesivo. A distância já vem do tamanho e da perspectiva. */
 .fq-orbita__q--1 { animation-delay: 0s; }
-.fq-orbita__q--2 { animation-delay: -7.33s; width: 26px; height: 26px; margin: -13px 0 0 -13px; opacity: .72; }
-.fq-orbita__q--3 { animation-delay: -14.66s; width: 20px; height: 20px; margin: -10px 0 0 -10px; opacity: .5; }
+.fq-orbita__q--1 .fq-marca3d { animation-delay: -1.2s; }
+.fq-orbita__q--2 {
+  --tam: clamp(36px, 3.6vw, 52px);
+  animation-delay: -7.33s;
+}
+.fq-orbita__q--2 .fq-marca3d { animation-delay: -4.6s; }
+.fq-orbita__q--3 {
+  --tam: clamp(28px, 2.8vw, 40px);
+  animation-delay: -14.66s;
+}
+.fq-orbita__q--3 .fq-marca3d { animation-delay: -7.1s; }
 
 /* O `rotateX(-72deg)` no fim desfaz a inclinação do anel e a contrarrotação
-   em Y cancela o giro: a marca percorre a elipse sempre de frente para quem
-   olha, em vez de tombar junto com o anel. */
+   em Y cancela o giro: a marca percorre a elipse sempre em pé, em vez de
+   tombar junto com o anel. O giro próprio fica por conta do `fq-rodopiar`. */
 @keyframes fq-orbitar {
   from { transform: rotateY(0deg) translateX(var(--raio)) rotateY(0deg) rotateX(-72deg); }
   to   { transform: rotateY(360deg) translateX(var(--raio)) rotateY(-360deg) rotateX(-72deg); }
 }
+
+@keyframes fq-rodopiar {
+  0%   { transform: rotateY(-44deg) rotateX(-12deg); }
+  50%  { transform: rotateY(44deg)  rotateX(9deg); }
+  100% { transform: rotateY(-44deg) rotateX(-12deg); }
+}
+
+.fq-simbolo { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .fq-orbita { display: none; }

@@ -961,12 +961,33 @@ frente e o que passa atrás é o navegador**, comparando o Z que a transformaç�
 produz. Medido em execução: as três marcas ficam em Z −157, −14 e +171 — as
 negativas estão atrás do aparelho e somem atrás da silhueta sozinhas.
 
+**A marca é um sólido, não um adesivo.** Na primeira versão ela sempre ficava
+de frente para quem olha, e o resultado era uma folha de papel andando em 3D.
+Agora são **14 cópias empilhadas em Z** por marca: a pilha forma a parede
+lateral, e o degradê de cor entre as camadas (`color-mix` com `#04070F`, de 0% a
+58%) é o que lê como sombreado. Uma segunda animação (`fq-rodopiar`, 9s) gira a
+marca no próprio eixo em ±44° — sem ela a espessura nunca apareceria; com mais
+que isso, a marca ficaria de perfil e sumiria.
+
+`color-mix` e não `filter: brightness()` de propósito: filtro em 42 elementos
+criaria 42 superfícies de composição, e cor é de graça. O símbolo entra **uma
+vez** num `<symbol>` e cada camada é um `<use>`, senão o path apareceria 42
+vezes no HTML.
+
+Nenhuma marca usa `opacity`. Translúcida sobre a **tela branca** do aparelho ela
+voltava a parecer adesivo — a distância já vem do tamanho e da perspectiva.
+
 Dois detalhes que não são óbvios:
 
 - **A contrarrotação no fim da cadeia.** Sem `rotateY(-360deg) rotateX(-72deg)`
   no `to`, a marca giraria junto com o anel e apareceria deitada e de perfil.
   Com ela, a marca percorre a elipse sempre de frente para quem olha.
-- **O raio é responsivo** (`--raio: clamp(148px, 13vw, 190px)`). Com 190px
+- **O centro do anel desce 15%.** Centrado no aparelho, a metade da frente
+  cruzava justamente o título da tela. Mais abaixo ela passa sobre os cards,
+  que perdoam a sobreposição. Descer o bastante para passar *fora* do aparelho
+  seria impossível: exigiria um raio maior que a metade da altura dele.
+- **O raio e o tamanho são responsivos** (`--raio: clamp(150px, 14vw, 206px)`,
+  `--tam: clamp(46px, 4.6vw, 66px)`). Com 190px
   fixos, a marca da esquerda saía da viewport no celular, onde o aparelho tem
   350px de largura e não 580px. Medido: em 390, 768 e 1440 não há overflow
   horizontal e as marcas ficam dentro do palco.

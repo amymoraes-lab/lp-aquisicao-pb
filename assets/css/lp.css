@@ -757,8 +757,11 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   width: var(--tam);
   height: var(--tam);
   margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
-  /* --lima-tx é a mesma lima no escuro e a versão legível no claro */
-  color: var(--lima-tx);
+  /* A cor da marca num token só: as 14 camadas montam a sombra a partir
+     daqui, então trocar o roxo é mexer nesta linha e em nenhuma outra.
+     --violeta já troca sozinho entre os temas. */
+  --marca-cor: var(--violeta);
+  color: var(--marca-cor);
   transform-style: preserve-3d;
   animation: fq-orbitar 22s linear infinite;
 }
@@ -782,20 +785,20 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(220,255,121,.2); }
   height: 100%;
   display: block;
 }
-.fq-marca3d__c:nth-child(1) { transform: translateZ(calc(var(--passo) * 6.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 0%); }
-.fq-marca3d__c:nth-child(2) { transform: translateZ(calc(var(--passo) * 5.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 4%); }
-.fq-marca3d__c:nth-child(3) { transform: translateZ(calc(var(--passo) * 4.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 9%); }
-.fq-marca3d__c:nth-child(4) { transform: translateZ(calc(var(--passo) * 3.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 13%); }
-.fq-marca3d__c:nth-child(5) { transform: translateZ(calc(var(--passo) * 2.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 18%); }
-.fq-marca3d__c:nth-child(6) { transform: translateZ(calc(var(--passo) * 1.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 22%); }
-.fq-marca3d__c:nth-child(7) { transform: translateZ(calc(var(--passo) * 0.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 27%); }
-.fq-marca3d__c:nth-child(8) { transform: translateZ(calc(var(--passo) * -0.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 31%); }
-.fq-marca3d__c:nth-child(9) { transform: translateZ(calc(var(--passo) * -1.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 36%); }
-.fq-marca3d__c:nth-child(10) { transform: translateZ(calc(var(--passo) * -2.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 40%); }
-.fq-marca3d__c:nth-child(11) { transform: translateZ(calc(var(--passo) * -3.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 45%); }
-.fq-marca3d__c:nth-child(12) { transform: translateZ(calc(var(--passo) * -4.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 49%); }
-.fq-marca3d__c:nth-child(13) { transform: translateZ(calc(var(--passo) * -5.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 54%); }
-.fq-marca3d__c:nth-child(14) { transform: translateZ(calc(var(--passo) * -6.5)); color: color-mix(in srgb, var(--lima-tx), #04070F 58%); }
+.fq-marca3d__c:nth-child(1) { transform: translateZ(calc(var(--passo) * 6.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 0%); }
+.fq-marca3d__c:nth-child(2) { transform: translateZ(calc(var(--passo) * 5.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 4%); }
+.fq-marca3d__c:nth-child(3) { transform: translateZ(calc(var(--passo) * 4.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 9%); }
+.fq-marca3d__c:nth-child(4) { transform: translateZ(calc(var(--passo) * 3.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 13%); }
+.fq-marca3d__c:nth-child(5) { transform: translateZ(calc(var(--passo) * 2.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 18%); }
+.fq-marca3d__c:nth-child(6) { transform: translateZ(calc(var(--passo) * 1.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 22%); }
+.fq-marca3d__c:nth-child(7) { transform: translateZ(calc(var(--passo) * 0.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 27%); }
+.fq-marca3d__c:nth-child(8) { transform: translateZ(calc(var(--passo) * -0.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 31%); }
+.fq-marca3d__c:nth-child(9) { transform: translateZ(calc(var(--passo) * -1.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 36%); }
+.fq-marca3d__c:nth-child(10) { transform: translateZ(calc(var(--passo) * -2.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 40%); }
+.fq-marca3d__c:nth-child(11) { transform: translateZ(calc(var(--passo) * -3.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 45%); }
+.fq-marca3d__c:nth-child(12) { transform: translateZ(calc(var(--passo) * -4.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 49%); }
+.fq-marca3d__c:nth-child(13) { transform: translateZ(calc(var(--passo) * -5.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 54%); }
+.fq-marca3d__c:nth-child(14) { transform: translateZ(calc(var(--passo) * -6.5)); color: color-mix(in srgb, var(--marca-cor), #04070F 58%); }
 
 /* Três marcas, mesmo anel, fases diferentes: uma só lê como enfeite solto.
    Nenhuma usa `opacity`: translúcida sobre a tela branca do aparelho, a marca

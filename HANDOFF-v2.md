@@ -992,9 +992,14 @@ Dois detalhes que não são óbvios:
   350px de largura e não 580px. Medido: em 390, 768 e 1440 não há overflow
   horizontal e as marcas ficam dentro do palco.
 
-A cor é `var(--lima-tx)`, não `var(--lima)`: no tema escuro são a mesma coisa
-(`#DCFF79`), mas no claro o `--lima-tx` é `#4C6900`. Lima pura sobre branco dava
-**1,13:1** — praticamente invisível; com o token certo, 6,31:1. É elemento
+A cor sai de `--marca-cor`, um token só, porque **quem pinta não é o contêiner
+e sim as 14 camadas** — cada uma monta a própria sombra com `color-mix` a partir
+dele. Trocar a cor da marca é mexer numa linha.
+
+Hoje é `var(--violeta)`: `#8B9BFF` no escuro, `#3D4FBF` no claro. Medido sobre o
+fundo do hero, 8,23:1 e 6,84:1. Sobre a **tela branca do aparelho**, onde a
+marca passa na metade da frente da órbita, o roxo dá 2,55:1 contra os **1,13:1**
+da lima que estava antes — ou seja, a troca melhorou o pior caso. É elemento
 decorativo, então WCAG não se aplica, mas invisível não serve.
 
 O anel é `aria-hidden` e some inteiro em `prefers-reduced-motion` — verificado
